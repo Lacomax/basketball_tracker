@@ -8,7 +8,7 @@ and mplbasketball library for publication-ready graphics.
 import numpy as np
 import json
 import logging
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple, Optional, Any
 from collections import defaultdict
 
 try:
@@ -16,8 +16,10 @@ try:
     import matplotlib.patches as patches
     from matplotlib.collections import LineCollection
     MPL_AVAILABLE = True
+    Figure = plt.Figure
 except ImportError:
     MPL_AVAILABLE = False
+    Figure = Any  # Fallback type
 
 try:
     from mplbasketball import BasketballPlot
@@ -68,7 +70,7 @@ class ProfessionalVisualizer:
 
     def create_shot_chart(self, shot_data: List[Dict],
                          title: str = "Shot Chart",
-                         output_path: Optional[str] = None) -> plt.Figure:
+                         output_path: Optional[str] = None) -> Figure:
         """
         Create a professional shot chart showing made and missed shots.
 
@@ -130,7 +132,7 @@ class ProfessionalVisualizer:
                                     player_id: int,
                                     team: str = 'Unknown',
                                     title: Optional[str] = None,
-                                    output_path: Optional[str] = None) -> plt.Figure:
+                                    output_path: Optional[str] = None) -> Figure:
         """
         Create a chart showing player movement patterns.
 
@@ -197,7 +199,7 @@ class ProfessionalVisualizer:
 
     def create_heatmap(self, positions: List[Tuple[float, float]],
                       title: str = "Position Heatmap",
-                      output_path: Optional[str] = None) -> plt.Figure:
+                      output_path: Optional[str] = None) -> Figure:
         """
         Create a heatmap showing position density.
 
@@ -249,7 +251,7 @@ class ProfessionalVisualizer:
     def create_team_comparison(self, team1_data: Dict, team2_data: Dict,
                               team1_name: str = "Team 1",
                               team2_name: str = "Team 2",
-                              output_path: Optional[str] = None) -> plt.Figure:
+                              output_path: Optional[str] = None) -> Figure:
         """
         Create a comparison chart for two teams.
 
@@ -299,7 +301,7 @@ class ProfessionalVisualizer:
 
     def create_game_timeline(self, events: List[Dict],
                            title: str = "Game Timeline",
-                           output_path: Optional[str] = None) -> plt.Figure:
+                           output_path: Optional[str] = None) -> Figure:
         """
         Create a timeline visualization of game events.
 
