@@ -178,8 +178,14 @@ class HoopDetector:
 
         # Save if requested
         if output_path:
+            hoop_dict = asdict(best_hoop)
+            # Convert numpy types to Python types for JSON serialization
+            hoop_dict['center'] = [int(x) for x in hoop_dict['center']]
+            hoop_dict['radius'] = int(hoop_dict['radius'])
+            hoop_dict['confidence'] = float(hoop_dict['confidence'])
+            hoop_dict['frame_number'] = int(hoop_dict['frame_number'])
             with open(output_path, 'w') as f:
-                json.dump(asdict(best_hoop), f, indent=2)
+                json.dump(hoop_dict, f, indent=2)
             logger.info(f"Hoop position saved to {output_path}")
 
         logger.info(f"Hoop detected at {best_hoop.center} (confidence: {best_hoop.confidence:.2f})")
