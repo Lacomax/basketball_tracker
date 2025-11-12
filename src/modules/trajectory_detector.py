@@ -53,6 +53,7 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
 
     Interpolates between manual annotations using a constant-velocity
     Kalman filter to produce detections for all frames between keyframes.
+    Enhanced with improved occlusion detection.
 
     Args:
         video_path: Path to input video file
@@ -87,8 +88,10 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
     # Use manual annotations as keyframes
     manual_frames = sorted(int(k) for k in annotations.keys())
 
-    # Threshold to detect abrupt movement (possible occlusion or bounce)
-    VELOCITY_THRESHOLD = 50.0
+    # Enhanced occlusion detection thresholds
+    VELOCITY_THRESHOLD = 50.0  # High velocity suggests fast movement or occlusion
+    ACCELERATION_THRESHOLD = 30.0  # Sudden acceleration suggests bounce or occlusion
+    CONFIDENCE_DECAY = 0.95  # Confidence decay during prediction without measurement
 
     # Process segments between manual annotations
     for idx in range(len(manual_frames) - 1):
@@ -96,7 +99,11 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
         end_f = manual_frames[idx + 1]
         start_ann = annotations[str(start_f)]
         end_ann = annotations[str(end_f)]
-        detection_points[start_f] = {'center': start_ann['center'], 'radius': start_ann['radius']}
+        detection_points[start_f] = {
+            'center': start_ann['center'],
+            'radius': start_ann['radius'],
+            'confidence': 1.0
+        }
 
         # Linear interpolation for radius between keyframes
         def interp_radius(f):
@@ -105,6 +112,8 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
 
         # Initialize Kalman filter with starting keyframe
         kf = create_kalman_filter(start_ann['center'])
+        prev_velocity = 0.0
+        confidence = 1.0
 
         for f in range(start_f + 1, end_f):
             kf.predict()
@@ -113,29 +122,63 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
             pred_center[0] = int(clamp(pred_center[0], 0, frame_width - 1))
             pred_center[1] = int(clamp(pred_center[1], 0, frame_height - 1))
             radius = interp_radius(f)
-            # Detect occlusion/bounce by excessive velocity
+
+            # Enhanced occlusion detection
             velocity = np.sqrt(kf.x[2] ** 2 + kf.x[3] ** 2)
-            detection = {'center': pred_center, 'radius': radius}
-            if velocity > VELOCITY_THRESHOLD:
+            acceleration = abs(velocity - prev_velocity)
+            prev_velocity = velocity
+
+            # Decay confidence during long predictions
+            confidence *= CONFIDENCE_DECAY
+
+            detection = {
+                'center': pred_center,
+                'radius': radius,
+                'confidence': confidence,
+                'velocity': float(velocity)
+            }
+
+            # Mark as occluded if high velocity or acceleration
+            if velocity > VELOCITY_THRESHOLD or acceleration > ACCELERATION_THRESHOLD:
                 detection['occluded'] = True
+                detection['occlusion_reason'] = 'high_velocity' if velocity > VELOCITY_THRESHOLD else 'high_acceleration'
+
+            # Mark low confidence detections
+            if confidence < 0.5:
+                detection['low_confidence'] = True
+
             detection_points[f] = detection
 
         # At final keyframe, use manual annotation directly
-        detection_points[end_f] = {'center': end_ann['center'], 'radius': end_ann['radius']}
+        detection_points[end_f] = {
+            'center': end_ann['center'],
+            'radius': end_ann['radius'],
+            'confidence': 1.0
+        }
 
     # Process frames after last annotation
     last_frame = manual_frames[-1]
     last_ann = annotations[str(last_frame)]
-    detection_points[last_frame] = {'center': last_ann['center'], 'radius': last_ann['radius']}
+    detection_points[last_frame] = {
+        'center': last_ann['center'],
+        'radius': last_ann['radius'],
+        'confidence': 1.0
+    }
     if last_frame < total_frames - 1:
         kf = create_kalman_filter(last_ann['center'])
+        confidence = 1.0
         for f in range(last_frame + 1, total_frames):
             kf.predict()
             pred_center = [kf.x[0], kf.x[1]]
             pred_center[0] = int(clamp(pred_center[0], 0, frame_width - 1))
             pred_center[1] = int(clamp(pred_center[1], 0, frame_height - 1))
+            confidence *= CONFIDENCE_DECAY
             # Keep radius constant in final section
-            detection_points[f] = {'center': pred_center, 'radius': last_ann['radius']}
+            detection_points[f] = {
+                'center': pred_center,
+                'radius': last_ann['radius'],
+                'confidence': confidence
+            }
 
     cap.release()
     with open(output_path, 'w') as f:

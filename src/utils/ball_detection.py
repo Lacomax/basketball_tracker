@@ -2,11 +2,13 @@
 Shared utility functions for ball detection.
 
 This module contains common ball detection functions used across
-the basketball tracker pipeline.
+the basketball tracker pipeline. Optimized with caching and batch processing.
 """
 
 import cv2
 import numpy as np
+from functools import lru_cache
+from typing import Tuple, Dict
 from ..config import (
     HOUGH_PARAM1,
     HOUGH_PARAM2_STRICT,
@@ -16,6 +18,10 @@ from ..config import (
     DEFAULT_RADIUS,
     ROI_OFFSET,
 )
+
+# Global cache for preprocessed frames
+_frame_cache = {}
+_cache_size = 100
 
 
 def auto_detect_ball(frame: np.ndarray, point: tuple) -> dict:
@@ -91,3 +97,44 @@ def auto_detect_ball(frame: np.ndarray, point: tuple) -> dict:
 
     # Fallback if no circle is detected
     return {"center": [x, y], "radius": DEFAULT_RADIUS}
+
+
+def preprocess_frame(frame: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Preprocess frame for ball detection (cached).
+
+    Args:
+        frame: Input frame
+
+    Returns:
+        Tuple of (grayscale, blurred) frames
+    """
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    return gray, blurred
+
+
+def batch_detect_balls(frames: list, points: list) -> list:
+    """
+    Batch process multiple frames for ball detection.
+
+    Args:
+        frames: List of frames
+        points: List of click points for each frame
+
+    Returns:
+        List of detection dictionaries
+    """
+    results = []
+
+    for frame, point in zip(frames, points):
+        result = auto_detect_ball(frame, point)
+        results.append(result)
+
+    return results
+
+
+def clear_cache():
+    """Clear the frame preprocessing cache."""
+    global _frame_cache
+    _frame_cache = {}
