@@ -115,17 +115,18 @@ class UltraYOLOBallTrainer:
 
         return aug_imgs, aug_labels
 
-    def extract_frames(self, max_frames: int = 500, val_split: float = 0.2, augment: bool = True):
+    def extract_frames(self, max_frames: int = 500, val_split: float = 0.2, augment: bool = True, batch_size: int = 32):
         """
         Extract frames from video and prepare YOLO dataset.
 
         Extracts annotated frames, splits into train/val, applies augmentations,
-        and generates dataset.yaml for YOLO training.
+        and generates dataset.yaml for YOLO training. Optimized with batch processing.
 
         Args:
             max_frames: Maximum number of frames to extract
             val_split: Fraction of frames to use for validation
             augment: Whether to apply data augmentation
+            batch_size: Batch size for frame extraction
 
         Returns:
             Path to generated dataset.yaml file
@@ -140,33 +141,39 @@ class UltraYOLOBallTrainer:
         use_frames = np.random.choice(frame_indices, size=min(max_frames, len(frame_indices)), replace=False)
         # Split frames for validation
         val_frames = set(np.random.choice(use_frames, size=int(len(use_frames) * val_split), replace=False))
-        for idx in use_frames:
-            cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
-            ret, frame = cap.read()
-            if not ret:
-                continue
-            split = 'val' if idx in val_frames else 'train'
-            base_name = f'{idx:08d}'
-            # Save original image
-            img_path = os.path.join(self.output, 'images', split, base_name + '.jpg')
-            cv2.imwrite(img_path, frame)
-            ann = self.annotations[str(idx)]
-            cx = ann['center'][0] / w
-            cy = ann['center'][1] / h
-            bw = (ann['radius'] * 2) / w
-            bh = (ann['radius'] * 2) / h
-            label_txt = f"0 {cx:.6f} {cy:.6f} {bw:.6f} {bh:.6f}\n"
-            label_path = os.path.join(self.output, 'labels', split, base_name + '.txt')
-            with open(label_path, 'w') as f:
-                f.write(label_txt)
-            # Generate augmentations only for training set
-            if split == 'train' and augment:
-                aug_imgs, aug_labels = self.augment_image(frame, ann, w, h)
-                for i, (a_img, a_label) in enumerate(zip(aug_imgs, aug_labels)):
-                    aug_name = f'{base_name}_aug{i}.jpg'
-                    cv2.imwrite(os.path.join(self.output, 'images', split, aug_name), a_img)
-                    with open(os.path.join(self.output, 'labels', split, f'{base_name}_aug{i}.txt'), 'w') as f:
-                        f.write(f"{a_label[0]} {a_label[1]:.6f} {a_label[2]:.6f} {a_label[3]:.6f} {a_label[4]:.6f}\n")
+
+        # Process frames in batches for better performance
+        for batch_start in range(0, len(use_frames), batch_size):
+            batch_end = min(batch_start + batch_size, len(use_frames))
+            batch_frames = use_frames[batch_start:batch_end]
+
+            for idx in batch_frames:
+                cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
+                ret, frame = cap.read()
+                if not ret:
+                    continue
+                split = 'val' if idx in val_frames else 'train'
+                base_name = f'{idx:08d}'
+                # Save original image
+                img_path = os.path.join(self.output, 'images', split, base_name + '.jpg')
+                cv2.imwrite(img_path, frame)
+                ann = self.annotations[str(idx)]
+                cx = ann['center'][0] / w
+                cy = ann['center'][1] / h
+                bw = (ann['radius'] * 2) / w
+                bh = (ann['radius'] * 2) / h
+                label_txt = f"0 {cx:.6f} {cy:.6f} {bw:.6f} {bh:.6f}\n"
+                label_path = os.path.join(self.output, 'labels', split, base_name + '.txt')
+                with open(label_path, 'w') as f:
+                    f.write(label_txt)
+                # Generate augmentations only for training set
+                if split == 'train' and augment:
+                    aug_imgs, aug_labels = self.augment_image(frame, ann, w, h)
+                    for i, (a_img, a_label) in enumerate(zip(aug_imgs, aug_labels)):
+                        aug_name = f'{base_name}_aug{i}.jpg'
+                        cv2.imwrite(os.path.join(self.output, 'images', split, aug_name), a_img)
+                        with open(os.path.join(self.output, 'labels', split, f'{base_name}_aug{i}.txt'), 'w') as f:
+                            f.write(f"{a_label[0]} {a_label[1]:.6f} {a_label[2]:.6f} {a_label[3]:.6f} {a_label[4]:.6f}\n")
         cap.release()
         dataset_yaml = {
             'path': os.path.abspath(self.output).replace("\\", "/"),

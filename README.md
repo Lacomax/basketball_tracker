@@ -4,6 +4,7 @@ A modular computer vision pipeline for automated basketball detection and tracki
 
 ## 📋 Features
 
+### Core Features
 - ✅ **Interactive Manual Annotation** - Click-to-annotate UI for marking basketball positions
 - ✅ **Intelligent Trajectory Detection** - Kalman filter-based smooth interpolation between frames
 - ✅ **Verification Interface** - Interactive correction tool with anomaly detection
@@ -12,6 +13,25 @@ A modular computer vision pipeline for automated basketball detection and tracki
 - ✅ **Organized Data Structure** - Separate directories for raw data, annotations, and outputs
 - ✅ **Production Ready** - Comprehensive logging, error handling, and documentation
 - ✅ **Installable Package** - Install as Python package via `setup.py`
+
+### 🆕 Advanced Analytics (NEW!)
+- ✅ **Enhanced Occlusion Detection** - Detects when ball is hidden by players
+- ✅ **Player Detection & Tracking** - Automatic player detection with team assignment
+- ✅ **Event Analysis** - Detects shots, passes, dribbles, rebounds automatically
+- ✅ **Player Statistics** - Comprehensive per-player stats (shots, assists, distance, etc.)
+- ✅ **SQLite Database** - Persistent storage for historical game analysis
+- ✅ **Performance Optimizations** - Batch processing and caching for faster analysis
+
+### 🔥 Latest Features - Version 2.0 (NEWEST!)
+- ✅ **Hoop Detection** - Automatic basket detection & shot classification (made/missed)
+- ✅ **DeepSORT Tracking** - Robust player tracking with consistent IDs
+- ✅ **Ball Possession Analysis** - Who has the ball at any moment
+- ✅ **Game Visualizer** - Professional videos with real-time stats overlay
+- ✅ **Player Re-ID** - Maintains IDs even when players leave/enter frame
+- ✅ **YOLOv11 Support** - Latest YOLO models for better small object detection
+
+📖 **See [ADVANCED_FEATURES.md](docs/ADVANCED_FEATURES.md) for complete guide!**
+📖 **See [LATEST_FEATURES.md](docs/LATEST_FEATURES.md) for Version 2.0 features!**
 
 ## 📁 Project Structure
 
@@ -71,7 +91,7 @@ pip install -e .
 
 ## 📖 Usage
 
-### Quick Start: Run Full Pipeline
+### Quick Start: Basic Pipeline
 
 ```python
 from src.basketball_tracker import UltraBasketballTracker
@@ -84,6 +104,20 @@ tracker.full_pipeline()
 ```
 
 This executes all stages: annotate → detect → verify → train → predict
+
+### 🆕 Quick Start: Advanced Analytics
+
+```bash
+# Complete game analysis with player stats and events
+python -m src.advanced_tracker \
+    --video data/raw/game.mp4 \
+    --annotations data/annotations/game.json \
+    --output outputs/game_analysis \
+    --pose \
+    --db data/stats.db
+```
+
+This executes: ball tracking → player detection → event analysis → statistics → database
 
 ### Step-by-Step: Individual Stages
 
