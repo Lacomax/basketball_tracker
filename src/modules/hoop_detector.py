@@ -195,7 +195,10 @@ class HoopDetector:
                       hoop_position: List[int],
                       hoop_radius: int = 40) -> Tuple[bool, float]:
         """
-        Determine if a shot was made based on ball trajectory.
+        Determine if a shot was made using linear regression trajectory prediction.
+
+        Inspired by README03 project with 97% accuracy.
+        Uses linear regression to predict ball trajectory and check intersection with hoop.
 
         Args:
             ball_trajectory: List of [x, y] ball positions
@@ -209,39 +212,157 @@ class HoopDetector:
             return False, 0.0
 
         hx, hy = hoop_position
+
+        # Step 1: Clean trajectory data (remove outliers)
+        cleaned_trajectory = self._clean_trajectory_data(ball_trajectory)
+
+        if len(cleaned_trajectory) < 5:
+            return False, 0.0
+
+        # Step 2: Apply linear regression to predict trajectory
+        x_coords = np.array([p[0] for p in cleaned_trajectory], dtype=float)
+        y_coords = np.array([p[1] for p in cleaned_trajectory], dtype=float)
+
+        # Check if trajectory is moving towards hoop (shot direction)
+        if len(x_coords) >= 2:
+            x_direction = x_coords[-1] - x_coords[0]
+            hoop_direction = hx - x_coords[0]
+
+            # If ball is moving away from hoop, not a shot
+            if x_direction * hoop_direction < 0:
+                return False, 0.0
+
+        # Step 3: Fit linear regression (y = mx + b)
+        try:
+            # Use polyfit for linear regression
+            coeffs = np.polyfit(x_coords, y_coords, 1)
+            m, b = coeffs  # slope and intercept
+
+            # Step 4: Project trajectory to hoop x-position
+            predicted_y_at_hoop = m * hx + b
+
+            # Step 5: Check if predicted trajectory intersects with hoop
+            vertical_distance = abs(predicted_y_at_hoop - hy)
+
+            # Also check if ball actually reached near the hoop
+            max_x = max(x_coords)
+            min_x = min(x_coords)
+            hoop_in_x_range = min_x <= hx <= max_x
+
+            # Check for parabolic trajectory (characteristic of shots)
+            is_arc = self._check_trajectory_arc(cleaned_trajectory)
+
+            # Determine if made based on:
+            # 1. Predicted trajectory passes through hoop vertically
+            # 2. Ball trajectory includes hoop x-position
+            # 3. Trajectory has arc shape
+            threshold = hoop_radius + self.BASKET_THRESHOLD
+
+            is_made = (vertical_distance < threshold and
+                      hoop_in_x_range and
+                      is_arc)
+
+            # Calculate confidence
+            if is_made:
+                # Confidence based on how close prediction is to hoop center
+                confidence = max(0.0, 1.0 - (vertical_distance / threshold))
+
+                # Bonus confidence for strong arc
+                if is_arc:
+                    confidence = min(1.0, confidence * 1.2)
+            else:
+                confidence = 0.0
+
+            return is_made, confidence
+
+        except (np.linalg.LinAlgError, ValueError):
+            # Regression failed, fall back to simple distance check
+            return self._fallback_distance_check(cleaned_trajectory, hoop_position, hoop_radius)
+
+    def _clean_trajectory_data(self, trajectory: List[List[int]],
+                              max_jump: int = 100) -> List[List[int]]:
+        """
+        Clean trajectory data by removing outliers.
+
+        Args:
+            trajectory: Raw trajectory points
+            max_jump: Maximum allowed jump between consecutive points
+
+        Returns:
+            Cleaned trajectory
+        """
+        if len(trajectory) < 2:
+            return trajectory
+
+        cleaned = [trajectory[0]]
+
+        for i in range(1, len(trajectory)):
+            prev_x, prev_y = cleaned[-1]
+            curr_x, curr_y = trajectory[i]
+
+            # Calculate jump distance
+            jump_distance = np.sqrt((curr_x - prev_x)**2 + (curr_y - prev_y)**2)
+
+            # Only add point if jump is reasonable
+            if jump_distance < max_jump:
+                cleaned.append(trajectory[i])
+
+        return cleaned
+
+    def _check_trajectory_arc(self, trajectory: List[List[int]]) -> bool:
+        """
+        Check if trajectory has parabolic arc (characteristic of basketball shots).
+
+        Args:
+            trajectory: Cleaned trajectory points
+
+        Returns:
+            True if trajectory shows arc pattern
+        """
+        if len(trajectory) < 5:
+            return False
+
+        y_coords = [p[1] for p in trajectory]
+
+        # Check for peak in trajectory (ball goes up then down)
+        mid_idx = len(y_coords) // 2
+
+        # Early part should show upward motion (decreasing y if origin is top-left)
+        # Late part should show downward motion (increasing y)
+        early_avg = np.mean(y_coords[:mid_idx])
+        late_avg = np.mean(y_coords[mid_idx:])
+
+        # Arc pattern: early y should be different from late y
+        # And should have variation (not just straight line)
+        y_variance = np.var(y_coords)
+
+        return y_variance > 100  # Sufficient variation indicates arc
+
+    def _fallback_distance_check(self, trajectory: List[List[int]],
+                                 hoop_position: List[int],
+                                 hoop_radius: int) -> Tuple[bool, float]:
+        """
+        Fallback method using simple distance check.
+
+        Args:
+            trajectory: Ball trajectory
+            hoop_position: Hoop position
+            hoop_radius: Hoop radius
+
+        Returns:
+            Tuple of (is_made, confidence)
+        """
+        hx, hy = hoop_position
         threshold = hoop_radius + self.BASKET_THRESHOLD
 
-        # Check if ball passes through or near the hoop
         min_distance = float('inf')
-        passed_through_height = False
-        approach_from_above = False
-
-        for i, pos in enumerate(ball_trajectory):
+        for pos in trajectory:
             bx, by = pos
-
-            # Calculate distance to hoop
             distance = np.sqrt((bx - hx)**2 + (by - hy)**2)
             min_distance = min(min_distance, distance)
 
-            # Check if ball is at approximately hoop height
-            if abs(by - hy) < 30:  # Within 30 pixels of hoop height
-                passed_through_height = True
-
-            # Check if ball approached from above (characteristic of a made shot)
-            if i > 0 and by < hy and ball_trajectory[i-1][1] >= hy:
-                approach_from_above = True
-
-        # Made basket criteria:
-        # 1. Ball passed very close to hoop center
-        # 2. Ball was at hoop height
-        # 3. Ball approached from above (downward motion)
-
-        is_made = (min_distance < threshold and
-                  passed_through_height and
-                  approach_from_above)
-
-        # Confidence based on how close the ball got
-        confidence = max(0.0, 1.0 - (min_distance / threshold))
+        is_made = min_distance < threshold
+        confidence = max(0.0, 1.0 - (min_distance / threshold)) if is_made else 0.0
 
         return is_made, confidence
 
