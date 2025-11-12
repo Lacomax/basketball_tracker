@@ -23,6 +23,14 @@ except ImportError:
     DEEPSORT_AVAILABLE = False
     logging.warning("DeepSORT not available. Install with: pip install deep-sort-realtime")
 
+# Try to import BoxMOT which includes ByteTrack
+try:
+    from boxmot import ByteTrack as BoxMotByteTrack
+    BOXMOT_AVAILABLE = True
+except ImportError:
+    BOXMOT_AVAILABLE = False
+    logging.warning("BoxMOT not available. Install with: pip install boxmot")
+
 from ..config import setup_logging
 
 logger = setup_logging(__name__)
@@ -42,25 +50,35 @@ class TrackedPlayer:
 
 
 class ImprovedPlayerTracker:
-    """Robust player tracker with DeepSORT integration."""
+    """Robust player tracker with DeepSORT, ByteTrack, and IoU tracking."""
 
     def __init__(self, model: str = 'yolov8n.pt', pose_model: str = 'yolov8n-pose.pt',
-                 use_deepsort: bool = True, max_age: int = 30):
+                 tracker_type: str = 'bytetrack', max_age: int = 30):
         """
         Initialize improved player tracker.
 
         Args:
             model: Path to YOLO detection model
             pose_model: Path to YOLO pose model
-            use_deepsort: Whether to use DeepSORT (if available)
+            tracker_type: Tracking algorithm ('bytetrack', 'deepsort', or 'iou')
             max_age: Maximum frames to keep track alive without detection
         """
         self.detection_model = YOLO(model)
         self.pose_model = YOLO(pose_model)
 
-        self.use_deepsort = use_deepsort and DEEPSORT_AVAILABLE
+        self.tracker_type = tracker_type.lower()
 
-        if self.use_deepsort:
+        # Initialize tracker based on type
+        if self.tracker_type == 'bytetrack' and BOXMOT_AVAILABLE:
+            # ByteTrack from BoxMOT library
+            self.tracker = BoxMotByteTrack(
+                track_thresh=0.5,      # High confidence threshold
+                track_buffer=max_age,  # Frames to keep alive
+                match_thresh=0.8,      # IoU threshold for matching
+                frame_rate=30
+            )
+            logger.info("Using ByteTrack for player tracking")
+        elif self.tracker_type == 'deepsort' and DEEPSORT_AVAILABLE:
             self.tracker = DeepSort(
                 max_age=max_age,
                 n_init=3,
@@ -73,8 +91,14 @@ class ImprovedPlayerTracker:
             )
             logger.info("Using DeepSORT for player tracking")
         else:
+            # Fallback to simple IoU tracker
             self.tracker = SimpleIOUTracker(max_age=max_age)
-            logger.info("Using simple IoU tracker (DeepSORT not available)")
+            if self.tracker_type == 'bytetrack' and not BOXMOT_AVAILABLE:
+                logger.warning("ByteTrack not available, falling back to IoU tracker")
+            elif self.tracker_type == 'deepsort' and not DEEPSORT_AVAILABLE:
+                logger.warning("DeepSORT not available, falling back to IoU tracker")
+            else:
+                logger.info("Using simple IoU tracker")
 
         self.track_history = defaultdict(list)
         self.team_assignments = {}
@@ -109,12 +133,27 @@ class ImprovedPlayerTracker:
             x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
             conf = float(box.conf[0])
 
-            # DeepSORT expects [x1, y1, w, h, conf]
-            w, h = x2 - x1, y2 - y1
-            detections.append(([x1, y1, w, h], conf, 'person'))
+            if self.tracker_type == 'bytetrack':
+                # ByteTrack expects [x1, y1, x2, y2, conf, class_id]
+                detections.append([x1, y1, x2, y2, conf, 0])  # class_id=0 for person
+            elif self.tracker_type == 'deepsort':
+                # DeepSORT expects [x1, y1, w, h, conf]
+                w, h = x2 - x1, y2 - y1
+                detections.append(([x1, y1, w, h], conf, 'person'))
+            else:
+                # IoU tracker expects [x1, y1, w, h, conf]
+                w, h = x2 - x1, y2 - y1
+                detections.append(([x1, y1, w, h], conf, 'person'))
 
         # Update tracker
-        if self.use_deepsort:
+        if self.tracker_type == 'bytetrack':
+            # ByteTrack expects numpy array
+            if len(detections) > 0:
+                dets_array = np.array(detections)
+                tracks = self.tracker.update(dets_array, frame)
+            else:
+                tracks = []
+        elif self.tracker_type == 'deepsort':
             tracks = self.tracker.update_tracks(detections, frame=frame)
         else:
             tracks = self.tracker.update(detections, frame_number)
@@ -123,7 +162,15 @@ class ImprovedPlayerTracker:
         tracked_players = []
 
         for track in tracks:
-            if self.use_deepsort:
+            if self.tracker_type == 'bytetrack':
+                # ByteTrack returns [x1, y1, x2, y2, track_id, conf, class_id, ...]
+                if isinstance(track, np.ndarray):
+                    x1, y1, x2, y2 = map(int, track[:4])
+                    track_id = int(track[4])
+                    bbox = [x1, y1, x2, y2]
+                else:
+                    continue
+            elif self.tracker_type == 'deepsort':
                 if not track.is_confirmed():
                     continue
                 track_id = track.track_id
@@ -149,7 +196,7 @@ class ImprovedPlayerTracker:
             player = TrackedPlayer(
                 track_id=track_id,
                 bbox=bbox,
-                confidence=0.9 if self.use_deepsort else 0.8,
+                confidence=0.9 if self.tracker_type in ['bytetrack', 'deepsort'] else 0.8,
                 center=[center_x, center_y],
                 team=team,
                 velocity=velocity,
@@ -378,15 +425,16 @@ class SimpleIOUTracker:
 def main():
     """Example usage of improved tracker."""
     import argparse
-    parser = argparse.ArgumentParser(description='Improved player tracking with DeepSORT')
+    parser = argparse.ArgumentParser(description='Improved player tracking with ByteTrack/DeepSORT/IoU')
     parser.add_argument('--video', required=True, help='Path to input video')
     parser.add_argument('--output', default='outputs/tracked_players.json', help='Output JSON file')
+    parser.add_argument('--tracker', default='bytetrack', choices=['bytetrack', 'deepsort', 'iou'],
+                       help='Tracking algorithm to use (default: bytetrack)')
     parser.add_argument('--pose', action='store_true', help='Use pose estimation')
     parser.add_argument('--no-teams', action='store_true', help='Disable team detection')
-    parser.add_argument('--no-deepsort', action='store_true', help='Disable DeepSORT')
     args = parser.parse_args()
 
-    tracker = ImprovedPlayerTracker(use_deepsort=not args.no_deepsort)
+    tracker = ImprovedPlayerTracker(tracker_type=args.tracker)
     tracker.process_video(
         video_path=args.video,
         output_path=args.output,
