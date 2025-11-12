@@ -1,273 +1,361 @@
 # Basketball Tracker 🏀
 
-A computer vision pipeline for tracking basketballs in video using manual annotation, Kalman filtering, and YOLOv8 deep learning.
+A modular computer vision pipeline for automated basketball detection and tracking using manual annotation, Kalman filtering, and YOLOv8 deep learning.
 
-## Project Overview
+## 📋 Features
 
-The Basketball Tracker implements a complete pipeline for detecting and tracking basketballs across video frames:
+- ✅ **Interactive Manual Annotation** - Click-to-annotate UI for marking basketball positions
+- ✅ **Intelligent Trajectory Detection** - Kalman filter-based smooth interpolation between frames
+- ✅ **Verification Interface** - Interactive correction tool with anomaly detection
+- ✅ **YOLO Model Training** - Custom YOLOv8 model training with data augmentation
+- ✅ **Multi-Model Support** - Manage multiple trained models for different scenarios
+- ✅ **Organized Data Structure** - Separate directories for raw data, annotations, and outputs
+- ✅ **Production Ready** - Comprehensive logging, error handling, and documentation
+- ✅ **Installable Package** - Install as Python package via `setup.py`
 
-1. **Manual Annotation** - Mark basketball positions in key frames
-2. **Trajectory Detection** - Interpolate positions between annotations using Kalman filtering
-3. **Verification** - Review and correct detections with anomaly detection
-4. **YOLO Training** - Train a custom YOLOv8 model on annotated frames
-5. **Inference** - Deploy the trained model on new videos
-
-## Architecture
+## 📁 Project Structure
 
 ```
-Input Video
-    ↓
-[1] Manual Annotation (_1_ball_annotator.py)
-    ↓
-[2] Trajectory Detection (_2_trajectory_detector.py)
-    ↓
-[3] Verification & Correction (_3_verification_tool.py)
-    ↓
-[4] YOLO Model Training (_4_yolo_trainer.py)
-    ↓
-[5] Inference & Tracking (_5_yolo_tracker.py)
-    ↓
-Output: Tracked video with bounding boxes
+basketball_tracker/
+├── src/                              # Source code (main package)
+│   ├── basketball_tracker.py         # Main orchestrator class
+│   ├── config.py                     # Centralized configuration
+│   ├── modules/                      # Core pipeline modules
+│   │   ├── annotator.py             # Manual annotation tool
+│   │   ├── trajectory_detector.py   # Kalman-based interpolation
+│   │   ├── verifier.py              # Interactive verification UI
+│   │   └── yolo_trainer.py          # YOLO training pipeline
+│   └── utils/                        # Shared utilities
+│       └── ball_detection.py        # Common detection functions
+│
+├── data/                             # Data organization
+│   ├── raw/                          # Original video files
+│   ├── annotations/                  # Manual annotations (JSON)
+│   ├── detections/                   # Kalman-filtered detections
+│   └── verified/                     # Verified detections
+│
+├── models/                           # Model management
+│   ├── pretrained/                   # Pre-trained YOLO weights
+│   └── trained/                      # Your trained models
+│
+├── configs/                          # Configuration files
+│   └── default.yaml                  # Default settings
+│
+├── outputs/                          # Training results
+├── docs/                             # Documentation
+│   └── ARCHITECTURE.md               # Detailed architecture guide
+├── tests/                            # Unit tests
+├── setup.py                          # Package installer
+└── requirements.txt                  # Python dependencies
 ```
 
-## Installation
+## 🚀 Installation
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.8 or higher
 - CUDA 11.8+ (optional, for GPU acceleration)
 
-### Setup
+### Quick Install
 
 ```bash
-# Clone the repository
+# Clone repository
 git clone <repository-url>
 cd basketball_tracker
 
 # Install dependencies
 pip install -r requirements.txt
+
+# (Optional) Install as editable package
+pip install -e .
 ```
 
-## Usage
+## 📖 Usage
 
-### Quick Start with Full Pipeline
+### Quick Start: Run Full Pipeline
 
 ```python
-from basketball_tracker import UltraBasketballTracker
+from src.basketball_tracker import UltraBasketballTracker
 
-tracker = UltraBasketballTracker()
-tracker.full_pipeline(
-    input_video="input_video.mp4",
-    max_annotation_frames=5
+# Initialize tracker with video path
+tracker = UltraBasketballTracker(video_path="data/raw/your_video.mp4")
+
+# Run complete pipeline
+tracker.full_pipeline()
+```
+
+This executes all stages: annotate → detect → verify → train → predict
+
+### Step-by-Step: Individual Stages
+
+#### 1. Manual Annotation
+
+```python
+from src.modules.annotator import BallAnnotator
+
+annotator = BallAnnotator(
+    video="data/raw/video.mp4",
+    output="data/annotations/annotations.json"
+)
+annotator.run()
+```
+
+**Controls:**
+- Click to detect ball (or add annotation)
+- Drag to adjust position
+- **A/D** - Previous/Next frame
+- **S** - Save
+- **Q** - Quit
+
+#### 2. Trajectory Detection (Kalman Filter)
+
+```python
+from src.modules.trajectory_detector import process_trajectory_video
+
+detections = process_trajectory_video(
+    video_path="data/raw/video.mp4",
+    annotations_path="data/annotations/annotations.json",
+    output_path="data/detections/detections.json"
 )
 ```
 
-### Step-by-Step Usage
+Interpolates smooth trajectories between manual annotations.
 
-#### 1. Annotate Frames Manually
+#### 3. Verification & Correction
 
 ```python
-from _1_ball_annotator import BallAnnotator
+from src.modules.verifier import CompactBallVerifier
 
-annotator = BallAnnotator()
-annotator.annotate_frames(
-    video_path="input_video.mp4",
-    max_frames=5
+verifier = CompactBallVerifier(
+    video_path="data/raw/video.mp4",
+    detection_file="data/detections/detections.json",
+    output_file="data/verified/verified.json"
 )
-# Saves annotations to: annotations.json
+verifier.run()
 ```
 
-#### 2. Generate Trajectory via Kalman Filtering
+**Controls:**
+- Click to adjust detections
+- **A/D** - Previous/Next frame
+- **+/-** - Increase/Decrease radius
+- **T** - Toggle trajectory view
+- **P/N** - Previous/Next anomaly
+- **H** - Hide/Show detection
+- **S** - Save
+- **Q** - Quit
+
+#### 4. YOLO Model Training
 
 ```python
-from _2_trajectory_detector import TrajectoryDetector
+from src.modules.yolo_trainer import UltraYOLOBallTrainer
 
-detector = TrajectoryDetector()
-detections = detector.detect_trajectory(
-    video_path="input_video.mp4",
-    annotation_file="annotations.json"
+trainer = UltraYOLOBallTrainer(
+    video_path="data/raw/video.mp4",
+    annotations="data/verified/verified.json",
+    output_dir="models/trained/basketball_detector",
+    model="yolov8s.pt"
 )
-# Saves to: detections.json
+
+trainer.train(epochs=50, batch_size=16, img_size=640)
 ```
 
-#### 3. Verify and Correct Detections
+#### 5. Inference & Detection
 
 ```python
-from _3_verification_tool import VerificationTool
+from src.modules.yolo_trainer import UltraYOLOBallTrainer
 
-verifier = VerificationTool()
-verified = verifier.verify_detections(
-    video_path="input_video.mp4",
-    detection_file="detections.json"
+UltraYOLOBallTrainer.detect(
+    video_path="data/raw/new_video.mp4",
+    model_path="models/trained/basketball_detector/weights/best.pt",
+    output_path="outputs/detected_video.mp4",
+    conf=0.5
 )
-# Saves to: verified.json
 ```
 
-#### 4. Train YOLOv8 Model
+## ⚙️ Configuration
+
+### Default Configuration
+
+Settings are in `src/config.py` and can be overridden via `configs/default.yaml`:
+
+```yaml
+ball_detection:
+  hough_param1: 50
+  hough_param2_strict: 30
+  min_radius: 10
+  max_radius: 50
+
+trajectory:
+  anomaly_threshold: 50
+  window_size: 90
+  connection_threshold: 30
+
+yolo:
+  epochs: 50
+  batch_size: 16
+  img_size: 640
+```
+
+### Multiple Configurations
+
+Create different configs for different scenarios:
+
+```bash
+configs/
+├── default.yaml         # Default settings
+├── high_accuracy.yaml   # More epochs, larger model
+└── real_time.yaml       # Faster inference, smaller model
+```
+
+## 📊 Data Format
+
+### Annotations/Detections JSON
+
+```json
+{
+  "frame_number": {
+    "center": [x_pixel, y_pixel],
+    "radius": radius_pixels
+  }
+}
+```
+
+**Example:**
+```json
+{
+  "0": {"center": [640, 360], "radius": 12},
+  "50": {"center": [600, 380], "radius": 13},
+  "100": {"center": [580, 400], "radius": 14}
+}
+```
+
+## 🎯 Workflow
+
+```
+1. Prepare Videos
+   └─ Place videos in: data/raw/
+
+2. Manual Annotation
+   ├─ Run: src.modules.annotator
+   └─ Output: data/annotations/*.json
+
+3. Kalman Filtering
+   ├─ Run: src.modules.trajectory_detector
+   └─ Output: data/detections/*.json
+
+4. Verification
+   ├─ Run: src.modules.verifier
+   └─ Output: data/verified/*.json
+
+5. Model Training
+   ├─ Run: src.modules.yolo_trainer.train()
+   └─ Output: models/trained/*/weights/best.pt
+
+6. Inference
+   ├─ Run: src.modules.yolo_trainer.detect()
+   └─ Output: outputs/*.mp4
+```
+
+## 🔧 Advanced Usage
+
+### Custom Model Support
 
 ```python
-from _4_yolo_trainer import YOLOTrainer
-
-trainer = YOLOTrainer()
-trainer.train_model(
-    video_path="input_video.mp4",
-    verification_file="verified.json",
-    epochs=50
+# Train with different YOLO model
+trainer = UltraYOLOBallTrainer(
+    video_path="data/raw/video.mp4",
+    annotations="data/verified/verified.json",
+    model="yolov8m.pt"  # Medium model instead of small
 )
-# Saves model to: runs/detect/basketball_detector/
+trainer.train(epochs=100)
 ```
 
-#### 5. Run Inference on New Video
+### Batch Processing Multiple Videos
 
 ```python
-from _5_yolo_tracker import YOLOTracker
+import os
+from src.basketball_tracker import UltraBasketballTracker
 
-tracker = YOLOTracker()
-tracker.track_video(
-    video_path="new_video.mp4",
-    model_path="runs/detect/basketball_detector/weights/best.pt"
+for video_file in os.listdir("data/raw"):
+    if video_file.endswith(".mp4"):
+        tracker = UltraBasketballTracker(
+            video_path=f"data/raw/{video_file}"
+        )
+        tracker.full_pipeline()
+```
+
+### Distributed Training (Future)
+
+```python
+# Train on multiple GPUs
+trainer.train(epochs=50, device="cuda:0,cuda:1")
+```
+
+## 📚 Documentation
+
+- **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Detailed system design and extension points
+- **[API Reference](docs/API.md)** - Function and class documentation
+- **[USAGE.md](docs/USAGE.md)** - Detailed usage examples
+
+## 🐛 Troubleshooting
+
+### Issue: "Cannot open video"
+```python
+# Ensure video file exists and path is correct
+import os
+assert os.path.exists("data/raw/video.mp4")
+```
+
+### Issue: Low detection accuracy
+```python
+# Increase annotations and training epochs
+annotator.run()  # Add more key frames
+trainer.train(epochs=100)  # More training
+```
+
+### Issue: Memory error during training
+```python
+# Reduce batch size
+trainer.train(batch_size=8)  # Default is 16
+```
+
+### Issue: Slow inference
+```python
+# Use smaller model or CPU
+UltraYOLOBallTrainer.detect(
+    model_path="models/trained/best.pt",
+    device="cpu"  # or "cuda"
 )
-# Outputs: new_video_tracked.mp4
 ```
 
-## File Structure
+## 🤝 Contributing
 
-```
-basketball_tracker/
-├── basketball_tracker.py              # Main orchestrator class
-├── _1_ball_annotator.py               # Manual annotation tool
-├── _2_trajectory_detector.py          # Kalman filter-based interpolation
-├── _3_verification_tool.py            # Verification & correction UI
-├── _4_yolo_trainer.py                 # YOLO model training
-├── _5_yolo_tracker.py                 # Inference on new videos
-├── config.py                          # Configuration constants
-├── ball_detection_utils.py            # Shared utility functions
-├── requirements.txt                   # Python dependencies
-├── annotations.json                   # Manual annotations (output from step 1)
-├── detections.json                    # Kalman-filtered detections (output from step 2)
-├── verified.json                      # Verified detections (output from step 3)
-├── input_video.mp4                    # Example input video
-├── runs/detect/basketball_detector/   # YOLO training outputs
-└── README.md                          # This file
-```
+Contributions welcome! Please:
+1. Follow PEP 8 style guide
+2. Add docstrings to new functions
+3. Update relevant documentation
+4. Test changes on sample data
 
-## Configuration
+## 📝 License
 
-All magic numbers and configurable parameters are centralized in `config.py`:
+[Specify your license here - MIT, Apache, etc.]
 
-```python
-# Ball detection parameters
-HOUGH_PARAM1 = 50
-HOUGH_PARAM2 = 30
-MIN_RADIUS = 10
-MAX_RADIUS = 50
-DEFAULT_RADIUS = 15
-ROI_OFFSET = 30
+## 👥 Authors
 
-# Anomaly detection parameters
-ANOMALY_THRESHOLD = 50
+Basketball Tracker Team
 
-# Trajectory parameters
-TRAJECTORY_WINDOW = 90
-CONNECTION_THRESHOLD = 30
+## 🙏 Acknowledgments
 
-# YOLO training parameters
-DEFAULT_EPOCHS = 50
-DEFAULT_BATCH_SIZE = 16
-DEFAULT_IMG_SIZE = 640
-```
+- [Ultralytics YOLO](https://github.com/ultralytics/yolov8)
+- [FilterPy](https://github.com/rlabbe/filterpy)
+- [OpenCV](https://opencv.org/)
 
-Edit `config.py` to adjust these parameters without modifying pipeline code.
+## 📮 Contact & Support
 
-## Technologies
-
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| OpenCV | 4.8+ | Video processing & frame extraction |
-| NumPy | 1.24+ | Numerical operations & Kalman filtering |
-| YOLOv8 (Ultralytics) | 8.0+ | Object detection & training |
-| FilterPy | 1.4+ | Kalman filter implementation |
-| PyTorch | 2.0+ | Deep learning backend |
-| PyYAML | 6.0+ | Configuration file handling |
-
-## Algorithm Details
-
-### Kalman Filter Trajectory Detection
-
-The trajectory detector uses a constant-velocity Kalman filter to interpolate ball positions between manual annotations:
-
-- **State**: [x, y, vx, vy] (position and velocity)
-- **Process Model**: Constant velocity motion
-- **Measurement Model**: Observed ball positions from annotation
-
-This generates smooth trajectory estimates even with sparse manual annotations.
-
-### YOLO Training with Augmentation
-
-The training pipeline applies data augmentation to increase robustness:
-
-- **Rotation**: ±15 degrees
-- **Brightness**: 0.8x to 1.2x
-- **Blur**: Gaussian blur with varying kernels
-
-### Verification with Anomaly Detection
-
-The verification tool identifies outliers using a sliding window approach:
-
-- **Window size**: 90 frames
-- **Outlier detection**: Distance threshold (default: 50 pixels)
-- **Correction**: Interactive UI for manual fixes
-
-## Known Limitations
-
-- Manual annotation is required for the initial training set
-- Performance depends on video quality and basketball visibility
-- Small or occluded basketballs may be missed
-- GPU recommended for real-time inference on high-resolution videos
-
-## Future Improvements
-
-- [ ] Multi-object tracking (multiple basketballs)
-- [ ] 3D trajectory reconstruction with camera calibration
-- [ ] Real-time inference optimization
-- [ ] Web UI for annotation and verification
-- [ ] Support for different ball sports (soccer, volleyball, etc.)
-
-## Troubleshooting
-
-### "Circle not detected" in annotation
-
-- Ensure basketball is clearly visible in the frame
-- Adjust `HOUGH_PARAM1` and `HOUGH_PARAM2` in `config.py`
-- Try manual click-to-annotate feature
-
-### Low detection accuracy
-
-- Increase annotation frames (`max_annotation_frames`)
-- Ensure verified.json has clean, correct annotations
-- Increase YOLO training epochs (`DEFAULT_EPOCHS` in config.py)
-
-### Memory issues during training
-
-- Reduce batch size: `DEFAULT_BATCH_SIZE` in config.py
-- Reduce image size: `DEFAULT_IMG_SIZE` in config.py
-- Process shorter video clips
-
-## Contributing
-
-1. Follow PEP 8 style guidelines
-2. Add docstrings to all functions
-3. Use `config.py` for any magic numbers
-4. Test changes on sample video data
-5. Keep documentation updated
-
-## License
-
-[Add your license here]
-
-## Contact
-
-[Add contact information]
+For issues, questions, or suggestions:
+- Create an issue on GitHub
+- Contact: [your-email@example.com](mailto:your-email@example.com)
 
 ---
 
-**Last Updated**: November 2024
+**Last Updated:** November 2024
+**Version:** 1.0.0

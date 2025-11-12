@@ -16,7 +16,7 @@ import json
 import logging
 from pathlib import Path
 
-from config import setup_logging
+from .config import setup_logging
 
 logger = setup_logging(__name__)
 
@@ -73,14 +73,14 @@ class UltraBasketballTracker:
     def annotate(self):
         """Run manual annotation tool. Returns self for method chaining."""
         logger.info("Starting annotation phase")
-        annotator_cls = self._import_module('_1_ball_annotator').BallAnnotator
+        annotator_cls = self._import_module('modules.annotator').BallAnnotator
         annotator_cls(self.video, str(self.files['annotations'])).run()
         return self
 
     def detect(self):
         """Run trajectory detection using Kalman filtering. Returns self for method chaining."""
         logger.info("Starting trajectory detection phase")
-        detector_func = self._import_module('_2_trajectory_detector').process_trajectory_video
+        detector_func = self._import_module('modules.trajectory_detector').process_trajectory_video
         detector_func(self.video, str(self.files['annotations']), str(self.files['detections']))
         return self
 
@@ -89,7 +89,7 @@ class UltraBasketballTracker:
         logger.info("Starting verification phase")
         detections_data = self._safe_load_json(self.files['detections'])
         if detections_data:
-            verifier_cls = self._import_module('_3_verification_tool').CompactBallVerifier
+            verifier_cls = self._import_module('modules.verifier').CompactBallVerifier
             verifier_cls(str(self.video), str(self.files['detections']), str(self.files['verified'])).run()
         else:
             logger.warning("No detections found, skipping verification")
@@ -106,7 +106,7 @@ class UltraBasketballTracker:
         # Choose verified annotations if available, otherwise use manual annotations
         ann_file = str(self.files['verified']) if os.path.exists(self.files['verified']) and os.path.getsize(self.files['verified']) > 2 \
                    else str(self.files['annotations'])
-        trainer_cls = self._import_module('_4_yolo_trainer').UltraYOLOBallTrainer
+        trainer_cls = self._import_module('modules.yolo_trainer').UltraYOLOBallTrainer
         yolo_trainer = trainer_cls(str(self.video), ann_file, str(self.files['dataset']), self.model)
         # Train YOLO model (this will internally create the dataset)
         yolo_trainer.train(epochs=epochs)
@@ -120,7 +120,7 @@ class UltraBasketballTracker:
             conf: Confidence threshold for detections
         """
         logger.info("Starting inference phase")
-        trainer_cls = self._import_module('_4_yolo_trainer').UltraYOLOBallTrainer
+        trainer_cls = self._import_module('modules.yolo_trainer').UltraYOLOBallTrainer
         output_path = str(self.output / 'predicted_video.mp4')
         # Try to find the best trained weights, otherwise use the base model
         model_candidates = [

@@ -12,7 +12,7 @@ import os
 import logging
 from filterpy.kalman import KalmanFilter
 
-from config import setup_logging, KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE
+from ..config import setup_logging, KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE
 
 logger = setup_logging(__name__)
 

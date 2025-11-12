@@ -15,7 +15,7 @@ import random
 import logging
 
 from ultralytics import YOLO
-from config import (
+from ..config import (
     setup_logging,
     DEFAULT_EPOCHS,
     DEFAULT_BATCH_SIZE,

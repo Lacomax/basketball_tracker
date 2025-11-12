@@ -5,8 +5,8 @@ import os
 import argparse
 import logging
 
-from ball_detection_utils import auto_detect_ball
-from config import setup_logging, ANOMALY_THRESHOLD, TRAJECTORY_WINDOW, CONNECTION_THRESHOLD
+from ..utils.ball_detection import auto_detect_ball
+from ..config import setup_logging, ANOMALY_THRESHOLD, TRAJECTORY_WINDOW, CONNECTION_THRESHOLD
 
 logger = setup_logging(__name__)
 

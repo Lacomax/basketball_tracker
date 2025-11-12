@@ -4,8 +4,8 @@ import json
 import os
 import logging
 
-from ball_detection_utils import auto_detect_ball
-from config import setup_logging
+from ..utils.ball_detection import auto_detect_ball
+from ..config import setup_logging
 
 logger = setup_logging(__name__)
 

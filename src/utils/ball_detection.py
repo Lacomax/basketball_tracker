@@ -7,7 +7,7 @@ the basketball tracker pipeline.
 
 import cv2
 import numpy as np
-from config import (
+from ..config import (
     HOUGH_PARAM1,
     HOUGH_PARAM2_STRICT,
     HOUGH_PARAM2_LOOSE,
