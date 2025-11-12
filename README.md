@@ -22,7 +22,16 @@ A modular computer vision pipeline for automated basketball detection and tracki
 - ✅ **SQLite Database** - Persistent storage for historical game analysis
 - ✅ **Performance Optimizations** - Batch processing and caching for faster analysis
 
+### 🔥 Latest Features - Version 2.0 (NEWEST!)
+- ✅ **Hoop Detection** - Automatic basket detection & shot classification (made/missed)
+- ✅ **DeepSORT Tracking** - Robust player tracking with consistent IDs
+- ✅ **Ball Possession Analysis** - Who has the ball at any moment
+- ✅ **Game Visualizer** - Professional videos with real-time stats overlay
+- ✅ **Player Re-ID** - Maintains IDs even when players leave/enter frame
+- ✅ **YOLOv11 Support** - Latest YOLO models for better small object detection
+
 📖 **See [ADVANCED_FEATURES.md](docs/ADVANCED_FEATURES.md) for complete guide!**
+📖 **See [LATEST_FEATURES.md](docs/LATEST_FEATURES.md) for Version 2.0 features!**
 
 ## 📁 Project Structure
 
