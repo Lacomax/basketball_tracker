@@ -38,12 +38,13 @@ print()
 with open(tracking_file, 'r') as f:
     tracking_data = json.load(f)
 
-# Get unique player IDs and their names
+# Get unique player IDs and their LATEST names (in case names were updated)
 unique_players = {}
 for frame_data in tracking_data.values():
     for player in frame_data:
         track_id = player.get('track_id')
-        if track_id is not None and track_id not in unique_players:
+        if track_id is not None:
+            # Always update to latest name (handles name updates from assign_names.py)
             name = player.get('name', f'Player {track_id}')
             unique_players[track_id] = name
 
@@ -70,36 +71,99 @@ print()
 print("Enter the names of the two teams (e.g., 'Red Team', 'Yellow Team')")
 print()
 
+# Color suggestions (BGR format for OpenCV)
+COLOR_SUGGESTIONS = {
+    'red': ([0, 0, 255], 'Rojo/Red'),
+    'blue': ([255, 0, 0], 'Azul/Blue'),
+    'green': ([0, 255, 0], 'Verde/Green'),
+    'yellow': ([0, 255, 255], 'Amarillo/Yellow'),
+    'orange': ([0, 165, 255], 'Naranja/Orange'),
+    'purple': ([255, 0, 255], 'Morado/Purple'),
+    'cyan': ([255, 255, 0], 'Cian/Cyan'),
+    'white': ([255, 255, 255], 'Blanco/White'),
+    'black': ([0, 0, 0], 'Negro/Black'),
+    'gray': ([128, 128, 128], 'Gris/Gray')
+}
+
 # Load previous team names if available
 previous_team_names = {}
 if os.path.exists('outputs/team_names.json'):
     try:
         with open('outputs/team_names.json', 'r') as f:
             previous_team_names = json.load(f)
-        print(f"Previous teams: {previous_team_names.get('team1', 'N/A')} vs {previous_team_names.get('team2', 'N/A')}")
+
+        # Handle both old format (string) and new format (dict)
+        team1_prev = previous_team_names.get('team1', 'N/A')
+        team2_prev = previous_team_names.get('team2', 'N/A')
+        if isinstance(team1_prev, dict):
+            team1_prev = team1_prev.get('name', 'N/A')
+        if isinstance(team2_prev, dict):
+            team2_prev = team2_prev.get('name', 'N/A')
+
+        print(f"Previous teams: {team1_prev} vs {team2_prev}")
         print()
     except (FileNotFoundError, json.JSONDecodeError):
         pass
 
 team1 = input("Team 1 name (e.g., 'Red Team'): ").strip()
 if not team1:
-    team1 = previous_team_names.get('team1', 'Team 1')
+    prev = previous_team_names.get('team1', 'Team 1')
+    team1 = prev.get('name', prev) if isinstance(prev, dict) else prev
     print(f"  Using: {team1}")
 
-team2 = input("Team 2 name (e.g., 'Yellow Team'): ").strip()
+# Color selection for team 1
+print("\nColors (primary): red, blue, green, yellow, orange")
+print("Colors (secondary): purple, cyan, white, black, gray")
+team1_color_input = input(f"Team 1 color (e.g., 'red', 'blue'): ").strip().lower()
+if team1_color_input in COLOR_SUGGESTIONS:
+    team1_color = COLOR_SUGGESTIONS[team1_color_input][0]
+    print(f"  ✓ {COLOR_SUGGESTIONS[team1_color_input][1]}")
+else:
+    # Try to get from previous
+    prev = previous_team_names.get('team1', {})
+    team1_color = prev.get('color', [0, 0, 255]) if isinstance(prev, dict) else [0, 0, 255]
+    print(f"  Using previous/default color")
+
+team2 = input("\nTeam 2 name (e.g., 'Yellow Team'): ").strip()
 if not team2:
-    team2 = previous_team_names.get('team2', 'Team 2')
+    prev = previous_team_names.get('team2', 'Team 2')
+    team2 = prev.get('name', prev) if isinstance(prev, dict) else prev
     print(f"  Using: {team2}")
+
+# Color selection for team 2
+print("\nColors (primary): red, blue, green, yellow, orange")
+print("Colors (secondary): purple, cyan, white, black, gray")
+team2_color_input = input(f"Team 2 color (e.g., 'yellow', 'green'): ").strip().lower()
+if team2_color_input in COLOR_SUGGESTIONS:
+    team2_color = COLOR_SUGGESTIONS[team2_color_input][0]
+    print(f"  ✓ {COLOR_SUGGESTIONS[team2_color_input][1]}")
+else:
+    # Try to get from previous
+    prev = previous_team_names.get('team2', {})
+    team2_color = prev.get('color', [0, 255, 255]) if isinstance(prev, dict) else [0, 255, 255]
+    print(f"  Using previous/default color")
 
 referee_team = "Referee"
 public_category = "Public"
 
-# Save team names
+# Save team names with colors (new format)
 team_names = {
-    'team1': team1,
-    'team2': team2,
-    'referee': referee_team,
-    'public': public_category
+    'team1': {
+        'name': team1,
+        'color': team1_color
+    },
+    'team2': {
+        'name': team2,
+        'color': team2_color
+    },
+    'referee': {
+        'name': referee_team,
+        'color': [128, 128, 128]  # Gray
+    },
+    'public': {
+        'name': public_category,
+        'color': [64, 64, 64]  # Dark gray
+    }
 }
 with open('outputs/team_names.json', 'w') as f:
     json.dump(team_names, f, indent=2)

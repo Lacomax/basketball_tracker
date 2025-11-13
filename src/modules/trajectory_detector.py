@@ -302,19 +302,29 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
         if ret:
             try:
                 predicted_center = tuple(det['center'])
-                detected = auto_detect_ball(frame, predicted_center, search_radius=30)
+                detected = auto_detect_ball(frame, predicted_center, use_yolo=True)
                 detected_center = detected['center']
+                detection_method = detected.get('method', 'unknown')
+
+                # Log YOLO detections
+                if detection_method == 'yolo':
+                    logger.info(f"Frame {frame_num}: YOLO detected ball at {detected_center}")
 
                 # Check if detection is reasonable
                 dist = np.sqrt((detected_center[0] - predicted_center[0])**2 +
                               (detected_center[1] - predicted_center[1])**2)
 
-                if dist < 25:  # Within 25px of interpolation
+                if dist < 50:  # Within 50px of interpolation (increased for YOLO)
                     # Use detected position (more accurate)
                     det['center'] = list(detected_center)
-                    det['method'] = 'auto-refined'
+                    det['method'] = f'auto-refined-{detection_method}'
+                    det['confidence'] = detected.get('confidence', 1.0)
                     refined_count += 1
-            except:
+
+                    if detection_method == 'yolo':
+                        print(f"  ✓ Frame {frame_num}: YOLO detected ball at ({detected_center[0]}, {detected_center[1]})")
+            except Exception as e:
+                logger.debug(f"Frame {frame_num}: Detection failed - {e}")
                 pass  # Keep interpolated position
 
     logger.info(f"Refined {refined_count} positions with auto-detection")
