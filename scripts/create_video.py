@@ -15,7 +15,8 @@ import cv2
 import json
 import numpy as np
 from collections import defaultdict, deque
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Add parent directory to path so we can import from src/
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.utils.video_utils import open_video_robust, create_video_writer_robust
 
 print("=" * 60)

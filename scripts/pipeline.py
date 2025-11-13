@@ -32,21 +32,21 @@ steps = [
     {
         'name': 'Filter Court ROI',
         'description': 'Define court area and filter out crowd/bench',
-        'command': 'python filter_court_roi.py',
+        'command': 'python scripts/filter_roi.py',
         'optional': False,
         'requires': ['outputs/tracked_players.json']
     },
     {
         'name': 'Assign Player Names',
         'description': 'Give names to players and merge duplicate IDs',
-        'command': 'python assign_player_names.py',
+        'command': 'python scripts/assign_names.py',
         'optional': True,
         'requires': ['outputs/tracked_players_filtered.json', 'outputs/tracked_players.json']
     },
     {
         'name': 'Assign Teams',
         'description': 'Assign players to teams (Red, Yellow, Referee, Public)',
-        'command': 'python assign_teams.py',
+        'command': 'python scripts/assign_teams.py',
         'optional': True,
         'requires': ['outputs/tracked_players_named.json', 'outputs/tracked_players_filtered.json', 'outputs/tracked_players.json']
     },
@@ -67,7 +67,7 @@ steps = [
     {
         'name': 'Create Annotated Video',
         'description': 'Create final video with all annotations',
-        'command': 'python create_annotated_video.py',
+        'command': 'python scripts/create_video.py',
         'optional': False,
         'requires': []
     }
