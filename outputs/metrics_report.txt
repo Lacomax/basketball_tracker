@@ -1,0 +1,301 @@
+============================================================
+PLAYER PERFORMANCE METRICS
+============================================================
+
+Player 3 (Unknown)
+  Total Distance: 28.11 m
+  Avg Speed: 10.96 km/h
+  Max Speed: 97.22 km/h
+  Sprints: 19 (13.33 m)
+  Acceleration Events: 251
+  Active Time: 9.27 s
+  Distance/Minute: 182.02 m/min
+------------------------------------------------------------
+Player 2 (Unknown)
+  Total Distance: 25.86 m
+  Avg Speed: 8.76 km/h
+  Max Speed: 73.57 km/h
+  Sprints: 20 (9.29 m)
+  Acceleration Events: 255
+  Active Time: 10.67 s
+  Distance/Minute: 145.49 m/min
+------------------------------------------------------------
+Player 1 (Unknown)
+  Total Distance: 16.01 m
+  Avg Speed: 7.12 km/h
+  Max Speed: 144.87 km/h
+  Sprints: 4 (6.22 m)
+  Acceleration Events: 180
+  Active Time: 8.13 s
+  Distance/Minute: 118.12 m/min
+------------------------------------------------------------
+Player 35 (Unknown)
+  Total Distance: 13.27 m
+  Avg Speed: 20.47 km/h
+  Max Speed: 59.43 km/h
+  Sprints: 17 (9.42 m)
+  Acceleration Events: 68
+  Active Time: 2.37 s
+  Distance/Minute: 336.3 m/min
+------------------------------------------------------------
+Player 30 (Unknown)
+  Total Distance: 13.15 m
+  Avg Speed: 13.15 km/h
+  Max Speed: 73.57 km/h
+  Sprints: 4 (6.59 m)
+  Acceleration Events: 102
+  Active Time: 3.63 s
+  Distance/Minute: 217.13 m/min
+------------------------------------------------------------
+Player 19 (Unknown)
+  Total Distance: 9.04 m
+  Avg Speed: 10.5 km/h
+  Max Speed: 62.68 km/h
+  Sprints: 4 (2.99 m)
+  Acceleration Events: 84
+  Active Time: 3.13 s
+  Distance/Minute: 173.13 m/min
+------------------------------------------------------------
+Player 9 (Unknown)
+  Total Distance: 6.95 m
+  Avg Speed: 7.35 km/h
+  Max Speed: 30.55 km/h
+  Sprints: 7 (2.04 m)
+  Acceleration Events: 81
+  Active Time: 3.43 s
+  Distance/Minute: 121.38 m/min
+------------------------------------------------------------
+Player 36 (Unknown)
+  Total Distance: 5.41 m
+  Avg Speed: 21.63 km/h
+  Max Speed: 56.2 km/h
+  Sprints: 7 (4.33 m)
+  Acceleration Events: 25
+  Active Time: 0.93 s
+  Distance/Minute: 347.7 m/min
+------------------------------------------------------------
+Player 17 (Unknown)
+  Total Distance: 5.31 m
+  Avg Speed: 4.41 km/h
+  Max Speed: 23.76 km/h
+  Sprints: 3 (0.61 m)
+  Acceleration Events: 107
+  Active Time: 4.37 s
+  Distance/Minute: 72.9 m/min
+------------------------------------------------------------
+Player 4 (Unknown)
+  Total Distance: 5.12 m
+  Avg Speed: 5.48 km/h
+  Max Speed: 77.88 km/h
+  Sprints: 3 (1.18 m)
+  Acceleration Events: 80
+  Active Time: 3.4 s
+  Distance/Minute: 90.4 m/min
+------------------------------------------------------------
+Player 20 (Unknown)
+  Total Distance: 4.47 m
+  Avg Speed: 4.6 km/h
+  Max Speed: 44.53 km/h
+  Sprints: 1 (0.41 m)
+  Acceleration Events: 80
+  Active Time: 3.53 s
+  Distance/Minute: 75.88 m/min
+------------------------------------------------------------
+Player 13 (Unknown)
+  Total Distance: 4.27 m
+  Avg Speed: 6.24 km/h
+  Max Speed: 34.83 km/h
+  Sprints: 3 (1.34 m)
+  Acceleration Events: 55
+  Active Time: 2.5 s
+  Distance/Minute: 102.56 m/min
+------------------------------------------------------------
+Player 33 (Unknown)
+  Total Distance: 4.27 m
+  Avg Speed: 13.18 km/h
+  Max Speed: 54.0 km/h
+  Sprints: 2 (1.18 m)
+  Acceleration Events: 30
+  Active Time: 1.2 s
+  Distance/Minute: 213.52 m/min
+------------------------------------------------------------
+Player 39 (Unknown)
+  Total Distance: 3.89 m
+  Avg Speed: 13.99 km/h
+  Max Speed: 60.05 km/h
+  Sprints: 3 (2.1 m)
+  Acceleration Events: 27
+  Active Time: 1.03 s
+  Distance/Minute: 225.63 m/min
+------------------------------------------------------------
+Player 5 (Unknown)
+  Total Distance: 3.74 m
+  Avg Speed: 5.05 km/h
+  Max Speed: 78.83 km/h
+  Sprints: 2 (0.95 m)
+  Acceleration Events: 61
+  Active Time: 2.7 s
+  Distance/Minute: 83.13 m/min
+------------------------------------------------------------
+Player 6 (Unknown)
+  Total Distance: 3.27 m
+  Avg Speed: 1.82 km/h
+  Max Speed: 41.94 km/h
+  Sprints: 1 (0.39 m)
+  Acceleration Events: 107
+  Active Time: 6.5 s
+  Distance/Minute: 30.17 m/min
+------------------------------------------------------------
+Player 21 (Unknown)
+  Total Distance: 3.16 m
+  Avg Speed: 9.75 km/h
+  Max Speed: 58.36 km/h
+  Sprints: 1 (0.54 m)
+  Acceleration Events: 29
+  Active Time: 1.2 s
+  Distance/Minute: 157.95 m/min
+------------------------------------------------------------
+Player 31 (Unknown)
+  Total Distance: 2.7 m
+  Avg Speed: 10.42 km/h
+  Max Speed: 32.47 km/h
+  Sprints: 5 (1.3 m)
+  Acceleration Events: 27
+  Active Time: 0.97 s
+  Distance/Minute: 167.65 m/min
+------------------------------------------------------------
+Player 25 (Unknown)
+  Total Distance: 2.61 m
+  Avg Speed: 9.08 km/h
+  Max Speed: 17.41 km/h
+  Sprints: 0 (0.0 m)
+  Acceleration Events: 29
+  Active Time: 1.07 s
+  Distance/Minute: 146.58 m/min
+------------------------------------------------------------
+Player 10 (Unknown)
+  Total Distance: 1.96 m
+  Avg Speed: 1.05 km/h
+  Max Speed: 6.83 km/h
+  Sprints: 0 (0.0 m)
+  Acceleration Events: 94
+  Active Time: 6.73 s
+  Distance/Minute: 17.46 m/min
+------------------------------------------------------------
+Player 40 (Unknown)
+  Total Distance: 1.69 m
+  Avg Speed: 12.17 km/h
+  Max Speed: 27.32 km/h
+  Sprints: 1 (0.25 m)
+  Acceleration Events: 11
+  Active Time: 0.53 s
+  Distance/Minute: 190.11 m/min
+------------------------------------------------------------
+Player 28 (Unknown)
+  Total Distance: 1.52 m
+  Avg Speed: 2.14 km/h
+  Max Speed: 19.91 km/h
+  Sprints: 2 (0.36 m)
+  Acceleration Events: 52
+  Active Time: 2.6 s
+  Distance/Minute: 35.18 m/min
+------------------------------------------------------------
+Player 8 (Unknown)
+  Total Distance: 1.15 m
+  Avg Speed: 0.52 km/h
+  Max Speed: 4.32 km/h
+  Sprints: 0 (0.0 m)
+  Acceleration Events: 80
+  Active Time: 7.97 s
+  Distance/Minute: 8.66 m/min
+------------------------------------------------------------
+Player 32 (Unknown)
+  Total Distance: 1.04 m
+  Avg Speed: 1.78 km/h
+  Max Speed: 13.66 km/h
+  Sprints: 0 (0.0 m)
+  Acceleration Events: 36
+  Active Time: 2.13 s
+  Distance/Minute: 29.17 m/min
+------------------------------------------------------------
+Player 26 (Unknown)
+  Total Distance: 0.94 m
+  Avg Speed: 7.8 km/h
+  Max Speed: 39.71 km/h
+  Sprints: 2 (0.59 m)
+  Acceleration Events: 11
+  Active Time: 0.47 s
+  Distance/Minute: 120.78 m/min
+------------------------------------------------------------
+Player 43 (Unknown)
+  Total Distance: 0.84 m
+  Avg Speed: 6.45 km/h
+  Max Speed: 23.36 km/h
+  Sprints: 1 (0.22 m)
+  Acceleration Events: 12
+  Active Time: 0.5 s
+  Distance/Minute: 100.39 m/min
+------------------------------------------------------------
+Player 7 (Unknown)
+  Total Distance: 0.8 m
+  Avg Speed: 1.57 km/h
+  Max Speed: 11.01 km/h
+  Sprints: 0 (0.0 m)
+  Acceleration Events: 35
+  Active Time: 1.87 s
+  Distance/Minute: 25.69 m/min
+------------------------------------------------------------
+Player 11 (Unknown)
+  Total Distance: 0.73 m
+  Avg Speed: 0.64 km/h
+  Max Speed: 3.05 km/h
+  Sprints: 0 (0.0 m)
+  Acceleration Events: 59
+  Active Time: 4.13 s
+  Distance/Minute: 10.64 m/min
+------------------------------------------------------------
+Player 34 (Unknown)
+  Total Distance: 0.61 m
+  Avg Speed: 1.27 km/h
+  Max Speed: 4.83 km/h
+  Sprints: 0 (0.0 m)
+  Acceleration Events: 30
+  Active Time: 1.77 s
+  Distance/Minute: 20.74 m/min
+------------------------------------------------------------
+Player 16 (Unknown)
+  Total Distance: 0.38 m
+  Avg Speed: 1.11 km/h
+  Max Speed: 4.83 km/h
+  Sprints: 0 (0.0 m)
+  Acceleration Events: 24
+  Active Time: 1.27 s
+  Distance/Minute: 18.06 m/min
+------------------------------------------------------------
+Player 12 (Unknown)
+  Total Distance: 0.35 m
+  Avg Speed: 9.5 km/h
+  Max Speed: 11.63 km/h
+  Sprints: 0 (0.0 m)
+  Acceleration Events: 2
+  Active Time: 0.17 s
+  Distance/Minute: 126.69 m/min
+------------------------------------------------------------
+Player 41 (Unknown)
+  Total Distance: 0.11 m
+  Avg Speed: 1.46 km/h
+  Max Speed: 3.05 km/h
+  Sprints: 0 (0.0 m)
+  Acceleration Events: 4
+  Active Time: 0.3 s
+  Distance/Minute: 21.66 m/min
+------------------------------------------------------------
+Player 42 (Unknown)
+  Total Distance: 0.0 m
+  Avg Speed: 0.0 km/h
+  Max Speed: 0.0 km/h
+  Sprints: 0 (0.0 m)
+  Acceleration Events: 0
+  Active Time: 0.0 s
+  Distance/Minute: 0.0 m/min
+------------------------------------------------------------
