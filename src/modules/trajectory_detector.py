@@ -66,12 +66,18 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     # Try to use converted video first (to avoid codec issues)
+    original_video = video_path
     if os.path.exists("input_video_converted.mp4"):
         video_path = "input_video_converted.mp4"
         logger.info("Using converted video: input_video_converted.mp4")
     elif os.path.exists(video_path.replace(".mp4", "_converted.mp4")):
         video_path = video_path.replace(".mp4", "_converted.mp4")
         logger.info(f"Using converted video: {video_path}")
+    else:
+        logger.warning(f"Converted video not found. Using original: {video_path}")
+        logger.warning("You may see codec warnings. To fix this:")
+        logger.warning("  1. Run: python convert_video.py")
+        logger.warning("  2. Or convert video online and save as input_video_converted.mp4")
 
     # Load manual annotations
     try:
@@ -96,6 +102,16 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
     # Use manual annotations as keyframes
     manual_frames = sorted(int(k) for k in annotations.keys())
 
+    # Calculate average radius from manual annotations (ball size is constant)
+    radii = [annotations[str(f)]['radius'] for f in manual_frames]
+    avg_radius = int(np.mean(radii))
+    median_radius = int(np.median(radii))
+
+    # Use median radius (more robust to outliers)
+    constant_radius = median_radius
+    logger.info(f"Using constant ball radius: {constant_radius}px (median of {len(radii)} annotations)")
+    logger.info(f"  Radius range in annotations: {min(radii)}-{max(radii)}px")
+
     # Enhanced occlusion detection thresholds
     VELOCITY_THRESHOLD = 50.0  # High velocity suggests fast movement or occlusion
     ACCELERATION_THRESHOLD = 30.0  # Sudden acceleration suggests bounce or occlusion
@@ -109,14 +125,9 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
         end_ann = annotations[str(end_f)]
         detection_points[start_f] = {
             'center': start_ann['center'],
-            'radius': start_ann['radius'],
+            'radius': constant_radius,  # Use constant radius
             'confidence': 1.0
         }
-
-        # Linear interpolation for radius between keyframes
-        def interp_radius(f):
-            ratio = (f - start_f) / (end_f - start_f)
-            return int(start_ann['radius'] + ratio * (end_ann['radius'] - start_ann['radius']))
 
         # Initialize Kalman filter with starting keyframe
         kf = create_kalman_filter(start_ann['center'])
@@ -129,7 +140,6 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
             # Clamp position to frame boundaries
             pred_center[0] = int(clamp(pred_center[0], 0, frame_width - 1))
             pred_center[1] = int(clamp(pred_center[1], 0, frame_height - 1))
-            radius = interp_radius(f)
 
             # Enhanced occlusion detection
             velocity = np.sqrt(kf.x[2] ** 2 + kf.x[3] ** 2)
@@ -141,7 +151,7 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
 
             detection = {
                 'center': pred_center,
-                'radius': radius,
+                'radius': constant_radius,  # Use constant radius
                 'confidence': confidence,
                 'velocity': float(velocity)
             }
@@ -160,7 +170,7 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
         # At final keyframe, use manual annotation directly
         detection_points[end_f] = {
             'center': end_ann['center'],
-            'radius': end_ann['radius'],
+            'radius': constant_radius,  # Use constant radius
             'confidence': 1.0
         }
 
@@ -169,7 +179,7 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
     last_ann = annotations[str(last_frame)]
     detection_points[last_frame] = {
         'center': last_ann['center'],
-        'radius': last_ann['radius'],
+        'radius': constant_radius,  # Use constant radius
         'confidence': 1.0
     }
     if last_frame < total_frames - 1:
@@ -184,7 +194,7 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
             # Keep radius constant in final section
             detection_points[f] = {
                 'center': pred_center,
-                'radius': last_ann['radius'],
+                'radius': constant_radius,  # Use constant radius
                 'confidence': confidence
             }
 

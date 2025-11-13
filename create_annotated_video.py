@@ -33,7 +33,16 @@ else:
 
 # Use the best available tracking data
 tracking_file = None
-if os.path.exists("outputs/tracked_players_named.json"):
+if os.path.exists("outputs/tracked_players_named_teams.json"):
+    tracking_file = "outputs/tracked_players_named_teams.json"
+    print("✓ Using named tracking data with teams (BEST)")
+elif os.path.exists("outputs/tracked_players_filtered_teams.json"):
+    tracking_file = "outputs/tracked_players_filtered_teams.json"
+    print("✓ Using filtered tracking data with teams")
+elif os.path.exists("outputs/tracked_players_teams.json"):
+    tracking_file = "outputs/tracked_players_teams.json"
+    print("✓ Using tracking data with teams")
+elif os.path.exists("outputs/tracked_players_named.json"):
     tracking_file = "outputs/tracked_players_named.json"
     print("✓ Using named tracking data (with player names)")
 elif os.path.exists("outputs/tracked_players_filtered.json"):
