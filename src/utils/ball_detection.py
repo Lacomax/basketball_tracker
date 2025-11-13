@@ -40,6 +40,54 @@ _frame_cache = {}
 _cache_size = 100
 
 
+def is_basketball_color(frame: np.ndarray, center: tuple, radius: int) -> bool:
+    """
+    Check if the detected circle has basketball-like color (orange/brown).
+
+    This helps filter out false positives like player heads, knees, etc.
+
+    Args:
+        frame: Input frame (BGR)
+        center: (x, y) center of circle
+        radius: Circle radius
+
+    Returns:
+        True if color matches basketball, False otherwise
+    """
+    h, w = frame.shape[:2]
+    x, y = int(center[0]), int(center[1])
+
+    # Ensure we're within bounds
+    if x - radius < 0 or x + radius >= w or y - radius < 0 or y + radius >= h:
+        return False
+
+    # Sample the center region (avoid edges which might have background)
+    sample_radius = max(1, radius // 2)
+    roi = frame[y - sample_radius:y + sample_radius, x - sample_radius:x + sample_radius]
+
+    if roi.size == 0:
+        return False
+
+    # Convert to HSV for better color analysis
+    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+
+    # Basketball colors in HSV:
+    # - Orange: H=10-25, S=100-255, V=150-255
+    # - Brown: H=10-20, S=50-200, V=50-200
+    # Allow wider range to account for lighting
+    lower_orange = np.array([5, 80, 100])
+    upper_orange = np.array([30, 255, 255])
+
+    mask = cv2.inRange(hsv, lower_orange, upper_orange)
+    orange_pixels = np.count_nonzero(mask)
+    total_pixels = roi.shape[0] * roi.shape[1]
+
+    # At least 20% of the sampled region should be basketball-colored
+    ratio = orange_pixels / total_pixels
+
+    return ratio > 0.2
+
+
 def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, max_distance: int = 150) -> Optional[dict]:
     """
     Detect basketball using YOLO11 (sports ball class).
@@ -56,9 +104,14 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
     if model is None:
         return None
 
-    # Run YOLO detection
+    # Run YOLO detection with lower confidence threshold
     # Class 32 in COCO dataset is 'sports ball'
-    results = model(frame, classes=[32], verbose=False, conf=0.3)
+    results = model(frame, classes=[32], verbose=False, conf=0.15)
+
+    num_detections = len(results[0].boxes) if len(results) > 0 else 0
+
+    if num_detections > 0:
+        print(f"  🔍 YOLO found {num_detections} sports ball candidate(s)")
 
     if len(results) == 0 or len(results[0].boxes) == 0:
         return None
@@ -67,6 +120,7 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
     boxes = results[0].boxes
     best_detection = None
     min_dist = float('inf')
+    rejected_count = 0
 
     for box in boxes:
         # Get bounding box coordinates
@@ -84,15 +138,25 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
         # If search point provided, find closest ball
         if search_point is not None:
             dist = np.sqrt((cx - search_point[0])**2 + (cy - search_point[1])**2)
+            print(f"    - Ball at ({cx}, {cy}), conf={confidence:.3f}, dist={dist:.1f}px", end="")
             if dist > max_distance:
+                print(f" → REJECTED (too far, max={max_distance}px)")
+                rejected_count += 1
                 continue
+            print(f" → OK")
             if dist < min_dist:
                 min_dist = dist
                 best_detection = {'center': [cx, cy], 'radius': radius, 'confidence': confidence}
         else:
             # No search point, return first/best detection
+            print(f"    - Ball at ({cx}, {cy}), conf={confidence:.3f}")
             if best_detection is None or confidence > best_detection.get('confidence', 0):
                 best_detection = {'center': [cx, cy], 'radius': radius, 'confidence': confidence}
+
+    if best_detection:
+        print(f"  ✓ YOLO selected ball at ({best_detection['center'][0]}, {best_detection['center'][1]})")
+    elif rejected_count > 0:
+        print(f"  ✗ All {rejected_count} detection(s) rejected (too far from predicted position)")
 
     return best_detection
 
@@ -178,7 +242,7 @@ def auto_detect_ball(frame: np.ndarray, point: tuple, use_yolo: bool = True) -> 
         )
 
     if circles is not None:
-        # Find the circle closest to the click point
+        # Find the circle closest to the click point WITH basketball color
         circles = np.round(circles[0, :]).astype("int")
         best_circle = None
         min_dist = float('inf')
@@ -186,6 +250,15 @@ def auto_detect_ball(frame: np.ndarray, point: tuple, use_yolo: bool = True) -> 
         for (cx, cy, r) in circles:
             # Calculate distance from click point to circle center
             dist = np.sqrt((cx - (x - roi_x0))**2 + (cy - (y - roi_y0))**2)
+
+            # Convert to full frame coordinates for color check
+            full_cx = int(cx) + roi_x0
+            full_cy = int(cy) + roi_y0
+
+            # Filter by basketball color to avoid detecting player heads/knees
+            if not is_basketball_color(frame, (full_cx, full_cy), int(r)):
+                continue
+
             if dist < min_dist:
                 min_dist = dist
                 best_circle = (cx, cy, r)
