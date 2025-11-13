@@ -15,6 +15,8 @@ import cv2
 import json
 import numpy as np
 from collections import defaultdict, deque
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from src.utils.video_utils import open_video_robust, create_video_writer_robust
 
 print("=" * 60)
 print("BASKETBALL TRACKER - VIDEO VISUALIZATION")
@@ -104,10 +106,11 @@ def get_color(track_id):
 # Player trails
 player_trails = defaultdict(lambda: deque(maxlen=30))
 
-# Open video with FFMPEG backend (avoids GStreamer warnings)
-cap = cv2.VideoCapture(input_video, cv2.CAP_FFMPEG)
-if not cap.isOpened():
-    print("❌ Cannot open video")
+# Open video with robust method (tries multiple backends)
+try:
+    cap = open_video_robust(input_video)
+except IOError as e:
+    print(f"❌ {e}")
     sys.exit(1)
 
 fps = int(cap.get(cv2.CAP_PROP_FPS))
@@ -121,10 +124,14 @@ print(f"  - FPS: {fps}")
 print(f"  - Total frames: {total_frames}")
 print()
 
-# Output video (use H.264 codec for better compatibility)
+# Output video (use robust video writer)
 output_video = "outputs/annotated_video.mp4"
-fourcc = cv2.VideoWriter_fourcc(*'avc1')  # H.264 codec
-out = cv2.VideoWriter(output_video, cv2.CAP_FFMPEG, fourcc, fps, (width, height))
+try:
+    out = create_video_writer_robust(output_video, fps, width, height)
+except IOError as e:
+    print(f"❌ {e}")
+    cap.release()
+    sys.exit(1)
 
 print("Creating annotated video...")
 print("This may take several minutes...")

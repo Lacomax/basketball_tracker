@@ -5,6 +5,7 @@ import os
 import logging
 
 from ..utils.ball_detection import auto_detect_ball
+from ..utils.video_utils import open_video_robust
 from ..config import setup_logging
 
 logger = setup_logging(__name__)
@@ -31,9 +32,10 @@ class BallAnnotator:
             video = video.replace(".mp4", "_converted.mp4")
             logger.info(f"Using converted video: {video}")
 
-        self.cap = cv2.VideoCapture(video, cv2.CAP_FFMPEG)
-        if not self.cap.isOpened():
-            raise IOError(f"Cannot open video: {video}")
+        try:
+            self.cap = open_video_robust(video)
+        except IOError as e:
+            raise IOError(f"Cannot open video: {video}. {e}")
         self.output = output
         # Load existing annotations if available
         try:

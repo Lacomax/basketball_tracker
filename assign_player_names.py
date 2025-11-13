@@ -15,6 +15,8 @@ import cv2
 import json
 import numpy as np
 from collections import defaultdict
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from src.utils.video_utils import open_video_robust
 
 print("=" * 60)
 print("PLAYER NAME ASSIGNMENT & ID CONSOLIDATION")
@@ -54,10 +56,11 @@ with open(tracking_file, 'r') as f:
 print(f"✓ Loaded tracking data for {len(tracking_data)} frames")
 print()
 
-# Open video with FFMPEG backend (avoids GStreamer warnings)
-cap = cv2.VideoCapture(input_video, cv2.CAP_FFMPEG)
-if not cap.isOpened():
-    print("❌ Cannot open video")
+# Open video with robust method (tries multiple backends)
+try:
+    cap = open_video_robust(input_video)
+except IOError as e:
+    print(f"❌ {e}")
     sys.exit(1)
 
 # Collect player images for each unique ID

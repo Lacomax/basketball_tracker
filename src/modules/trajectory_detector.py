@@ -14,6 +14,7 @@ from filterpy.kalman import KalmanFilter
 
 from ..config import setup_logging, KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE
 from ..utils.ball_detection import auto_detect_ball
+from ..utils.video_utils import open_video_robust
 
 logger = setup_logging(__name__)
 
@@ -92,9 +93,10 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
         logger.warning(f"No annotations found in {annotations_path}, created empty output")
         return {}
 
-    cap = cv2.VideoCapture(video_path, cv2.CAP_FFMPEG)
-    if not cap.isOpened():
-        raise IOError(f"Cannot open video: {video_path}")
+    try:
+        cap = open_video_robust(video_path)
+    except IOError as e:
+        raise IOError(f"Cannot open video: {video_path}. {e}")
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
