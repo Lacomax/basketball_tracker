@@ -269,8 +269,10 @@ while True:
         ball_confidence = ball_data.get('confidence', 1.0)
         ball_method = ball_data.get('method', 'unknown')
 
-        # Determine if ball is predicted/interpolated
-        is_ball_hidden = ball_confidence < 0.8 or 'interpolated' in ball_method
+        # Determine if ball is predicted/interpolated (not auto-detected!)
+        # Note: "auto-detected" contains "interpolated" substring, so we check specifically
+        is_ball_hidden = (ball_confidence < 0.8 or
+                         ball_method in ['linear-interpolated', 'smooth-interpolated', 'physics-parabolic'])
 
         if ball_center:
             # Convert center to tuple of ints
