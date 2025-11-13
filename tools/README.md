@@ -60,6 +60,51 @@ Testing homography transformation...
 
 ---
 
+## `analyze_trajectory.py`
+**Analyze ball trajectory for problems**
+
+Detects and reports problems in ball trajectory such as static frames, erratic jumps, and unrealistic velocities.
+
+**Usage:**
+```bash
+python tools/analyze_trajectory.py
+```
+
+**Analyzes:**
+- Static ball (same position for multiple frames)
+- Erratic jumps (>50px teleports)
+- High velocity (unrealistic speed)
+- Detection method distribution
+- Velocity statistics
+
+**Example Output:**
+```
+⚠ STATIC BALL (2 instances):
+   Frames 42-53: 11 frames static at [1004, 279]
+   Frames 229-322: 93 frames static at [1184, 647]
+
+⚠ ERRATIC JUMPS (13 instances):
+   Frame 180: 244.4px jump (velocity=0.0)
+   Frame 42: 160.3px jump (velocity=0.0)
+
+RECOMMENDATIONS:
+1. Add more manual annotations
+2. Use improved trajectory detector
+3. Check auto-detection parameters
+```
+
+**When to use:**
+- After generating ball trajectory
+- When trajectory looks erratic in video
+- To validate trajectory quality before creating final video
+- To diagnose interpolation problems
+
+**Required files:**
+- `outputs/detections.json` - Generated trajectory
+- `outputs/annotations.json` - Manual annotations
+
+---
+
 ## Tips
 
 ### Video Conversion
