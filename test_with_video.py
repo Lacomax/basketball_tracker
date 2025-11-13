@@ -19,14 +19,18 @@ print("BASKETBALL TRACKER V3.0 - VIDEO TEST")
 print("=" * 60)
 print()
 
-# Check if video exists
-video_path = "input_video.mp4"
-if not os.path.exists(video_path):
-    print(f"❌ Video not found: {video_path}")
-    print("Please place your video as 'input_video.mp4' in the current directory")
+# Check for video files
+video_path = None
+if os.path.exists("input_video_converted.mp4"):
+    video_path = "input_video_converted.mp4"
+    print(f"✓ Using converted video: {video_path}")
+elif os.path.exists("input_video.mp4"):
+    video_path = "input_video.mp4"
+    print(f"✓ Video found: {video_path}")
+else:
+    print(f"❌ Video not found")
+    print("Please place your video as 'input_video.mp4' or 'input_video_converted.mp4'")
     sys.exit(1)
-
-print(f"✓ Video found: {video_path}")
 
 # Create outputs directory
 os.makedirs("outputs", exist_ok=True)
@@ -34,7 +38,11 @@ os.makedirs("outputs", exist_ok=True)
 # Open video to check
 cap = cv2.VideoCapture(video_path)
 if not cap.isOpened():
-    print("❌ Cannot open video")
+    print("❌ Cannot open video - codec not supported by OpenCV")
+    print()
+    print("Solution: Convert the video to a compatible format")
+    print("Run: python convert_video.py")
+    print()
     sys.exit(1)
 
 fps = cap.get(cv2.CAP_PROP_FPS)
@@ -54,7 +62,11 @@ ret, first_frame = cap.read()
 cap.release()
 
 if not ret:
-    print("❌ Cannot read first frame")
+    print("❌ Cannot read first frame - video codec incompatible")
+    print()
+    print("Solution: Convert the video to a compatible format")
+    print("Run: python convert_video.py")
+    print()
     sys.exit(1)
 
 print("=" * 60)
