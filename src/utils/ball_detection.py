@@ -28,9 +28,9 @@ def auto_detect_ball(frame: np.ndarray, point: tuple) -> dict:
     """
     Automatically detect a basketball around a clicked point.
 
-    Uses Hough circle detection on a region of interest (ROI) around
-    the provided point. Falls back to a loose threshold if strict
-    detection fails.
+    Uses improved Hough circle detection with Canny edge detection
+    to find circular ball contours. Basketball radius is relatively
+    constant due to minimal perspective change.
 
     Args:
         frame: Input image as numpy array (BGR format)
@@ -51,32 +51,39 @@ def auto_detect_ball(frame: np.ndarray, point: tuple) -> dict:
     x, y = int(point[0]), int(point[1])
     h, w = frame.shape[:2]
 
-    # Define a region of interest around the click point
-    roi_x0 = max(0, x - ROI_OFFSET)
-    roi_y0 = max(0, y - ROI_OFFSET)
-    roi_x1 = min(w, x + ROI_OFFSET)
-    roi_y1 = min(h, y + ROI_OFFSET)
+    # Define a larger region of interest around the click point
+    roi_size = ROI_OFFSET + 30  # Larger ROI for better edge detection
+    roi_x0 = max(0, x - roi_size)
+    roi_y0 = max(0, y - roi_size)
+    roi_x1 = min(w, x + roi_size)
+    roi_y1 = min(h, y + roi_size)
 
     roi = frame[roi_y0:roi_y1, roi_x0:roi_x1]
 
-    # Convert to grayscale and apply Gaussian blur for circle detection
+    # Convert to grayscale
     gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 
-    # Try detecting a circle (ball) in the ROI with strict threshold
+    # Apply bilateral filter to reduce noise while keeping edges sharp
+    filtered = cv2.bilateralFilter(gray, 9, 75, 75)
+
+    # Apply Canny edge detection for better circle detection
+    edges = cv2.Canny(filtered, 30, 100)
+
+    # Use the edges for Hough circle detection
     circles = cv2.HoughCircles(
-        blurred,
+        edges,
         cv2.HOUGH_GRADIENT,
         dp=1,
-        minDist=20,
-        param1=HOUGH_PARAM1,
-        param2=HOUGH_PARAM2_STRICT,
+        minDist=30,  # Increased to avoid detecting multiple circles
+        param1=50,   # Lower threshold for Canny (already applied)
+        param2=15,   # Lower accumulator threshold for better detection
         minRadius=MIN_RADIUS,
         maxRadius=MAX_RADIUS,
     )
 
-    # Retry with loose threshold if strict detection fails
+    # If edge-based detection fails, try with blurred grayscale
     if circles is None:
+        blurred = cv2.GaussianBlur(gray, (9, 9), 2)
         circles = cv2.HoughCircles(
             blurred,
             cv2.HOUGH_GRADIENT,
@@ -89,13 +96,31 @@ def auto_detect_ball(frame: np.ndarray, point: tuple) -> dict:
         )
 
     if circles is not None:
-        # Extract the first (best) detected circle
-        cx, cy, r = circles[0][0]
-        # Offset ROI coordinates to get center in full frame
-        cx, cy = int(cx) + roi_x0, int(cy) + roi_y0
-        return {"center": [cx, cy], "radius": int(r)}
+        # Find the circle closest to the click point
+        circles = np.round(circles[0, :]).astype("int")
+        best_circle = None
+        min_dist = float('inf')
+
+        for (cx, cy, r) in circles:
+            # Calculate distance from click point to circle center
+            dist = np.sqrt((cx - (x - roi_x0))**2 + (cy - (y - roi_y0))**2)
+            if dist < min_dist:
+                min_dist = dist
+                best_circle = (cx, cy, r)
+
+        if best_circle:
+            cx, cy, r = best_circle
+            # Offset ROI coordinates to get center in full frame
+            cx, cy = int(cx) + roi_x0, int(cy) + roi_y0
+
+            # Clamp radius to reasonable range (ball doesn't change size much)
+            # Basketball radius is relatively constant ~12-18 pixels
+            r = max(MIN_RADIUS, min(MAX_RADIUS, int(r)))
+
+            return {"center": [cx, cy], "radius": r}
 
     # Fallback if no circle is detected
+    # Use a constant radius since ball size doesn't change much
     return {"center": [x, y], "radius": DEFAULT_RADIUS}
 
 

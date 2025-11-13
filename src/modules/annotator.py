@@ -5,6 +5,7 @@ import os
 import logging
 
 from ..utils.ball_detection import auto_detect_ball
+from ..utils.video_utils import open_video_robust
 from ..config import setup_logging
 
 logger = setup_logging(__name__)
@@ -22,9 +23,19 @@ class BallAnnotator:
             output: Path for saving annotations JSON
         """
         os.makedirs(os.path.dirname(output), exist_ok=True)
-        self.cap = cv2.VideoCapture(video)
-        if not self.cap.isOpened():
-            raise IOError(f"Cannot open video: {video}")
+
+        # Try to use converted video first (to avoid codec issues)
+        if os.path.exists("input_video_converted.mp4"):
+            video = "input_video_converted.mp4"
+            logger.info("Using converted video: input_video_converted.mp4")
+        elif os.path.exists(video.replace(".mp4", "_converted.mp4")):
+            video = video.replace(".mp4", "_converted.mp4")
+            logger.info(f"Using converted video: {video}")
+
+        try:
+            self.cap = open_video_robust(video)
+        except IOError as e:
+            raise IOError(f"Cannot open video: {video}. {e}")
         self.output = output
         # Load existing annotations if available
         try:

@@ -25,7 +25,7 @@ faiss-cpu>=1.8.0          # Fast similarity search for ReID (Meta's library)
 # Visualization
 matplotlib>=3.8.0         # For heatmaps and plots
 seaborn>=0.13.0           # For advanced visualizations
-mplbasketball>=1.1.0      # Professional basketball court visualizations
+mplbasketball>=1.0.0      # Professional basketball court visualizations (latest: 1.0.1)
 
 # Optional: Performance
 numba>=0.59.0             # JIT compilation for speed

@@ -1,0 +1,3019 @@
+{
+  "1": {
+    "center": [
+      920,
+      590
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "2": {
+    "center": [
+      922,
+      608
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 9.010243816616171,
+    "method": "auto-detected"
+  },
+  "3": {
+    "center": [
+      910,
+      618
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 15.174715326281323,
+    "method": "auto-detected"
+  },
+  "4": {
+    "center": [
+      894,
+      630
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 17.631542157590207,
+    "method": "auto-detected"
+  },
+  "5": {
+    "center": [
+      871,
+      604
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 16.76719013576675,
+    "method": "auto-detected"
+  },
+  "6": {
+    "center": [
+      883,
+      593
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 12.410363618335651,
+    "method": "auto-detected"
+  },
+  "7": {
+    "center": [
+      883,
+      593
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 9.830156544283682,
+    "method": "auto-detected"
+  },
+  "8": {
+    "center": [
+      856,
+      610
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 9.772572764696935,
+    "method": "auto-detected"
+  },
+  "9": {
+    "center": [
+      842,
+      620
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 10.168833203341244,
+    "method": "auto-detected"
+  },
+  "10": {
+    "center": [
+      865,
+      607
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 8.15565127768201,
+    "method": "auto-detected"
+  },
+  "11": {
+    "center": [
+      867,
+      609
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 6.467300172560056,
+    "method": "auto-detected"
+  },
+  "12": {
+    "center": [
+      858,
+      610
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.646234177294992,
+    "method": "auto-detected"
+  },
+  "13": {
+    "center": [
+      856,
+      607
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.9825344378727126,
+    "method": "auto-detected"
+  },
+  "14": {
+    "center": [
+      873,
+      610
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.5635883105737367,
+    "method": "auto-detected"
+  },
+  "15": {
+    "center": [
+      851,
+      577
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.7104424848692874,
+    "method": "auto-detected"
+  },
+  "16": {
+    "center": [
+      871,
+      603
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.6529123774654755,
+    "method": "auto-detected"
+  },
+  "17": {
+    "center": [
+      876,
+      601
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.7130036184009192,
+    "method": "auto-detected"
+  },
+  "18": {
+    "center": [
+      845,
+      561
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.066610408619413,
+    "method": "auto-detected"
+  },
+  "19": {
+    "center": [
+      849,
+      563
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.842595722072572,
+    "method": "auto-detected"
+  },
+  "20": {
+    "center": [
+      846,
+      549
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.81940975954959,
+    "method": "auto-detected"
+  },
+  "21": {
+    "center": [
+      846,
+      556
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.115293124213803,
+    "method": "auto-detected"
+  },
+  "22": {
+    "center": [
+      848,
+      561
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.931497390095172,
+    "method": "auto-detected"
+  },
+  "23": {
+    "center": [
+      859,
+      563
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.402752502985719,
+    "method": "auto-detected"
+  },
+  "24": {
+    "center": [
+      850,
+      537
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.925106903006418,
+    "method": "auto-detected"
+  },
+  "25": {
+    "center": [
+      850,
+      529
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.434156256391508,
+    "method": "auto-detected"
+  },
+  "26": {
+    "center": [
+      846,
+      524
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.820811247252947,
+    "method": "auto-detected"
+  },
+  "27": {
+    "center": [
+      857,
+      521
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.949031916549824,
+    "method": "auto-detected"
+  },
+  "28": {
+    "center": [
+      853,
+      520
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.8819138381145795,
+    "method": "auto-detected"
+  },
+  "29": {
+    "center": [
+      854,
+      509
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 6.032797018452295,
+    "method": "auto-detected"
+  },
+  "30": {
+    "center": [
+      928,
+      443
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "31": {
+    "center": [
+      944,
+      457
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 10.577154269842739,
+    "method": "auto-detected"
+  },
+  "32": {
+    "center": [
+      945,
+      449
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.367100875698393,
+    "method": "auto-detected"
+  },
+  "33": {
+    "center": [
+      962,
+      436
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 13.605936400043873,
+    "method": "auto-detected"
+  },
+  "34": {
+    "center": [
+      960,
+      422
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 13.348221135611135,
+    "method": "auto-detected"
+  },
+  "35": {
+    "center": [
+      963,
+      405
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 14.052532775229263,
+    "method": "auto-detected"
+  },
+  "36": {
+    "center": [
+      994,
+      428
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 11.942010097455217,
+    "method": "auto-detected"
+  },
+  "37": {
+    "center": [
+      1001,
+      427
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 11.243290384405098,
+    "method": "auto-detected"
+  },
+  "38": {
+    "center": [
+      1005,
+      433
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 10.2875969428065,
+    "method": "auto-detected"
+  },
+  "39": {
+    "center": [
+      1009,
+      433
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 9.496302704399314,
+    "method": "auto-detected"
+  },
+  "40": {
+    "center": [
+      1041,
+      435
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 10.471553387640055,
+    "method": "auto-detected"
+  },
+  "41": {
+    "center": [
+      1041,
+      435
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 10.509478954280512,
+    "method": "auto-detected"
+  },
+  "42": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "43": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.0,
+    "method": "auto-detected"
+  },
+  "44": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.0,
+    "method": "auto-detected"
+  },
+  "45": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.0,
+    "method": "auto-detected"
+  },
+  "46": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.0,
+    "method": "auto-detected"
+  },
+  "47": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.0,
+    "method": "auto-detected"
+  },
+  "48": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.0,
+    "method": "auto-detected"
+  },
+  "49": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.0,
+    "method": "auto-detected"
+  },
+  "50": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.0,
+    "method": "auto-detected"
+  },
+  "51": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.0,
+    "method": "auto-detected"
+  },
+  "52": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.0,
+    "method": "auto-detected"
+  },
+  "53": {
+    "center": [
+      1004,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.0,
+    "method": "auto-detected"
+  },
+  "54": {
+    "center": [
+      1082,
+      179
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "55": {
+    "center": [
+      1086,
+      173
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.587577512128227,
+    "method": "auto-detected"
+  },
+  "56": {
+    "center": [
+      1095,
+      162
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 13.748111932206637,
+    "method": "auto-detected"
+  },
+  "57": {
+    "center": [
+      1101,
+      159
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 10.1886467481991,
+    "method": "auto-detected"
+  },
+  "58": {
+    "center": [
+      1104,
+      154
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 8.469916852221226,
+    "method": "auto-detected"
+  },
+  "59": {
+    "center": [
+      1109,
+      149
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.842427068579182,
+    "method": "auto-detected"
+  },
+  "60": {
+    "center": [
+      1137,
+      176
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 8.628473173374157,
+    "method": "auto-detected"
+  },
+  "61": {
+    "center": [
+      1125,
+      145
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.820580836681561,
+    "method": "auto-detected"
+  },
+  "62": {
+    "center": [
+      1125,
+      144
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 6.960827721822271,
+    "method": "auto-detected"
+  },
+  "63": {
+    "center": [
+      1150,
+      144
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.718557684156074,
+    "method": "auto-detected"
+  },
+  "64": {
+    "center": [
+      1142,
+      135
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.423700851168802,
+    "method": "auto-detected"
+  },
+  "65": {
+    "center": [
+      1161,
+      145
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.56453448017409,
+    "method": "auto-detected"
+  },
+  "66": {
+    "center": [
+      1149,
+      136
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 6.9239326492606255,
+    "method": "auto-detected"
+  },
+  "67": {
+    "center": [
+      1155,
+      131
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 6.5550643498869565,
+    "method": "auto-detected"
+  },
+  "68": {
+    "center": [
+      1162,
+      133
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "69": {
+    "center": [
+      1164,
+      133
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.9950149749753735,
+    "method": "auto-detected"
+  },
+  "70": {
+    "center": [
+      1194,
+      133
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 28.65055453993261,
+    "method": "auto-detected"
+  },
+  "71": {
+    "center": [
+      1194,
+      153
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 17.80077869866398,
+    "method": "auto-detected"
+  },
+  "72": {
+    "center": [
+      1181,
+      135
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.724107175443916,
+    "method": "auto-detected"
+  },
+  "73": {
+    "center": [
+      1202,
+      148
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.0655516450122064,
+    "method": "auto-detected"
+  },
+  "74": {
+    "center": [
+      1193,
+      137
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.637735181245254,
+    "method": "auto-detected"
+  },
+  "75": {
+    "center": [
+      1197,
+      138
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.7740109811626885,
+    "method": "auto-detected"
+  },
+  "76": {
+    "center": [
+      1190,
+      134
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.4857420822841183,
+    "method": "auto-detected"
+  },
+  "77": {
+    "center": [
+      1190,
+      128
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.9147728501121863,
+    "method": "auto-detected"
+  },
+  "78": {
+    "center": [
+      1212,
+      145
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.5597693905225345,
+    "method": "auto-detected"
+  },
+  "79": {
+    "center": [
+      1193,
+      133
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.9095066835010464,
+    "method": "auto-detected"
+  },
+  "80": {
+    "center": [
+      1195,
+      151
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.499980071943117,
+    "method": "auto-detected"
+  },
+  "81": {
+    "center": [
+      1200,
+      156
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.7090105440576566,
+    "method": "auto-detected"
+  },
+  "82": {
+    "center": [
+      1206,
+      152
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.9617507976335922,
+    "method": "auto-detected"
+  },
+  "83": {
+    "center": [
+      1203,
+      155
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.0553754908879664,
+    "method": "auto-detected"
+  },
+  "84": {
+    "center": [
+      1206,
+      152
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.042117164858061,
+    "method": "auto-detected"
+  },
+  "85": {
+    "center": [
+      1207,
+      153
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.0080947015374266,
+    "method": "auto-detected"
+  },
+  "86": {
+    "center": [
+      1208,
+      155
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.9887057598441957,
+    "method": "auto-detected"
+  },
+  "87": {
+    "center": [
+      1209,
+      156
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.9524962726485513,
+    "method": "auto-detected"
+  },
+  "88": {
+    "center": [
+      1210,
+      157
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.905240607130828,
+    "method": "auto-detected"
+  },
+  "89": {
+    "center": [
+      1211,
+      158
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.8515514854515438,
+    "method": "auto-detected"
+  },
+  "90": {
+    "center": [
+      1212,
+      160
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.8236606907057518,
+    "method": "auto-detected"
+  },
+  "91": {
+    "center": [
+      1284,
+      214
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "92": {
+    "center": [
+      1296,
+      214
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.970089849852241,
+    "method": "auto-detected"
+  },
+  "93": {
+    "center": [
+      1295,
+      228
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 13.35831317843424,
+    "method": "auto-detected"
+  },
+  "94": {
+    "center": [
+      1296,
+      251
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 18.21702313486734,
+    "method": "auto-detected"
+  },
+  "95": {
+    "center": [
+      1301,
+      267
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 18.143121097944697,
+    "method": "auto-detected"
+  },
+  "96": {
+    "center": [
+      1295,
+      269
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 14.834266982419253,
+    "method": "auto-detected"
+  },
+  "97": {
+    "center": [
+      1297,
+      276
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 12.767215353044309,
+    "method": "auto-detected"
+  },
+  "98": {
+    "center": [
+      1283,
+      299
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 13.204636223710123,
+    "method": "auto-detected"
+  },
+  "99": {
+    "center": [
+      1301,
+      302
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 12.418467667340765,
+    "method": "auto-detected"
+  },
+  "100": {
+    "center": [
+      1276,
+      329
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 13.216870310117082,
+    "method": "auto-detected"
+  },
+  "101": {
+    "center": [
+      1307,
+      332
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 12.869040056009236,
+    "method": "auto-detected"
+  },
+  "102": {
+    "center": [
+      1339,
+      306
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "103": {
+    "center": [
+      1337,
+      296
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.073600773716466,
+    "method": "auto-detected"
+  },
+  "104": {
+    "center": [
+      1342,
+      279
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 17.143630203166623,
+    "method": "auto-detected"
+  },
+  "105": {
+    "center": [
+      1338,
+      250
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 22.749038863567293,
+    "method": "auto-detected"
+  },
+  "106": {
+    "center": [
+      1351,
+      245
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 18.508810179615264,
+    "method": "auto-detected"
+  },
+  "107": {
+    "center": [
+      1325,
+      244
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 13.844112632889544,
+    "method": "auto-detected"
+  },
+  "108": {
+    "center": [
+      1320,
+      247
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 10.689702077347743,
+    "method": "auto-detected"
+  },
+  "109": {
+    "center": [
+      1327,
+      248
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 8.160566537766444,
+    "method": "auto-detected"
+  },
+  "110": {
+    "center": [
+      1325,
+      250
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 6.3076319685938795,
+    "method": "auto-detected"
+  },
+  "111": {
+    "center": [
+      1328,
+      247
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.07579323233113,
+    "method": "auto-detected"
+  },
+  "112": {
+    "center": [
+      1318,
+      245
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.53224715657172,
+    "method": "auto-detected"
+  },
+  "113": {
+    "center": [
+      1317,
+      251
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.7931350778443305,
+    "method": "auto-detected"
+  },
+  "114": {
+    "center": [
+      1326,
+      250
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.937956410196832,
+    "method": "auto-detected"
+  },
+  "115": {
+    "center": [
+      1330,
+      248
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.2183580987747415,
+    "method": "auto-detected"
+  },
+  "116": {
+    "center": [
+      1321,
+      247
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.9246598272173645,
+    "method": "auto-detected"
+  },
+  "117": {
+    "center": [
+      1316,
+      252
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.6733695854490993,
+    "method": "auto-detected"
+  },
+  "118": {
+    "center": [
+      1302,
+      260
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.9521597860896058,
+    "method": "auto-detected"
+  },
+  "119": {
+    "center": [
+      1316,
+      255
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.7158209475983572,
+    "method": "auto-detected"
+  },
+  "120": {
+    "center": [
+      1343,
+      234
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "121": {
+    "center": [
+      1351,
+      242
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.628654689497996,
+    "method": "auto-detected"
+  },
+  "122": {
+    "center": [
+      1348,
+      245
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.056300310618087,
+    "method": "auto-detected"
+  },
+  "123": {
+    "center": [
+      1345,
+      234
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.801766778113098,
+    "method": "auto-detected"
+  },
+  "124": {
+    "center": [
+      1328,
+      250
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.229375888740652,
+    "method": "auto-detected"
+  },
+  "125": {
+    "center": [
+      1331,
+      258
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.012620310851454,
+    "method": "auto-detected"
+  },
+  "126": {
+    "center": [
+      1328,
+      262
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 6.832328298193902,
+    "method": "auto-detected"
+  },
+  "127": {
+    "center": [
+      1322,
+      252
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.898191568747633,
+    "method": "auto-detected"
+  },
+  "128": {
+    "center": [
+      1332,
+      255
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.427228478244556,
+    "method": "auto-detected"
+  },
+  "129": {
+    "center": [
+      1331,
+      251
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.3056615425627793,
+    "method": "auto-detected"
+  },
+  "130": {
+    "center": [
+      1346,
+      243
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "131": {
+    "center": [
+      1332,
+      249
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.577808286349299,
+    "method": "auto-detected"
+  },
+  "132": {
+    "center": [
+      1329,
+      253
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.140437887459111,
+    "method": "auto-detected"
+  },
+  "133": {
+    "center": [
+      1331,
+      254
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.605049145422319,
+    "method": "auto-detected"
+  },
+  "134": {
+    "center": [
+      1333,
+      251
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.8430193650766444,
+    "method": "auto-detected"
+  },
+  "135": {
+    "center": [
+      1330,
+      251
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.2230937338647951,
+    "method": "auto-detected"
+  },
+  "136": {
+    "center": [
+      1326,
+      250
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.7582770292283858,
+    "method": "auto-detected"
+  },
+  "137": {
+    "center": [
+      1317,
+      254
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.9242436892975943,
+    "method": "auto-detected"
+  },
+  "138": {
+    "center": [
+      1326,
+      252
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.461194083548108,
+    "method": "auto-detected"
+  },
+  "139": {
+    "center": [
+      1337,
+      250
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.33506554275903205,
+    "method": "auto-detected"
+  },
+  "140": {
+    "center": [
+      1335,
+      253
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.16907165511797895,
+    "method": "auto-detected"
+  },
+  "141": {
+    "center": [
+      1338,
+      250
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.5753900271737044,
+    "method": "auto-detected"
+  },
+  "142": {
+    "center": [
+      1321,
+      267
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.7287254194639469,
+    "method": "auto-detected"
+  },
+  "143": {
+    "center": [
+      1317,
+      251
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.7422357471930342,
+    "method": "auto-detected"
+  },
+  "144": {
+    "center": [
+      1317,
+      255
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.0236985451032454,
+    "method": "auto-detected"
+  },
+  "145": {
+    "center": [
+      1355,
+      318
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "146": {
+    "center": [
+      1345,
+      304
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 8.559442460316442,
+    "method": "auto-detected"
+  },
+  "147": {
+    "center": [
+      1354,
+      297
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 10.897919353862484,
+    "method": "auto-detected"
+  },
+  "148": {
+    "center": [
+      1336,
+      303
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.5388150241971426,
+    "method": "auto-detected"
+  },
+  "149": {
+    "center": [
+      1324,
+      308
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 8.246520510930795,
+    "method": "auto-detected"
+  },
+  "150": {
+    "center": [
+      1325,
+      307
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.174394317472509,
+    "method": "auto-detected"
+  },
+  "151": {
+    "center": [
+      1329,
+      316
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.752938377500864,
+    "method": "auto-detected"
+  },
+  "152": {
+    "center": [
+      1327,
+      307
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.436384535543429,
+    "method": "auto-detected"
+  },
+  "153": {
+    "center": [
+      1325,
+      305
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.610834891789396,
+    "method": "auto-detected"
+  },
+  "154": {
+    "center": [
+      1327,
+      318
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.1871035602253834,
+    "method": "auto-detected"
+  },
+  "155": {
+    "center": [
+      1328,
+      307
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.4296091867302985,
+    "method": "auto-detected"
+  },
+  "156": {
+    "center": [
+      1325,
+      305
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.9886914660324877,
+    "method": "auto-detected"
+  },
+  "157": {
+    "center": [
+      1327,
+      307
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.5807778599684104,
+    "method": "auto-detected"
+  },
+  "158": {
+    "center": [
+      1378,
+      425
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "159": {
+    "center": [
+      1376,
+      405
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 9.999776739655218,
+    "method": "auto-detected"
+  },
+  "160": {
+    "center": [
+      1381,
+      385
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 20.181219664836895,
+    "method": "auto-detected"
+  },
+  "161": {
+    "center": [
+      1393,
+      379
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 15.469575314022206,
+    "method": "auto-detected"
+  },
+  "162": {
+    "center": [
+      1392,
+      377
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 10.831128212845597,
+    "method": "auto-detected"
+  },
+  "163": {
+    "center": [
+      1392,
+      375
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 8.060337770249596,
+    "method": "auto-detected"
+  },
+  "164": {
+    "center": [
+      1391,
+      377
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.778348738014455,
+    "method": "auto-detected"
+  },
+  "165": {
+    "center": [
+      1392,
+      389
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.3439325430464604,
+    "method": "auto-detected"
+  },
+  "166": {
+    "center": [
+      1395,
+      376
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.074821169323004,
+    "method": "auto-detected"
+  },
+  "167": {
+    "center": [
+      1404,
+      362
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.9095984667297037,
+    "method": "auto-detected"
+  },
+  "168": {
+    "center": [
+      1397,
+      373
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.316495181694379,
+    "method": "auto-detected"
+  },
+  "169": {
+    "center": [
+      1407,
+      373
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.1758881496804854,
+    "method": "auto-detected"
+  },
+  "170": {
+    "center": [
+      1396,
+      371
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.6296827576824273,
+    "method": "auto-detected"
+  },
+  "171": {
+    "center": [
+      1395,
+      375
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.0080220901832093,
+    "method": "auto-detected"
+  },
+  "172": {
+    "center": [
+      1385,
+      372
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.3901832959432934,
+    "method": "auto-detected"
+  },
+  "173": {
+    "center": [
+      1392,
+      375
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.993467763197048,
+    "method": "auto-detected"
+  },
+  "174": {
+    "center": [
+      1399,
+      386
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.4453191807944936,
+    "method": "auto-detected"
+  },
+  "175": {
+    "center": [
+      1391,
+      393
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.5420002082081071,
+    "method": "auto-detected"
+  },
+  "176": {
+    "center": [
+      1394,
+      378
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.496743104047082,
+    "method": "auto-detected"
+  },
+  "177": {
+    "center": [
+      1391,
+      375
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.37445244880824974,
+    "method": "auto-detected"
+  },
+  "178": {
+    "center": [
+      1392,
+      376
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.35007759592203175,
+    "method": "auto-detected"
+  },
+  "179": {
+    "center": [
+      1391,
+      376
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.381814445774996,
+    "method": "auto-detected"
+  },
+  "180": {
+    "center": [
+      1405,
+      620
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "181": {
+    "center": [
+      1387,
+      614
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 9.439540880692867,
+    "method": "auto-detected"
+  },
+  "182": {
+    "center": [
+      1372,
+      623
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 17.02445519275515,
+    "method": "auto-detected"
+  },
+  "183": {
+    "center": [
+      1343,
+      625
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 22.484397433330653,
+    "method": "auto-detected"
+  },
+  "184": {
+    "center": [
+      1353,
+      619
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 13.206103787275714,
+    "method": "auto-detected"
+  },
+  "185": {
+    "center": [
+      1299,
+      634
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 19.821600316529185,
+    "method": "auto-detected"
+  },
+  "186": {
+    "center": [
+      1383,
+      631
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "187": {
+    "center": [
+      1399,
+      663
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 17.7993689814015,
+    "method": "auto-detected"
+  },
+  "188": {
+    "center": [
+      1414,
+      658
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 15.244934824967391,
+    "method": "auto-detected"
+  },
+  "189": {
+    "center": [
+      1396,
+      660
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.7348954133128882,
+    "method": "auto-detected"
+  },
+  "190": {
+    "center": [
+      1396,
+      659
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.7105521140056736,
+    "method": "auto-detected"
+  },
+  "191": {
+    "center": [
+      1398,
+      663
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.936570819934265,
+    "method": "auto-detected"
+  },
+  "192": {
+    "center": [
+      1404,
+      665
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.9610149236294809,
+    "method": "auto-detected"
+  },
+  "193": {
+    "center": [
+      1399,
+      659
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 0.6362064690417998,
+    "method": "auto-detected"
+  },
+  "194": {
+    "center": [
+      1378,
+      653
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.442288974484377,
+    "method": "auto-detected"
+  },
+  "195": {
+    "center": [
+      1401,
+      655
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 1.5838590158357897,
+    "method": "auto-detected"
+  },
+  "196": {
+    "center": [
+      1379,
+      651
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.3899447546799264,
+    "method": "auto-detected"
+  },
+  "197": {
+    "center": [
+      1380,
+      641
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.9414682563069654,
+    "method": "auto-detected"
+  },
+  "198": {
+    "center": [
+      1382,
+      651
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.7910755684783592,
+    "method": "auto-detected"
+  },
+  "199": {
+    "center": [
+      1372,
+      656
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 2.8743785666481316,
+    "method": "auto-detected"
+  },
+  "200": {
+    "center": [
+      1356,
+      662
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.467102856345758,
+    "method": "auto-detected"
+  },
+  "201": {
+    "center": [
+      1359,
+      655
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.711333238374793,
+    "method": "auto-detected"
+  },
+  "202": {
+    "center": [
+      1355,
+      662
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.885237902307082,
+    "method": "auto-detected"
+  },
+  "203": {
+    "center": [
+      1374,
+      669
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.172131298377874,
+    "method": "auto-detected"
+  },
+  "204": {
+    "center": [
+      1348,
+      663
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.532156744165036,
+    "method": "auto-detected"
+  },
+  "205": {
+    "center": [
+      1340,
+      658
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.93026976061706,
+    "method": "auto-detected"
+  },
+  "206": {
+    "center": [
+      1336,
+      666
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.27245521609343,
+    "method": "auto-detected"
+  },
+  "207": {
+    "center": [
+      1331,
+      682
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.708520518370247,
+    "method": "auto-detected"
+  },
+  "208": {
+    "center": [
+      1337,
+      679
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.645579532646323,
+    "method": "auto-detected"
+  },
+  "209": {
+    "center": [
+      1334,
+      673
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.4483496799893585,
+    "method": "auto-detected"
+  },
+  "210": {
+    "center": [
+      1330,
+      673
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.27213365524427,
+    "method": "auto-detected"
+  },
+  "211": {
+    "center": [
+      1335,
+      682
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.960717160288759,
+    "method": "auto-detected"
+  },
+  "212": {
+    "center": [
+      1336,
+      661
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.1849070555917356,
+    "method": "auto-detected"
+  },
+  "213": {
+    "center": [
+      1309,
+      674
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.673439582810808,
+    "method": "auto-detected"
+  },
+  "214": {
+    "center": [
+      1300,
+      680
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.301534852985232,
+    "method": "auto-detected"
+  },
+  "215": {
+    "center": [
+      1325,
+      674
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.612944980050678,
+    "method": "auto-detected"
+  },
+  "216": {
+    "center": [
+      1322,
+      666
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.0005040268607104,
+    "method": "auto-detected"
+  },
+  "217": {
+    "center": [
+      1299,
+      659
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 3.3399316276343547,
+    "method": "auto-detected"
+  },
+  "218": {
+    "center": [
+      1256,
+      614
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "219": {
+    "center": [
+      1250,
+      620
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 4.221491017123497,
+    "method": "auto-detected"
+  },
+  "220": {
+    "center": [
+      1243,
+      624
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 7.914409681266185,
+    "method": "auto-detected"
+  },
+  "221": {
+    "center": [
+      1260,
+      635
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 8.871228363692847,
+    "method": "auto-detected"
+  },
+  "222": {
+    "center": [
+      1268,
+      631
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 8.267759652703386,
+    "method": "auto-detected"
+  },
+  "223": {
+    "center": [
+      1268,
+      660
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 10.588687570329402,
+    "method": "auto-detected"
+  },
+  "224": {
+    "center": [
+      1205,
+      666
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "method": "manual"
+  },
+  "225": {
+    "center": [
+      1217,
+      666
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 5.970089849852241,
+    "method": "auto-detected"
+  },
+  "226": {
+    "center": [
+      1222,
+      666
+    ],
+    "radius": 15,
+    "confidence": 0.95,
+    "velocity": 5.970089849852241,
+    "method": "kalman"
+  },
+  "227": {
+    "center": [
+      1262,
+      640
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 25.707282218010587,
+    "method": "auto-detected"
+  },
+  "228": {
+    "center": [
+      1286,
+      617
+    ],
+    "radius": 15,
+    "confidence": 1.0,
+    "velocity": 27.716686929440254,
+    "method": "auto-detected"
+  },
+  "229": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 1.0
+  },
+  "230": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.95
+  },
+  "231": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.9025
+  },
+  "232": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.8573749999999999
+  },
+  "233": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.8145062499999999
+  },
+  "234": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.7737809374999999
+  },
+  "235": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.7350918906249998
+  },
+  "236": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.6983372960937497
+  },
+  "237": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.6634204312890623
+  },
+  "238": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.6302494097246091
+  },
+  "239": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.5987369392383786
+  },
+  "240": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.5688000922764596
+  },
+  "241": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.5403600876626365
+  },
+  "242": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.5133420832795047
+  },
+  "243": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.48767497911552943
+  },
+  "244": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.46329123015975293
+  },
+  "245": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.44012666865176525
+  },
+  "246": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.41812033521917696
+  },
+  "247": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.3972143184582181
+  },
+  "248": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.37735360253530714
+  },
+  "249": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.35848592240854177
+  },
+  "250": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.34056162628811465
+  },
+  "251": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.3235335449737089
+  },
+  "252": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.30735686772502346
+  },
+  "253": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.2919890243387723
+  },
+  "254": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.27738957312183365
+  },
+  "255": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.263520094465742
+  },
+  "256": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.25034408974245487
+  },
+  "257": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.2378268852553321
+  },
+  "258": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.2259355409925655
+  },
+  "259": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.2146387639429372
+  },
+  "260": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.20390682574579033
+  },
+  "261": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.1937114844585008
+  },
+  "262": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.18402591023557577
+  },
+  "263": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.17482461472379698
+  },
+  "264": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.16608338398760714
+  },
+  "265": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.15777921478822676
+  },
+  "266": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.14989025404881542
+  },
+  "267": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.14239574134637464
+  },
+  "268": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.1352759542790559
+  },
+  "269": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.1285121565651031
+  },
+  "270": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.12208654873684793
+  },
+  "271": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.11598222130000553
+  },
+  "272": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.11018311023500525
+  },
+  "273": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.10467395472325498
+  },
+  "274": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.09944025698709223
+  },
+  "275": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.09446824413773762
+  },
+  "276": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.08974483193085074
+  },
+  "277": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.0852575903343082
+  },
+  "278": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.08099471081759278
+  },
+  "279": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.07694497527671314
+  },
+  "280": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.07309772651287748
+  },
+  "281": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.0694428401872336
+  },
+  "282": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.0659706981778719
+  },
+  "283": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.0626721632689783
+  },
+  "284": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.059538555105529384
+  },
+  "285": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.05656162735025291
+  },
+  "286": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.053733545982740265
+  },
+  "287": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.05104686868360325
+  },
+  "288": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.04849452524942309
+  },
+  "289": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.04606979898695193
+  },
+  "290": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.04376630903760433
+  },
+  "291": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.041577993585724116
+  },
+  "292": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.03949909390643791
+  },
+  "293": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.03752413921111601
+  },
+  "294": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.03564793225056021
+  },
+  "295": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.0338655356380322
+  },
+  "296": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.032172258856130585
+  },
+  "297": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.030563645913324056
+  },
+  "298": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.029035463617657853
+  },
+  "299": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.027583690436774957
+  },
+  "300": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.02620450591493621
+  },
+  "301": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.0248942806191894
+  },
+  "302": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.023649566588229927
+  },
+  "303": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.022467088258818428
+  },
+  "304": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.021343733845877507
+  },
+  "305": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.02027654715358363
+  },
+  "306": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.019262719795904448
+  },
+  "307": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.018299583806109226
+  },
+  "308": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.017384604615803764
+  },
+  "309": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.016515374385013576
+  },
+  "310": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.015689605665762895
+  },
+  "311": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.01490512538247475
+  },
+  "312": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.014159869113351011
+  },
+  "313": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.01345187565768346
+  },
+  "314": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.012779281874799287
+  },
+  "315": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.012140317781059323
+  },
+  "316": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.011533301892006355
+  },
+  "317": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.010956636797406038
+  },
+  "318": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.010408804957535735
+  },
+  "319": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.009888364709658948
+  },
+  "320": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.009393946474176
+  },
+  "321": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.0089242491504672
+  },
+  "322": {
+    "center": [
+      1184,
+      647
+    ],
+    "radius": 15,
+    "confidence": 0.008478036692943839
+  }
+}
