@@ -52,16 +52,16 @@ class TrackedPlayer:
 class ImprovedPlayerTracker:
     """Robust player tracker with DeepSORT, ByteTrack, and IoU tracking."""
 
-    def __init__(self, model: str = 'yolov8n.pt', pose_model: str = 'yolov8n-pose.pt',
-                 tracker_type: str = 'bytetrack', max_age: int = 30):
+    def __init__(self, model: str = 'yolo11n.pt', pose_model: str = 'yolo11n-pose.pt',
+                 tracker_type: str = 'bytetrack', max_age: int = 90):
         """
         Initialize improved player tracker.
 
         Args:
-            model: Path to YOLO detection model
-            pose_model: Path to YOLO pose model
+            model: Path to YOLO11 detection model (upgraded from YOLOv8)
+            pose_model: Path to YOLO11 pose model
             tracker_type: Tracking algorithm ('bytetrack', 'deepsort', or 'iou')
-            max_age: Maximum frames to keep track alive without detection
+            max_age: Maximum frames to keep track alive without detection (default 90 = 3 seconds at 30fps)
         """
         self.detection_model = YOLO(model)
         self.pose_model = YOLO(pose_model)
@@ -73,11 +73,11 @@ class ImprovedPlayerTracker:
             # ByteTrack from BoxMOT library
             self.tracker = BoxMotByteTrack(
                 track_thresh=0.5,      # High confidence threshold
-                track_buffer=max_age,  # Frames to keep alive
+                track_buffer=90,       # Frames to keep alive (3 seconds at 30fps)
                 match_thresh=0.8,      # IoU threshold for matching
                 frame_rate=30
             )
-            logger.info("Using ByteTrack for player tracking")
+            logger.info("Using ByteTrack for player tracking (track_buffer=90 frames)")
         elif self.tracker_type == 'deepsort' and DEEPSORT_AVAILABLE:
             self.tracker = DeepSort(
                 max_age=max_age,

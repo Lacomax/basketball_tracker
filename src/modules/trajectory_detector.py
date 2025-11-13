@@ -10,12 +10,116 @@ import numpy as np
 import json
 import os
 import logging
+from typing import Dict, List, Tuple
 
 from ..config import setup_logging
 from ..utils.ball_detection import auto_detect_ball
 from ..utils.video_utils import open_video_robust
 
 logger = setup_logging(__name__)
+
+# Physics constants (in pixels, assuming 30 fps)
+GRAVITY = 0.98  # pixels per frame² (approximation for basketball)
+MAX_BOUNCE_FRAMES = 5  # Max frames for ball to be at ground during bounce
+
+
+def interpolate_parabolic(keyframes: Dict, total_frames: int, max_gap: int = 50) -> Dict:
+    """
+    Interpolate ball positions using physics-based parabolic motion.
+
+    Uses gravity and parabolic trajectory equations to generate realistic ball motion
+    between manual keyframes.
+
+    Args:
+        keyframes: Dict mapping frame_number -> {'center': [x, y]}
+        total_frames: Total number of frames in video
+        max_gap: Maximum gap to interpolate across
+
+    Returns:
+        Dict mapping frame_number -> {'center': [x, y], 'radius': r, 'confidence': c}
+    """
+    frames = sorted(keyframes.keys())
+    if len(frames) < 2:
+        logger.warning("Need at least 2 keyframes for interpolation")
+        return keyframes
+
+    result = {}
+
+    # Process each segment between keyframes
+    for i in range(len(frames) - 1):
+        start_f = frames[i]
+        end_f = frames[i + 1]
+        gap = end_f - start_f
+
+        # Add start keyframe
+        result[start_f] = keyframes[start_f].copy()
+        result[start_f]['method'] = 'manual'
+
+        # Only interpolate if gap is reasonable
+        if gap <= max_gap and gap > 1:
+            start_pos = np.array(keyframes[start_f]['center'], dtype=float)
+            end_pos = np.array(keyframes[end_f]['center'], dtype=float)
+
+            # Calculate time interval
+            dt = gap
+
+            # For very short segments, use linear interpolation
+            if gap <= 3:
+                for j in range(1, gap):
+                    t = j / gap
+                    pos = start_pos + t * (end_pos - start_pos)
+                    f = start_f + j
+
+                    result[f] = {
+                        'center': [int(pos[0]), int(pos[1])],
+                        'radius': keyframes[start_f].get('radius', 15),
+                        'confidence': 0.95,
+                        'method': 'linear-interpolated'
+                    }
+            else:
+                # Use parabolic physics for longer segments
+                # Decompose into horizontal (constant velocity) and vertical (parabolic) components
+
+                # Horizontal motion: constant velocity
+                vx = (end_pos[0] - start_pos[0]) / dt
+
+                # Vertical motion: solve for initial velocity given start, end, and gravity
+                # y_end = y_start + vy*t - 0.5*g*t²
+                # vy = (y_end - y_start + 0.5*g*t²) / t
+                vy = (end_pos[1] - start_pos[1] + 0.5 * GRAVITY * dt * dt) / dt
+
+                # Generate intermediate positions using physics
+                for j in range(1, gap):
+                    t = j  # Time in frames
+
+                    # Horizontal position (linear)
+                    x = start_pos[0] + vx * t
+
+                    # Vertical position (parabolic with gravity)
+                    y = start_pos[1] + vy * t - 0.5 * GRAVITY * t * t
+
+                    f = start_f + j
+
+                    # Confidence decreases in the middle of long segments
+                    t_norm = j / gap  # Normalized time [0, 1]
+                    confidence = max(0.65, 1.0 - abs(0.5 - t_norm) * 0.3)
+
+                    result[f] = {
+                        'center': [int(x), int(y)],
+                        'radius': keyframes[start_f].get('radius', 15),
+                        'confidence': float(confidence),
+                        'velocity': float(np.sqrt(vx**2 + (vy - GRAVITY*t)**2)),
+                        'method': 'physics-parabolic'
+                    }
+
+        elif gap > max_gap:
+            logger.warning(f"Gap too large between frames {start_f}-{end_f} ({gap} frames), skipping interpolation")
+
+    # Add final keyframe
+    result[frames[-1]] = keyframes[frames[-1]].copy()
+    result[frames[-1]]['method'] = 'manual'
+
+    return result
 
 
 def interpolate_smooth(keyframes, total_frames, max_gap=50):
@@ -169,9 +273,9 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
             'confidence': 1.0
         }
 
-    # Interpolate using smooth interpolation
-    logger.info("Interpolating trajectory with smooth piecewise interpolation...")
-    detection_points = interpolate_smooth(keyframes, total_frames, max_gap=50)
+    # Interpolate using physics-based parabolic interpolation
+    logger.info("Interpolating trajectory with physics-based parabolic motion...")
+    detection_points = interpolate_parabolic(keyframes, total_frames, max_gap=50)
 
     # Try auto-detection to refine interpolated positions
     logger.info("Refining with auto-detection...")

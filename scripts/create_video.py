@@ -104,6 +104,35 @@ def get_color(track_id):
     """Get consistent color for track ID."""
     return COLORS[track_id % len(COLORS)]
 
+def draw_dashed_rectangle(img, pt1, pt2, color, thickness=2, dash_length=10):
+    """Draw dashed rectangle for predicted/hidden objects."""
+    x1, y1 = pt1
+    x2, y2 = pt2
+
+    # Top edge
+    for x in range(x1, x2, dash_length * 2):
+        cv2.line(img, (x, y1), (min(x + dash_length, x2), y1), color, thickness)
+    # Bottom edge
+    for x in range(x1, x2, dash_length * 2):
+        cv2.line(img, (x, y2), (min(x + dash_length, x2), y2), color, thickness)
+    # Left edge
+    for y in range(y1, y2, dash_length * 2):
+        cv2.line(img, (x1, y), (x1, min(y + dash_length, y2)), color, thickness)
+    # Right edge
+    for y in range(y1, y2, dash_length * 2):
+        cv2.line(img, (x2, y), (x2, min(y + dash_length, y2)), color, thickness)
+
+def draw_dashed_circle(img, center, radius, color, thickness=2, dash_length=5):
+    """Draw dashed circle for predicted ball."""
+    num_segments = 20
+    angle_step = 360 // num_segments
+
+    for i in range(0, 360, angle_step * 2):
+        start_angle = i
+        end_angle = min(i + angle_step, 360)
+        # OpenCV ellipse uses angles in degrees
+        cv2.ellipse(img, center, (radius, radius), 0, start_angle, end_angle, color, thickness)
+
 # Player trails
 player_trails = defaultdict(lambda: deque(maxlen=30))
 
@@ -167,13 +196,25 @@ while True:
             active_tracks.add(track_id)
             bbox = player.get('bbox')
             center = player.get('center')
+            confidence = player.get('confidence', 1.0)
+
+            # Determine if this is a predicted/hidden player (low confidence)
+            is_hidden = confidence < 0.7
 
             if bbox:
                 x1, y1, x2, y2 = bbox
                 color = get_color(track_id)
 
-                # Draw bounding box
-                cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+                # Use gray/faded color for hidden players
+                if is_hidden:
+                    # Convert to gray-tinted version
+                    color = tuple(int(c * 0.5 + 128 * 0.5) for c in color)
+
+                # Draw bounding box (dashed if hidden)
+                if is_hidden:
+                    draw_dashed_rectangle(frame, (x1, y1), (x2, y2), color, thickness=2)
+                else:
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
 
                 # Draw track ID and/or name
                 if name:
@@ -184,9 +225,22 @@ while True:
                 if team and team != 'Unknown':
                     label += f" ({team})"
 
+                # Add "(hidden)" indicator for predicted positions
+                if is_hidden:
+                    label += " (hidden)"
+
                 label_size, _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 2)
-                cv2.rectangle(frame, (x1, y1 - label_size[1] - 10),
-                            (x1 + label_size[0], y1), color, -1)
+
+                # Semi-transparent label background for hidden players
+                if is_hidden:
+                    overlay = frame.copy()
+                    cv2.rectangle(overlay, (x1, y1 - label_size[1] - 10),
+                                (x1 + label_size[0], y1), color, -1)
+                    cv2.addWeighted(overlay, 0.6, frame, 0.4, 0, frame)
+                else:
+                    cv2.rectangle(frame, (x1, y1 - label_size[1] - 10),
+                                (x1 + label_size[0], y1), color, -1)
+
                 cv2.putText(frame, label, (x1, y1 - 5),
                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
@@ -212,18 +266,31 @@ while True:
         ball_data = ball_trajectory[frame_idx]
         ball_center = ball_data.get('center')
         ball_radius = ball_data.get('radius', 12)
+        ball_confidence = ball_data.get('confidence', 1.0)
+        ball_method = ball_data.get('method', 'unknown')
+
+        # Determine if ball is predicted/interpolated
+        is_ball_hidden = ball_confidence < 0.8 or 'interpolated' in ball_method
 
         if ball_center:
             # Convert center to tuple of ints
             ball_x, ball_y = int(ball_center[0]), int(ball_center[1])
 
-            # Draw ball with orange color (easy to see)
-            cv2.circle(frame, (ball_x, ball_y), ball_radius, (0, 165, 255), 2)  # Orange
-            cv2.circle(frame, (ball_x, ball_y), 3, (0, 165, 255), -1)  # Center dot
+            # Choose color based on visibility
+            ball_color = (0, 165, 255) if not is_ball_hidden else (128, 200, 255)  # Orange or light orange
 
-            # Add "BALL" label
-            cv2.putText(frame, "BALL", (ball_x + 15, ball_y - 15),
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 165, 255), 2)
+            # Draw ball (dashed if hidden/predicted)
+            if is_ball_hidden:
+                draw_dashed_circle(frame, (ball_x, ball_y), ball_radius, ball_color, thickness=2)
+                cv2.circle(frame, (ball_x, ball_y), 2, ball_color, -1)  # Smaller center dot
+            else:
+                cv2.circle(frame, (ball_x, ball_y), ball_radius, ball_color, 2)
+                cv2.circle(frame, (ball_x, ball_y), 3, ball_color, -1)  # Center dot
+
+            # Add label with status
+            label = "BALL (hidden)" if is_ball_hidden else "BALL"
+            cv2.putText(frame, label, (ball_x + 15, ball_y - 15),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, ball_color, 2)
 
     # Draw ball trajectory trail (last 20 frames)
     if ball_trajectory:
