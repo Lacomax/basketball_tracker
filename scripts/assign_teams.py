@@ -188,7 +188,8 @@ print()
 
 team_counts = defaultdict(list)
 for track_id, team in team_assignments.items():
-    player_name = unique_players[track_id]
+    # Handle case where track_id might not be in unique_players (e.g., after merges)
+    player_name = unique_players.get(track_id, f'Player {track_id}')
     team_counts[team].append(player_name)
 
 for team in [team1, team2, referee_team, public_category, "Unknown"]:
