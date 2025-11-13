@@ -8,7 +8,7 @@ the basketball tracker pipeline. Optimized with caching and batch processing.
 import cv2
 import numpy as np
 from functools import lru_cache
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Optional
 from ..config import (
     HOUGH_PARAM1,
     HOUGH_PARAM2_STRICT,
@@ -19,36 +19,118 @@ from ..config import (
     ROI_OFFSET,
 )
 
+# YOLO model (loaded on demand)
+_yolo_model = None
+
+def get_yolo_model():
+    """Get YOLO model instance (lazy loading)."""
+    global _yolo_model
+    if _yolo_model is None:
+        try:
+            from ultralytics import YOLO
+            _yolo_model = YOLO('yolo11n.pt')
+            print("✓ YOLO11 model loaded for ball detection")
+        except ImportError:
+            print("⚠ Ultralytics not available, YOLO detection disabled")
+            _yolo_model = False
+    return _yolo_model if _yolo_model is not False else None
+
 # Global cache for preprocessed frames
 _frame_cache = {}
 _cache_size = 100
 
 
-def auto_detect_ball(frame: np.ndarray, point: tuple) -> dict:
+def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, max_distance: int = 150) -> Optional[dict]:
+    """
+    Detect basketball using YOLO11 (sports ball class).
+
+    Args:
+        frame: Input frame
+        search_point: Optional (x, y) to search near. If None, detects globally.
+        max_distance: Maximum distance from search_point to consider detection
+
+    Returns:
+        Dict with 'center' and 'radius', or None if no ball detected
+    """
+    model = get_yolo_model()
+    if model is None:
+        return None
+
+    # Run YOLO detection
+    # Class 32 in COCO dataset is 'sports ball'
+    results = model(frame, classes=[32], verbose=False, conf=0.3)
+
+    if len(results) == 0 or len(results[0].boxes) == 0:
+        return None
+
+    # Get all detected balls
+    boxes = results[0].boxes
+    best_detection = None
+    min_dist = float('inf')
+
+    for box in boxes:
+        # Get bounding box coordinates
+        x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
+        confidence = float(box.conf[0])
+
+        # Calculate center and radius from bounding box
+        cx = int((x1 + x2) / 2)
+        cy = int((y1 + y2) / 2)
+        radius = int(max((x2 - x1), (y2 - y1)) / 2)
+
+        # Clamp radius to reasonable range
+        radius = max(MIN_RADIUS, min(MAX_RADIUS, radius))
+
+        # If search point provided, find closest ball
+        if search_point is not None:
+            dist = np.sqrt((cx - search_point[0])**2 + (cy - search_point[1])**2)
+            if dist > max_distance:
+                continue
+            if dist < min_dist:
+                min_dist = dist
+                best_detection = {'center': [cx, cy], 'radius': radius, 'confidence': confidence}
+        else:
+            # No search point, return first/best detection
+            if best_detection is None or confidence > best_detection.get('confidence', 0):
+                best_detection = {'center': [cx, cy], 'radius': radius, 'confidence': confidence}
+
+    return best_detection
+
+
+def auto_detect_ball(frame: np.ndarray, point: tuple, use_yolo: bool = True) -> dict:
     """
     Automatically detect a basketball around a clicked point.
 
-    Uses improved Hough circle detection with Canny edge detection
-    to find circular ball contours. Basketball radius is relatively
+    Tries YOLO11 detection first (if enabled), then falls back to Hough circle
+    detection with Canny edge detection. Basketball radius is relatively
     constant due to minimal perspective change.
 
     Args:
         frame: Input image as numpy array (BGR format)
         point: Tuple (x, y) click coordinates in the frame
+        use_yolo: Whether to try YOLO detection first (default True)
 
     Returns:
         Dictionary with keys:
             - 'center': List [x, y] for circle center in frame coordinates
             - 'radius': Integer radius in pixels
+            - 'method': Detection method used ('yolo', 'hough', or 'fallback')
 
-        If no circle is detected, returns fallback circle at click point.
+        If no detection is possible, returns fallback circle at click point.
 
     Example:
         >>> result = auto_detect_ball(frame, (100, 150))
-        >>> print(result['center'], result['radius'])
-        [105, 148] 12
+        >>> print(result['center'], result['radius'], result['method'])
+        [105, 148] 12 'yolo'
     """
     x, y = int(point[0]), int(point[1])
+
+    # Try YOLO detection first
+    if use_yolo:
+        yolo_result = detect_ball_yolo(frame, search_point=(x, y), max_distance=150)
+        if yolo_result is not None:
+            yolo_result['method'] = 'yolo'
+            return yolo_result
     h, w = frame.shape[:2]
 
     # Define a larger region of interest around the click point
@@ -117,11 +199,11 @@ def auto_detect_ball(frame: np.ndarray, point: tuple) -> dict:
             # Basketball radius is relatively constant ~12-18 pixels
             r = max(MIN_RADIUS, min(MAX_RADIUS, int(r)))
 
-            return {"center": [cx, cy], "radius": r}
+            return {"center": [cx, cy], "radius": r, "method": "hough"}
 
     # Fallback if no circle is detected
     # Use a constant radius since ball size doesn't change much
-    return {"center": [x, y], "radius": DEFAULT_RADIUS}
+    return {"center": [x, y], "radius": DEFAULT_RADIUS, "method": "fallback"}
 
 
 def preprocess_frame(frame: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:

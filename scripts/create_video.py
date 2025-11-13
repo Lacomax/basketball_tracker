@@ -71,6 +71,39 @@ with open(tracking_file, 'r') as f:
 print(f"✓ Loaded tracking data for {len(tracking_data)} frames")
 print()
 
+# Load team colors from team_names.json
+team_colors = {}
+if os.path.exists("outputs/team_names.json"):
+    try:
+        with open("outputs/team_names.json", 'r') as f:
+            team_names_data = json.load(f)
+
+        # Support both old format (string) and new format (dict with color)
+        for team_key, team_info in team_names_data.items():
+            if isinstance(team_info, dict):
+                # New format with colors
+                team_name = team_info.get('name', team_key)
+                team_color = tuple(team_info.get('color', [128, 128, 128]))
+            else:
+                # Old format (just team name string)
+                team_name = team_info
+                # Assign default colors based on team name
+                if 'yellow' in team_name.lower():
+                    team_color = (0, 255, 255)  # Yellow in BGR
+                elif 'red' in team_name.lower() or team_key == 'team1':
+                    team_color = (0, 0, 255)  # Red in BGR
+                elif 'referee' in team_name.lower():
+                    team_color = (128, 128, 128)  # Gray
+                else:
+                    team_color = (255, 0, 0)  # Blue default
+
+            team_colors[team_name] = team_color
+
+        print(f"✓ Loaded team colors: {list(team_colors.keys())}")
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"⚠ Could not load team colors: {e}")
+print()
+
 # Load ball trajectory if available
 ball_trajectory = {}
 if os.path.exists("outputs/detections.json"):
@@ -101,8 +134,19 @@ COLORS = [
 ]
 
 def get_color(track_id):
-    """Get consistent color for track ID."""
+    """Get consistent color for track ID (fallback for players without team)."""
     return COLORS[track_id % len(COLORS)]
+
+def get_color_by_team(team, track_id, team_colors):
+    """
+    Get color for player based on team.
+    If team has a defined color, use it. Otherwise fallback to track_id color.
+    """
+    if team and team in team_colors:
+        return team_colors[team]
+    else:
+        # Fallback to track_id based colors
+        return get_color(track_id)
 
 def draw_dashed_rectangle(img, pt1, pt2, color, thickness=2, dash_length=10):
     """Draw dashed rectangle for predicted/hidden objects."""
@@ -203,7 +247,8 @@ while True:
 
             if bbox:
                 x1, y1, x2, y2 = bbox
-                color = get_color(track_id)
+                # Get color based on team (or track_id fallback)
+                color = get_color_by_team(team, track_id, team_colors)
 
                 # Use gray/faded color for hidden players
                 if is_hidden:
