@@ -302,7 +302,7 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
         if ret:
             try:
                 predicted_center = tuple(det['center'])
-                detected = auto_detect_ball(frame, predicted_center, use_yolo=True)
+                detected = auto_detect_ball(frame, predicted_center, use_yolo=True, debug_frame=frame_num)
                 detected_center = detected['center']
                 detection_method = detected.get('method', 'unknown')
 
