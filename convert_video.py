@@ -77,16 +77,27 @@ print()
 if not conversion_successful:
     print("Method 2: Trying moviepy...")
     try:
+        import importlib
+        # Force reload to avoid cache issues
+        if 'moviepy.editor' in sys.modules:
+            importlib.reload(sys.modules['moviepy.editor'])
+
         from moviepy.editor import VideoFileClip
 
         print("✓ MoviePy found")
         print()
         print("Converting video...")
+        print("This may take several minutes depending on video length...")
+        print()
 
         clip = VideoFileClip(input_video)
 
+        print(f"  Original: {clip.duration:.1f}s, {clip.fps:.1f}fps, {clip.size[0]}x{clip.size[1]}")
+
         # Reduce fps to 30 for easier processing
         clip_resized = clip.set_fps(30)
+
+        print("  Converting to H.264 (30fps)...")
 
         clip_resized.write_videofile(
             output_video,
@@ -106,11 +117,15 @@ if not conversion_successful:
             print("✅ Video converted successfully!")
             conversion_successful = True
 
-    except ImportError:
-        print("⚠ MoviePy not installed")
+    except ImportError as e:
+        print("⚠ MoviePy not installed or import failed")
+        print(f"   Error: {e}")
         print("   Install with: pip install moviepy")
+        print("   Then restart your terminal and try again")
     except Exception as e:
         print(f"⚠ MoviePy conversion failed: {e}")
+        import traceback
+        print(traceback.format_exc())
 
 print()
 
