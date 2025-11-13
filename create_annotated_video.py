@@ -59,6 +59,21 @@ with open(tracking_file, 'r') as f:
 print(f"✓ Loaded tracking data for {len(tracking_data)} frames")
 print()
 
+# Load ball trajectory if available
+ball_trajectory = {}
+if os.path.exists("outputs/detections.json"):
+    try:
+        with open("outputs/detections.json", 'r') as f:
+            ball_trajectory = json.load(f)
+        # Convert string keys to int
+        ball_trajectory = {int(k): v for k, v in ball_trajectory.items()}
+        print(f"✓ Loaded ball trajectory for {len(ball_trajectory)} frames")
+    except (FileNotFoundError, json.JSONDecodeError):
+        print("⚠ No ball trajectory found")
+else:
+    print("⚠ No ball trajectory found (outputs/detections.json)")
+print()
+
 # Team colors (cycling through colors for different track IDs)
 COLORS = [
     (255, 0, 0),    # Blue
@@ -125,6 +140,11 @@ while True:
             if track_id is None:
                 continue
 
+            # Skip players with name "public" (crowd/bench)
+            name = player.get('name', '')
+            if name.lower() == 'public':
+                continue
+
             active_tracks.add(track_id)
             bbox = player.get('bbox')
             center = player.get('center')
@@ -138,7 +158,6 @@ while True:
                 cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
 
                 # Draw track ID and/or name
-                name = player.get('name')
                 if name:
                     label = name
                 else:
@@ -169,6 +188,42 @@ while True:
 
                 # Draw center point
                 cv2.circle(frame, tuple(center), 4, color, -1)
+
+    # Draw ball trajectory if available
+    if frame_idx in ball_trajectory:
+        ball_data = ball_trajectory[frame_idx]
+        ball_center = ball_data.get('center')
+        ball_radius = ball_data.get('radius', 12)
+
+        if ball_center:
+            # Convert center to tuple of ints
+            ball_x, ball_y = int(ball_center[0]), int(ball_center[1])
+
+            # Draw ball with orange color (easy to see)
+            cv2.circle(frame, (ball_x, ball_y), ball_radius, (0, 165, 255), 2)  # Orange
+            cv2.circle(frame, (ball_x, ball_y), 3, (0, 165, 255), -1)  # Center dot
+
+            # Add "BALL" label
+            cv2.putText(frame, "BALL", (ball_x + 15, ball_y - 15),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 165, 255), 2)
+
+    # Draw ball trajectory trail (last 20 frames)
+    if ball_trajectory:
+        trajectory_points = []
+        for i in range(max(0, frame_idx - 20), frame_idx + 1):
+            if i in ball_trajectory:
+                ball_data = ball_trajectory[i]
+                ball_center = ball_data.get('center')
+                if ball_center:
+                    trajectory_points.append((int(ball_center[0]), int(ball_center[1])))
+
+        # Draw trajectory line
+        if len(trajectory_points) > 1:
+            for i in range(1, len(trajectory_points)):
+                alpha = i / len(trajectory_points)
+                thickness = max(1, int(2 * alpha))
+                cv2.line(frame, trajectory_points[i-1], trajectory_points[i],
+                        (0, 165, 255), thickness)  # Orange trail
 
     # Draw statistics overlay
     overlay = frame.copy()

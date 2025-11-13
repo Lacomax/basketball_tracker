@@ -87,13 +87,28 @@ cap.release()
 print(f"✓ Found {len(player_images)} unique player IDs")
 print()
 
+# Load previous player names if available
+previous_names = {}
+if os.path.exists('outputs/player_names.json'):
+    try:
+        with open('outputs/player_names.json', 'r') as f:
+            # Convert string keys to int
+            previous_names_raw = json.load(f)
+            previous_names = {int(k): v for k, v in previous_names_raw.items()}
+        print(f"✓ Loaded {len(previous_names)} previous player names")
+        print()
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass
+
 # Show each player and get name
 print("=" * 60)
 print("STEP 1: ASSIGN PLAYER NAMES")
 print("=" * 60)
 print()
 print("For each player, you'll see a cropped image.")
-print("Type the player's name (or press ENTER to skip/use ID)")
+print("Type the player's name (or press ENTER to keep current/skip)")
+if previous_names:
+    print("Previous names will be shown - you can edit or keep them")
 print()
 
 player_names = {}
@@ -180,13 +195,25 @@ for track_id in sorted(player_images.keys()):
     cv2.imshow("Assign Player Name", player_display)
     cv2.waitKey(1)  # Refresh window
 
-    # Get name from user
-    name = input(f"Player ID {track_id} ({len(appearances)} frames) - Enter name (or ENTER to skip): ").strip()
+    # Get name from user (show previous name if exists)
+    previous_name = previous_names.get(track_id, "")
+    if previous_name:
+        prompt = f"Player ID {track_id} ({len(appearances)} frames) - Current: '{previous_name}' (ENTER to keep, or type new name): "
+    else:
+        prompt = f"Player ID {track_id} ({len(appearances)} frames) - Enter name (or ENTER to skip): "
+
+    name = input(prompt).strip()
 
     if name:
+        # User entered a new name
         player_names[track_id] = name
         print(f"  ✓ Assigned: ID {track_id} → {name}")
+    elif previous_name:
+        # Keep previous name
+        player_names[track_id] = previous_name
+        print(f"  ✓ Kept: ID {track_id} → {previous_name}")
     else:
+        # No name, use default
         player_names[track_id] = f"Player {track_id}"
         print(f"  ⚠ Skipped: Using 'Player {track_id}'")
 
@@ -204,17 +231,50 @@ with open('outputs/player_names.json', 'w') as f:
 print("✓ Player names saved to outputs/player_names.json")
 print()
 
-# Option to merge IDs (if same player has multiple IDs)
+# Auto-detect IDs with same name
 print("=" * 60)
-print("STEP 2: MERGE DUPLICATE IDs (Optional)")
+print("STEP 2: MERGE DUPLICATE IDs")
 print("=" * 60)
 print()
-print("If you noticed the same player with different IDs, you can merge them.")
+
+# Group IDs by name (auto-detect duplicates)
+name_to_ids = defaultdict(list)
+for track_id, name in player_names.items():
+    name_to_ids[name].append(track_id)
+
+# Find duplicates (same name, multiple IDs)
+auto_merges = []
+for name, ids in name_to_ids.items():
+    if len(ids) > 1 and name.lower() != "public":  # Don't auto-merge "public"
+        auto_merges.append((name, ids))
+
+if auto_merges:
+    print("🔍 Detected players with same name but different IDs:")
+    print()
+    for name, ids in auto_merges:
+        print(f"  '{name}': IDs {sorted(ids)}")
+    print()
+
+    merge_auto = input("Auto-merge these IDs? (Y/n): ").strip().lower()
+    if merge_auto != 'n':
+        id_merges = [ids for name, ids in auto_merges]
+        print(f"✓ Will auto-merge {len(id_merges)} groups")
+    else:
+        print("⚠ Skipping auto-merge")
+        id_merges = []
+else:
+    print("✓ No duplicate names detected")
+    id_merges = []
+
+print()
+
+# Manual merge option
+print("Manual merge (optional):")
+print("If you want to merge additional IDs, enter them now.")
 print("Format: 'id1,id2,id3' (comma-separated IDs to merge)")
 print("Press ENTER when done")
 print()
 
-id_merges = []
 while True:
     merge_input = input("Merge IDs (e.g., '3,15,22' or ENTER to finish): ").strip()
     if not merge_input:

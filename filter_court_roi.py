@@ -202,19 +202,40 @@ def is_inside_roi(center, bbox, mask, margin=50):
 filtered_data = {}
 players_filtered_out = 0
 players_kept = 0
+MAX_PLAYERS_PER_FRAME = 10  # 4 red + 4 yellow + 2 referees
 
 for frame_idx, players in tracking_data.items():
-    filtered_players = []
+    # First filter by ROI
+    roi_filtered_players = []
 
     for player in players:
         center = player.get('center')
         bbox = player.get('bbox')
 
         if center and is_inside_roi(center, bbox, roi_mask):
-            filtered_players.append(player)
-            players_kept += 1
-        else:
-            players_filtered_out += 1
+            roi_filtered_players.append(player)
+
+    # Then limit to max players per frame (keep most confident detections)
+    if len(roi_filtered_players) > MAX_PLAYERS_PER_FRAME:
+        # Sort by confidence (if available) or by bbox area (larger = more confident)
+        def get_confidence(p):
+            if 'confidence' in p:
+                return p['confidence']
+            # Use bbox area as proxy for confidence
+            bbox = p.get('bbox')
+            if bbox:
+                x1, y1, x2, y2 = bbox
+                return (x2 - x1) * (y2 - y1)
+            return 0
+
+        roi_filtered_players.sort(key=get_confidence, reverse=True)
+        filtered_players = roi_filtered_players[:MAX_PLAYERS_PER_FRAME]
+        players_filtered_out += len(roi_filtered_players) - MAX_PLAYERS_PER_FRAME
+    else:
+        filtered_players = roi_filtered_players
+
+    players_filtered_out += len(players) - len(roi_filtered_players)
+    players_kept += len(filtered_players)
 
     if filtered_players:  # Only keep frames with at least one player
         filtered_data[frame_idx] = filtered_players

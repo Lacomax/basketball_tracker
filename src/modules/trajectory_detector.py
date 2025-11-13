@@ -65,6 +65,14 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
     """
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
+    # Try to use converted video first (to avoid codec issues)
+    if os.path.exists("input_video_converted.mp4"):
+        video_path = "input_video_converted.mp4"
+        logger.info("Using converted video: input_video_converted.mp4")
+    elif os.path.exists(video_path.replace(".mp4", "_converted.mp4")):
+        video_path = video_path.replace(".mp4", "_converted.mp4")
+        logger.info(f"Using converted video: {video_path}")
+
     # Load manual annotations
     try:
         with open(annotations_path, 'r') as f:

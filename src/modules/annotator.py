@@ -22,6 +22,15 @@ class BallAnnotator:
             output: Path for saving annotations JSON
         """
         os.makedirs(os.path.dirname(output), exist_ok=True)
+
+        # Try to use converted video first (to avoid codec issues)
+        if os.path.exists("input_video_converted.mp4"):
+            video = "input_video_converted.mp4"
+            logger.info("Using converted video: input_video_converted.mp4")
+        elif os.path.exists(video.replace(".mp4", "_converted.mp4")):
+            video = video.replace(".mp4", "_converted.mp4")
+            logger.info(f"Using converted video: {video}")
+
         self.cap = cv2.VideoCapture(video)
         if not self.cap.isOpened():
             raise IOError(f"Cannot open video: {video}")
