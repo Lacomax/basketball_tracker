@@ -7,6 +7,7 @@ the basketball tracker pipeline. Optimized with caching and batch processing.
 
 import cv2
 import numpy as np
+import os
 from functools import lru_cache
 from typing import Tuple, Dict, Optional
 from ..config import (
@@ -23,13 +24,47 @@ from ..config import (
 _yolo_model = None
 
 def get_yolo_model():
-    """Get YOLO model instance (lazy loading)."""
+    """
+    Get YOLO model instance (lazy loading).
+
+    Tries to load custom trained model first, falls back to pre-trained YOLO11n.
+    Custom model paths checked (in order):
+    1. models/basketball_detector_yolo11l.pt (fine-tuned YOLO11-L)
+    2. models/basketball_detector.pt (any custom model)
+    3. yolo11l.pt (pre-trained YOLO11-L)
+    4. yolo11n.pt (pre-trained YOLO11-N, fallback)
+    """
     global _yolo_model
     if _yolo_model is None:
         try:
             from ultralytics import YOLO
-            _yolo_model = YOLO('yolo11n.pt')
-            print("✓ YOLO11 model loaded for ball detection")
+
+            # Try custom models first
+            custom_models = [
+                'models/basketball_detector_yolo11l.pt',
+                'models/basketball_detector.pt',
+                'yolo11l.pt',  # Try pre-trained large model
+                'yolo11n.pt',  # Fallback to nano
+            ]
+
+            for model_path in custom_models:
+                if os.path.exists(model_path) or not model_path.startswith('models/'):
+                    try:
+                        _yolo_model = YOLO(model_path)
+                        if model_path.startswith('models/'):
+                            print(f"✓ Custom basketball detector loaded: {model_path}")
+                        else:
+                            print(f"✓ YOLO11 model loaded: {model_path}")
+                        break
+                    except Exception as e:
+                        if model_path.startswith('models/'):
+                            print(f"⚠ Could not load {model_path}: {e}")
+                        continue
+
+            if _yolo_model is None:
+                print("❌ No YOLO model could be loaded")
+                _yolo_model = False
+
         except ImportError:
             print("⚠ Ultralytics not available, YOLO detection disabled")
             _yolo_model = False
