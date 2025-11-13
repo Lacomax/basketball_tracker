@@ -23,17 +23,22 @@ GRAVITY = 0.98  # pixels per frame² (approximation for basketball)
 MAX_BOUNCE_FRAMES = 5  # Max frames for ball to be at ground during bounce
 
 
-def interpolate_parabolic(keyframes: Dict, total_frames: int, max_gap: int = 50) -> Dict:
+def interpolate_parabolic(keyframes: Dict, total_frames: int, max_gap: int = 50, min_parabolic_gap: int = 40) -> Dict:
     """
-    Interpolate ball positions using physics-based parabolic motion.
+    Interpolate ball positions using physics-based parabolic motion (SMART VERSION).
 
-    Uses gravity and parabolic trajectory equations to generate realistic ball motion
-    between manual keyframes.
+    IMPORTANT: This function only applies parabolic physics to segments that are:
+    1. Long enough (>= min_parabolic_gap frames, default 40)
+    2. Have significant vertical motion (indicating a throw/arc)
+
+    For shorter segments, it uses smooth interpolation to avoid creating
+    incorrect "mini-parabolas" between closely-spaced manual annotations.
 
     Args:
         keyframes: Dict mapping frame_number -> {'center': [x, y]}
         total_frames: Total number of frames in video
         max_gap: Maximum gap to interpolate across
+        min_parabolic_gap: Minimum gap to apply parabolic physics (default 40 frames)
 
     Returns:
         Dict mapping frame_number -> {'center': [x, y], 'radius': r, 'confidence': c}
@@ -60,11 +65,15 @@ def interpolate_parabolic(keyframes: Dict, total_frames: int, max_gap: int = 50)
             start_pos = np.array(keyframes[start_f]['center'], dtype=float)
             end_pos = np.array(keyframes[end_f]['center'], dtype=float)
 
-            # Calculate time interval
-            dt = gap
+            # Calculate vertical movement
+            vertical_movement = abs(end_pos[1] - start_pos[1])
 
-            # For very short segments, use linear interpolation
-            if gap <= 3:
+            # Only use parabolic physics for LONG segments with SIGNIFICANT vertical movement
+            # This avoids creating mini-parabolas between close annotations
+            use_parabolic = (gap >= min_parabolic_gap and vertical_movement > 50)
+
+            if gap <= 3 or not use_parabolic:
+                # Use linear interpolation for short segments or segments without arc motion
                 for j in range(1, gap):
                     t = j / gap
                     pos = start_pos + t * (end_pos - start_pos)
@@ -77,8 +86,8 @@ def interpolate_parabolic(keyframes: Dict, total_frames: int, max_gap: int = 50)
                         'method': 'linear-interpolated'
                     }
             else:
-                # Use parabolic physics for longer segments
-                # Decompose into horizontal (constant velocity) and vertical (parabolic) components
+                # Use parabolic physics for long segments with vertical arc
+                dt = gap
 
                 # Horizontal motion: constant velocity
                 vx = (end_pos[0] - start_pos[0]) / dt
@@ -273,9 +282,9 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
             'confidence': 1.0
         }
 
-    # Interpolate using physics-based parabolic interpolation
-    logger.info("Interpolating trajectory with physics-based parabolic motion...")
-    detection_points = interpolate_parabolic(keyframes, total_frames, max_gap=50)
+    # Interpolate using smooth interpolation (better than blind parabolic physics)
+    logger.info("Interpolating trajectory with smooth piecewise interpolation...")
+    detection_points = interpolate_smooth(keyframes, total_frames, max_gap=50)
 
     # Try auto-detection to refine interpolated positions
     logger.info("Refining with auto-detection...")

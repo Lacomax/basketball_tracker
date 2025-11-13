@@ -58,6 +58,13 @@ steps = [
         'requires': []
     },
     {
+        'name': 'Annotate Hoop',
+        'description': 'Manually annotate basketball hoop position (for static camera)',
+        'command': 'python scripts/annotate_hoop.py',
+        'optional': True,
+        'requires': []
+    },
+    {
         'name': 'Generate Ball Trajectory',
         'description': 'Generate ball trajectory with auto-detection',
         'command': f'python -m src.modules.trajectory_detector --video {video_file}',
