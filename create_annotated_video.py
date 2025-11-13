@@ -31,9 +31,19 @@ else:
     print("❌ Video not found")
     sys.exit(1)
 
-tracking_file = "outputs/tracked_players.json"
-if not os.path.exists(tracking_file):
-    print(f"❌ Tracking data not found: {tracking_file}")
+# Use the best available tracking data
+tracking_file = None
+if os.path.exists("outputs/tracked_players_named.json"):
+    tracking_file = "outputs/tracked_players_named.json"
+    print("✓ Using named tracking data (with player names)")
+elif os.path.exists("outputs/tracked_players_filtered.json"):
+    tracking_file = "outputs/tracked_players_filtered.json"
+    print("✓ Using filtered tracking data (court ROI only)")
+elif os.path.exists("outputs/tracked_players.json"):
+    tracking_file = "outputs/tracked_players.json"
+    print("⚠ Using raw tracking data (may include bench/crowd)")
+else:
+    print("❌ No tracking data found")
     print("Run player tracking first:")
     print("  python -m src.modules.improved_tracker --video input_video.mp4")
     sys.exit(1)
@@ -127,10 +137,15 @@ while True:
                 # Draw bounding box
                 cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
 
-                # Draw track ID
-                label = f"ID:{track_id}"
+                # Draw track ID and/or name
+                name = player.get('name')
+                if name:
+                    label = name
+                else:
+                    label = f"ID:{track_id}"
+
                 if team and team != 'Unknown':
-                    label += f" {team}"
+                    label += f" ({team})"
 
                 label_size, _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 2)
                 cv2.rectangle(frame, (x1, y1 - label_size[1] - 10),
