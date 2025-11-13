@@ -109,14 +109,11 @@ def run_step(step):
                 return 'error'
 
     # Ask user
-    if step['optional']:
-        response = input("Run this step? [Y/n/q]: ").strip().lower()
-    else:
-        response = input("Run this step? [Y/q]: ").strip().lower()
+    response = input("Run this step? [Y/n/q]: ").strip().lower()
 
     if response == 'q':
         return 'quit'
-    elif response == 'n' and step['optional']:
+    elif response == 'n':
         print("⏭ Skipped")
         return 'skip'
     elif response in ['', 'y', 'yes']:
