@@ -149,11 +149,53 @@ cv2.fillPoly(roi_mask, [pts], 255)
 
 print("Filtering players outside court area...")
 
-def is_inside_roi(center, mask):
-    """Check if point is inside ROI mask."""
+def is_inside_roi(center, bbox, mask, margin=50):
+    """
+    Check if player is inside ROI mask.
+
+    Uses multiple criteria:
+    1. Center point is inside ROI
+    2. Bottom-center of bbox is inside ROI (feet position)
+    3. Any part of bbox overlaps with ROI (with margin)
+    """
     x, y = center
+
+    # Check center point with margin
     if 0 <= x < mask.shape[1] and 0 <= y < mask.shape[0]:
-        return mask[y, x] > 0
+        if mask[y, x] > 0:
+            return True
+
+    # Check bottom-center (feet position) - more reliable for court area
+    if bbox:
+        x1, y1, x2, y2 = bbox
+        bottom_center_x = int((x1 + x2) / 2)
+        bottom_center_y = int(y2)  # Bottom of bbox
+
+        if 0 <= bottom_center_x < mask.shape[1] and 0 <= bottom_center_y < mask.shape[0]:
+            if mask[bottom_center_y, bottom_center_x] > 0:
+                return True
+
+    # Check if any corner of bbox is inside ROI (with margin)
+    if bbox:
+        x1, y1, x2, y2 = bbox
+        corners = [
+            (x1, y1), (x2, y1),  # Top corners
+            (x1, y2), (x2, y2),  # Bottom corners
+        ]
+
+        for cx, cy in corners:
+            if 0 <= cx < mask.shape[1] and 0 <= cy < mask.shape[0]:
+                if mask[cy, cx] > 0:
+                    return True
+
+    # Check with margin (dilate ROI mask)
+    kernel = np.ones((margin, margin), np.uint8)
+    expanded_mask = cv2.dilate(roi_mask, kernel, iterations=1)
+
+    if 0 <= x < expanded_mask.shape[1] and 0 <= y < expanded_mask.shape[0]:
+        if expanded_mask[y, x] > 0:
+            return True
+
     return False
 
 # Filter tracking data
@@ -166,7 +208,9 @@ for frame_idx, players in tracking_data.items():
 
     for player in players:
         center = player.get('center')
-        if center and is_inside_roi(center, roi_mask):
+        bbox = player.get('bbox')
+
+        if center and is_inside_roi(center, bbox, roi_mask):
             filtered_players.append(player)
             players_kept += 1
         else:

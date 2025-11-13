@@ -106,30 +106,75 @@ for track_id in sorted(player_images.keys()):
     frame, bbox, center = appearances[best_idx]
 
     x1, y1, x2, y2 = bbox
+    h, w = frame.shape[:2]
 
-    # Add margin
-    margin = 20
-    x1 = max(0, x1 - margin)
-    y1 = max(0, y1 - margin)
-    x2 = min(frame.shape[1], x2 + margin)
-    y2 = min(frame.shape[0], y2 + margin)
+    # Create display with much larger context around player
+    # Show player with surrounding area (2x bbox size in each direction)
+    bbox_width = x2 - x1
+    bbox_height = y2 - y1
 
-    # Crop player
-    player_crop = frame[y1:y2, x1:x2]
+    # Calculate expanded region (show more context)
+    context_margin_x = int(bbox_width * 1.5)
+    context_margin_y = int(bbox_height * 1.5)
 
-    if player_crop.size == 0:
+    # Expanded region coordinates
+    region_x1 = max(0, x1 - context_margin_x)
+    region_y1 = max(0, y1 - context_margin_y)
+    region_x2 = min(w, x2 + context_margin_x)
+    region_y2 = min(h, y2 + context_margin_y)
+
+    # Extract region
+    region = frame[region_y1:region_y2, region_x1:region_x2].copy()
+
+    if region.size == 0:
         continue
 
-    # Resize for display
-    display_height = 300
-    aspect = player_crop.shape[1] / player_crop.shape[0]
-    display_width = int(display_height * aspect)
-    player_display = cv2.resize(player_crop, (display_width, display_height))
+    # Draw bounding box on player in the region
+    # Adjust bbox coordinates relative to region
+    box_x1 = x1 - region_x1
+    box_y1 = y1 - region_y1
+    box_x2 = x2 - region_x1
+    box_y2 = y2 - region_y1
 
-    # Add info text
-    info_text = f"Player ID: {track_id} ({len(appearances)} appearances)"
-    cv2.putText(player_display, info_text, (10, 30),
-               cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+    # Draw thick green box around player
+    cv2.rectangle(region, (box_x1, box_y1), (box_x2, box_y2), (0, 255, 0), 4)
+
+    # Add arrow pointing to player
+    center_x = (box_x1 + box_x2) // 2
+    arrow_y = max(0, box_y1 - 30)
+    cv2.arrowedLine(region, (center_x, arrow_y), (center_x, box_y1),
+                    (0, 255, 0), 3, tipLength=0.3)
+
+    # Resize for display (larger for better visibility)
+    max_display_height = 600
+    max_display_width = 800
+
+    # Calculate resize factor
+    scale = min(max_display_width / region.shape[1],
+                max_display_height / region.shape[0])
+
+    if scale < 1.0:
+        display_width = int(region.shape[1] * scale)
+        display_height = int(region.shape[0] * scale)
+        player_display = cv2.resize(region, (display_width, display_height))
+    else:
+        player_display = region
+
+    # Add info banner at top
+    banner_height = 60
+    banner = np.zeros((banner_height, player_display.shape[1], 3), dtype=np.uint8)
+    banner[:] = (40, 40, 40)  # Dark gray background
+
+    info_text = f"Player ID: {track_id}"
+    cv2.putText(banner, info_text, (10, 30),
+               cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+
+    appearances_text = f"Appearances: {len(appearances)} frames"
+    cv2.putText(banner, appearances_text, (10, 55),
+               cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 200, 200), 1)
+
+    # Combine banner and image
+    player_display = np.vstack([banner, player_display])
 
     # Show image
     cv2.imshow("Assign Player Name", player_display)

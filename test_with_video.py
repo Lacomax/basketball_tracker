@@ -132,24 +132,17 @@ print("STEP 2: BALL TRAJECTORY DETECTION")
 print("=" * 60)
 print()
 
-print("Detecting ball trajectory...")
-print("This may take a few moments...")
+# Ball detection requires manual annotations
+# The trajectory_detector.py uses Kalman filtering to interpolate between manual annotations
+print("⚠ Automatic ball detection is not available in this version")
+print("  Ball trajectory detection requires manual annotations")
 print()
-
-try:
-    from src.modules.trajectory_detector import BallTrajectoryDetector
-
-    detector = BallTrajectoryDetector()
-    detections = detector.process_video(video_path, 'outputs/ball_trajectory.json')
-
-    ball_count = sum(1 for frame_dets in detections.values() if frame_dets)
-    print(f"✓ Ball detected in {ball_count}/{total_frames} frames")
-    print(f"✓ Trajectory saved to outputs/ball_trajectory.json")
-    print()
-
-except ImportError as e:
-    print(f"⚠ Ball detection skipped: {e}")
-    print()
+print("To create ball trajectory:")
+print("  1. Use annotator.py to manually mark ball positions in key frames")
+print("  2. Run: python -m src.modules.trajectory_detector --video input_video.mp4")
+print()
+print("For now, we'll skip ball detection and focus on player tracking")
+print()
 
 print("=" * 60)
 print("STEP 3: SHOT ANALYSIS")
