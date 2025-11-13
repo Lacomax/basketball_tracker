@@ -108,9 +108,15 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
     if model is None:
         return None
 
+    # Debug every 50 frames
+    show_debug = debug_frame and debug_frame % 50 == 0
+
     # STRATEGY 1: Try detecting sports ball (class 32)
     results = model(frame, classes=[32], verbose=False, conf=0.15)
     num_sports_balls = len(results[0].boxes) if len(results) > 0 else 0
+
+    if show_debug:
+        print(f"\n  [Frame {debug_frame} DEBUG] YOLO Strategy 1 (sports ball): {num_sports_balls} detections")
 
     if num_sports_balls > 0:
         print(f"  🔍 YOLO found {num_sports_balls} sports ball candidate(s)")
@@ -121,7 +127,11 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
     # STRATEGY 2: If no sports ball found, run full detection and look for small objects near search point
     if search_point is not None:
         # Run without class filter but with very low confidence
-        results_all = model(frame, verbose=False, conf=0.1)
+        results_all = model(frame, verbose=False, conf=0.05)
+        total_detections = len(results_all[0].boxes) if len(results_all) > 0 else 0
+
+        if show_debug:
+            print(f"  [Frame {debug_frame} DEBUG] YOLO Strategy 2 (all classes): {total_detections} total detections")
 
         if len(results_all) > 0 and len(results_all[0].boxes) > 0:
             # Look for small objects (potential basketballs) near the search point
@@ -133,20 +143,23 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
                 w, h = x2 - x1, y2 - y1
                 size = max(w, h)
 
-                # Basketball should be relatively small (10-40px) and near search point
+                # Basketball should be relatively small (10-50px) and near search point
                 dist = np.sqrt((cx - search_point[0])**2 + (cy - search_point[1])**2)
                 if dist < max_distance and 10 <= size <= 50:
                     class_id = int(box.cls[0])
                     conf = float(box.conf[0])
                     boxes_near.append((box, dist, size, class_id, conf))
 
-            if boxes_near and debug_frame and debug_frame % 50 == 0:
-                print(f"  🔍 Frame {debug_frame}: Found {len(boxes_near)} small objects near search point (no sports balls detected)")
-                for box, dist, size, class_id, conf in boxes_near[:3]:  # Show top 3
-                    print(f"    - Class {class_id}, size={size:.1f}px, conf={conf:.3f}, dist={dist:.1f}px")
+            if show_debug:
+                print(f"  [Frame {debug_frame} DEBUG] Found {len(boxes_near)} small objects (10-50px) within {max_distance}px of search point")
 
-            # Use the closest small object
-            if boxes_near:
+            if boxes_near and len(boxes_near) > 0:
+                if show_debug or len(boxes_near) >= 3:
+                    print(f"  🔍 Frame {debug_frame}: Found {len(boxes_near)} small objects near search point")
+                    for box, dist, size, class_id, conf in boxes_near[:3]:  # Show top 3
+                        print(f"    - Class {class_id}, size={size:.1f}px, conf={conf:.3f}, dist={dist:.1f}px")
+
+                # Use the closest small object
                 boxes_near.sort(key=lambda x: x[1])  # Sort by distance
                 best_box = boxes_near[0][0]
                 x1, y1, x2, y2 = best_box.xyxy[0].cpu().numpy()
@@ -157,6 +170,8 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
                 confidence = float(best_box.conf[0])
 
                 return {'center': [cx, cy], 'radius': radius, 'confidence': confidence}
+        elif show_debug:
+            print(f"  [Frame {debug_frame} DEBUG] No detections from Strategy 2")
 
     return None
 
