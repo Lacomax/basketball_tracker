@@ -92,18 +92,21 @@ if not team2:
     print(f"  Using: {team2}")
 
 referee_team = "Referee"
+public_category = "Public"
 
 # Save team names
 team_names = {
     'team1': team1,
     'team2': team2,
-    'referee': referee_team
+    'referee': referee_team,
+    'public': public_category
 }
 with open('outputs/team_names.json', 'w') as f:
     json.dump(team_names, f, indent=2)
 
 print()
 print(f"✓ Teams: {team1} vs {team2}")
+print(f"✓ Other: {referee_team}, {public_category}")
 print()
 
 # Assign players to teams
@@ -114,7 +117,8 @@ print()
 print("For each player, enter:")
 print(f"  1 = {team1}")
 print(f"  2 = {team2}")
-print(f"  R = {referee_team}")
+print(f"  3 = {referee_team}")
+print(f"  P = {public_category} (crowd/bench)")
 print("  ENTER = keep previous assignment")
 print()
 
@@ -124,21 +128,24 @@ for track_id in sorted(unique_players.keys()):
     # Show previous assignment if exists
     previous_team = team_assignments.get(track_id, "")
     if previous_team:
-        prompt = f"{player_name} (ID {track_id}) - Current: '{previous_team}' [1/{team1[0]}=Team1, 2/{team2[0]}=Team2, R=Ref, ENTER=keep]: "
+        prompt = f"{player_name} (ID {track_id}) - Current: '{previous_team}' [1=T1, 2=T2, 3=Ref, P=Public, ENTER=keep]: "
     else:
-        prompt = f"{player_name} (ID {track_id}) - Assign team [1/{team1[0]}=Team1, 2/{team2[0]}=Team2, R=Ref]: "
+        prompt = f"{player_name} (ID {track_id}) - Assign [1=T1, 2=T2, 3=Ref, P=Public]: "
 
     assignment = input(prompt).strip().upper()
 
-    if assignment in ['1', team1[0].upper()]:
+    if assignment == '1':
         team_assignments[track_id] = team1
         print(f"  ✓ {player_name} → {team1}")
-    elif assignment in ['2', team2[0].upper()]:
+    elif assignment == '2':
         team_assignments[track_id] = team2
         print(f"  ✓ {player_name} → {team2}")
-    elif assignment == 'R':
+    elif assignment == '3':
         team_assignments[track_id] = referee_team
         print(f"  ✓ {player_name} → {referee_team}")
+    elif assignment == 'P':
+        team_assignments[track_id] = public_category
+        print(f"  ✓ {player_name} → {public_category}")
     elif previous_team:
         # Keep previous
         print(f"  ✓ {player_name} → {previous_team} (kept)")
@@ -184,7 +191,7 @@ for track_id, team in team_assignments.items():
     player_name = unique_players[track_id]
     team_counts[team].append(player_name)
 
-for team in [team1, team2, referee_team, "Unknown"]:
+for team in [team1, team2, referee_team, public_category, "Unknown"]:
     if team in team_counts:
         players = team_counts[team]
         print(f"{team}: {len(players)} players")
@@ -201,5 +208,6 @@ print("  Create video with team names:")
 print(f"  python create_annotated_video.py")
 print()
 print(f"The video will show team names ({team1}, {team2}, {referee_team})")
+print(f"Players marked as '{public_category}' will be hidden in the video")
 print("instead of generic Team 0/Team 1")
 print()

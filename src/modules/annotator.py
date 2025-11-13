@@ -31,7 +31,7 @@ class BallAnnotator:
             video = video.replace(".mp4", "_converted.mp4")
             logger.info(f"Using converted video: {video}")
 
-        self.cap = cv2.VideoCapture(video)
+        self.cap = cv2.VideoCapture(video, cv2.CAP_FFMPEG)
         if not self.cap.isOpened():
             raise IOError(f"Cannot open video: {video}")
         self.output = output

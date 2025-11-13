@@ -104,8 +104,8 @@ def get_color(track_id):
 # Player trails
 player_trails = defaultdict(lambda: deque(maxlen=30))
 
-# Open video
-cap = cv2.VideoCapture(input_video)
+# Open video with FFMPEG backend (avoids GStreamer warnings)
+cap = cv2.VideoCapture(input_video, cv2.CAP_FFMPEG)
 if not cap.isOpened():
     print("❌ Cannot open video")
     sys.exit(1)
@@ -121,10 +121,10 @@ print(f"  - FPS: {fps}")
 print(f"  - Total frames: {total_frames}")
 print()
 
-# Output video
+# Output video (use H.264 codec for better compatibility)
 output_video = "outputs/annotated_video.mp4"
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-out = cv2.VideoWriter(output_video, fourcc, fps, (width, height))
+fourcc = cv2.VideoWriter_fourcc(*'avc1')  # H.264 codec
+out = cv2.VideoWriter(output_video, cv2.CAP_FFMPEG, fourcc, fps, (width, height))
 
 print("Creating annotated video...")
 print("This may take several minutes...")
@@ -149,15 +149,16 @@ while True:
             if track_id is None:
                 continue
 
-            # Skip players with name "public" (crowd/bench)
+            # Skip players with name "public" or team "Public" (crowd/bench)
             name = player.get('name', '')
-            if name.lower() == 'public':
+            team = player.get('team', 'Unknown')
+
+            if name.lower() == 'public' or team.lower() == 'public':
                 continue
 
             active_tracks.add(track_id)
             bbox = player.get('bbox')
             center = player.get('center')
-            team = player.get('team', 'Unknown')
 
             if bbox:
                 x1, y1, x2, y2 = bbox

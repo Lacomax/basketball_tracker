@@ -92,7 +92,7 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
         logger.warning(f"No annotations found in {annotations_path}, created empty output")
         return {}
 
-    cap = cv2.VideoCapture(video_path)
+    cap = cv2.VideoCapture(video_path, cv2.CAP_FFMPEG)
     if not cap.isOpened():
         raise IOError(f"Cannot open video: {video_path}")
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))

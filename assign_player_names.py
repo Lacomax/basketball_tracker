@@ -54,8 +54,8 @@ with open(tracking_file, 'r') as f:
 print(f"✓ Loaded tracking data for {len(tracking_data)} frames")
 print()
 
-# Open video
-cap = cv2.VideoCapture(input_video)
+# Open video with FFMPEG backend (avoids GStreamer warnings)
+cap = cv2.VideoCapture(input_video, cv2.CAP_FFMPEG)
 if not cap.isOpened():
     print("❌ Cannot open video")
     sys.exit(1)
