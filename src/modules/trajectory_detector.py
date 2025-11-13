@@ -13,6 +13,7 @@ import logging
 from filterpy.kalman import KalmanFilter
 
 from ..config import setup_logging, KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE
+from ..utils.ball_detection import auto_detect_ball
 
 logger = setup_logging(__name__)
 
@@ -118,6 +119,9 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
     CONFIDENCE_DECAY = 0.95  # Confidence decay during prediction without measurement
 
     # Process segments between manual annotations
+    auto_detections = 0
+    failed_detections = 0
+
     for idx in range(len(manual_frames) - 1):
         start_f = manual_frames[idx]
         end_f = manual_frames[idx + 1]
@@ -126,7 +130,8 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
         detection_points[start_f] = {
             'center': start_ann['center'],
             'radius': constant_radius,  # Use constant radius
-            'confidence': 1.0
+            'confidence': 1.0,
+            'method': 'manual'
         }
 
         # Initialize Kalman filter with starting keyframe
@@ -136,24 +141,62 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
 
         for f in range(start_f + 1, end_f):
             kf.predict()
-            pred_center = [kf.x[0], kf.x[1]]
+            pred_center = [int(kf.x[0]), int(kf.x[1])]
+
+            # Try to auto-detect ball near predicted position
+            cap.set(cv2.CAP_PROP_POS_FRAMES, f)
+            ret, frame = cap.read()
+
+            detected_center = None
+            detection_method = 'kalman'
+
+            if ret:
+                # Try to detect ball near predicted position (within 50px radius)
+                try:
+                    detected_ball = auto_detect_ball(frame, tuple(pred_center))
+                    detected_center_candidate = detected_ball['center']
+
+                    # Check if detected ball is reasonably close to prediction
+                    dist = np.sqrt((detected_center_candidate[0] - pred_center[0])**2 +
+                                 (detected_center_candidate[1] - pred_center[1])**2)
+
+                    if dist < 50:  # Within 50 pixels of prediction
+                        # Update Kalman filter with detection
+                        kf.update(np.array(detected_center_candidate))
+                        detected_center = detected_center_candidate
+                        detection_method = 'auto-detected'
+                        auto_detections += 1
+                        confidence = min(1.0, confidence * 1.1)  # Boost confidence
+                    else:
+                        failed_detections += 1
+                except:
+                    failed_detections += 1
+
+            # Use detected or predicted center
+            if detected_center:
+                final_center = detected_center
+            else:
+                final_center = pred_center
+
             # Clamp position to frame boundaries
-            pred_center[0] = int(clamp(pred_center[0], 0, frame_width - 1))
-            pred_center[1] = int(clamp(pred_center[1], 0, frame_height - 1))
+            final_center[0] = int(clamp(final_center[0], 0, frame_width - 1))
+            final_center[1] = int(clamp(final_center[1], 0, frame_height - 1))
 
             # Enhanced occlusion detection
             velocity = np.sqrt(kf.x[2] ** 2 + kf.x[3] ** 2)
             acceleration = abs(velocity - prev_velocity)
             prev_velocity = velocity
 
-            # Decay confidence during long predictions
-            confidence *= CONFIDENCE_DECAY
+            # Decay confidence during long predictions (unless we detected the ball)
+            if not detected_center:
+                confidence *= CONFIDENCE_DECAY
 
             detection = {
-                'center': pred_center,
+                'center': final_center,
                 'radius': constant_radius,  # Use constant radius
                 'confidence': confidence,
-                'velocity': float(velocity)
+                'velocity': float(velocity),
+                'method': detection_method
             }
 
             # Mark as occluded if high velocity or acceleration
@@ -171,8 +214,17 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
         detection_points[end_f] = {
             'center': end_ann['center'],
             'radius': constant_radius,  # Use constant radius
-            'confidence': 1.0
+            'confidence': 1.0,
+            'method': 'manual'
         }
+
+    # Log auto-detection statistics
+    total_interpolated = sum(1 for d in detection_points.values() if d.get('method') != 'manual')
+    if total_interpolated > 0:
+        auto_rate = (auto_detections / total_interpolated) * 100
+        logger.info(f"Auto-detection results:")
+        logger.info(f"  Successful: {auto_detections}/{total_interpolated} ({auto_rate:.1f}%)")
+        logger.info(f"  Failed: {failed_detections}/{total_interpolated}")
 
     # Process frames after last annotation
     last_frame = manual_frames[-1]
