@@ -1,0 +1,166 @@
+# Performance Configuration for Basketball Tracker
+# Optimized for: Windows + Conda + AMD Ryzen 9 + NVIDIA RTX GPU
+
+# GPU Settings (NVIDIA RTX)
+gpu:
+  device: 0  # GPU device ID
+  use_cuda: true
+  use_fp16: true  # Mixed precision for RTX tensor cores (2-3x speedup)
+  use_tensorrt: false  # Set to true after first run for max inference speed
+  cudnn_benchmark: true  # Auto-tune cuDNN for your GPU
+  amp: true  # Automatic Mixed Precision training
+
+# Training Optimizations (for train_basketball_detector scripts)
+training:
+  # Batch size - RTX GPUs have high VRAM, increase based on your model:
+  # RTX 4090/4080: 32-64
+  # RTX 4070/3090: 24-32
+  # RTX 3080/3070: 16-24
+  # RTX 3060: 12-16
+  batch_size: 32  # Adjust based on your specific RTX model
+
+  # Workers - Windows has multiprocessing overhead
+  # For Ryzen 9 (16 cores): use 4-8 workers
+  # More workers = diminishing returns on Windows
+  workers: 6  # Optimal for Windows + Ryzen 9
+
+  # Image size (higher = more VRAM but better accuracy)
+  imgsz: 640
+
+  # Enable persistent workers (faster on Windows, reduces process creation overhead)
+  persistent_workers: true
+
+  # Pin memory for faster GPU transfers
+  pin_memory: true
+
+  # Cache datasets in RAM (requires ~2-4GB RAM depending on dataset size)
+  # Set to 'disk' if you have limited RAM but fast SSD
+  cache: true  # true = RAM cache, 'disk' = SSD cache, false = no cache
+
+  # Multi-GPU support (if you have multiple GPUs)
+  multi_gpu: false
+  devices: [0]  # [0, 1] for 2 GPUs
+
+  # Close mosaic augmentation for last N epochs (improves accuracy)
+  close_mosaic: 10
+
+# Inference Optimizations (for detection/tracking)
+inference:
+  # Half precision inference (2x faster on RTX)
+  half: true
+
+  # Batch processing frames (process multiple frames at once)
+  batch_inference: true
+  batch_size: 8  # Process 8 frames simultaneously
+
+  # Confidence thresholds
+  conf_threshold: 0.25
+  iou_threshold: 0.45
+
+  # Max detections per image
+  max_det: 300
+
+  # Agnostic NMS (slightly slower but better for overlapping objects)
+  agnostic_nms: false
+
+  # Image size for inference (must match training)
+  imgsz: 640
+
+  # Enable CUDA streams for async processing
+  stream_buffer: true
+
+# Model Selection
+models:
+  # For training: yolo11n (fastest) -> yolo11s -> yolo11m -> yolo11l -> yolo11x (most accurate)
+  # Recommended for RTX: yolo11l or yolo11x (you have the GPU power!)
+  training_model: 'yolo11l.pt'  # Large model - good balance
+
+  # For inference: use your trained model
+  basketball_detector: 'models/basketball_detector_yolo11l.pt'
+  player_detector: 'yolo11n.pt'  # Nano is fast enough for players
+  pose_model: 'yolo11n-pose.pt'
+
+# Video Processing
+video:
+  # Read buffer size (frames to buffer in memory)
+  buffer_size: 30
+
+  # Skip frames for faster processing (process every Nth frame)
+  # 1 = process all frames, 2 = every other frame, etc.
+  skip_frames: 1
+
+  # Output codec (options: 'mp4v', 'avc1', 'h264', 'hevc')
+  # h264 = good quality/size, hevc = better compression but slower
+  codec: 'avc1'
+
+  # Use GPU for video encoding (if available via FFmpeg)
+  gpu_encode: false  # Requires ffmpeg with NVENC support
+
+# Performance Monitoring
+monitoring:
+  # Log GPU memory usage
+  log_gpu_memory: true
+
+  # Log processing speed (FPS)
+  log_fps: true
+
+  # Profile bottlenecks
+  profile: false  # Set to true for detailed profiling
+
+# Memory Management
+memory:
+  # Clear cache periodically (prevents memory leaks)
+  clear_cache_interval: 100  # frames
+
+  # Max RAM cache size (GB)
+  max_cache_size: 8
+
+  # Garbage collection frequency
+  gc_interval: 500  # frames
+
+# Windows-Specific Optimizations
+windows:
+  # Use spawn instead of fork for multiprocessing (Windows default)
+  multiprocessing_method: 'spawn'
+
+  # Process priority (options: 'low', 'below_normal', 'normal', 'above_normal', 'high')
+  # 'high' recommended for dedicated processing
+  process_priority: 'high'
+
+  # Disable Windows Defender real-time scanning for project folder for max speed
+  # (do this manually in Windows Defender settings)
+
+# Conda Environment
+conda:
+  # Ensure you're using conda's PyTorch with CUDA support:
+  # conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+  cuda_version: '12.1'  # or 11.8 depending on your installation
+
+# Quick Presets (uncomment one to use)
+presets:
+  # Maximum Performance (high VRAM usage)
+  max_performance:
+    batch_size: 48
+    workers: 8
+    cache: true
+    half: true
+    imgsz: 640
+
+  # Balanced (recommended for most RTX cards)
+  balanced:
+    batch_size: 24
+    workers: 6
+    cache: true
+    half: true
+    imgsz: 640
+
+  # Memory Efficient (lower VRAM usage)
+  memory_efficient:
+    batch_size: 12
+    workers: 4
+    cache: 'disk'
+    half: true
+    imgsz: 512
+
+# Current active preset
+active_preset: 'balanced'
