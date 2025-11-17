@@ -76,10 +76,17 @@ def print_system_info():
 
 def load_config(preset='balanced'):
     """Load performance configuration."""
-    config_path = 'config_performance.yaml'
+    # Try to load config file (check both .example and actual file)
+    config_paths = ['config_performance.yaml', 'config_performance.yaml.example']
+    config_path = None
 
-    if not os.path.exists(config_path):
-        print(f"⚠️  Config file not found: {config_path}")
+    for path in config_paths:
+        if os.path.exists(path):
+            config_path = path
+            break
+
+    if not config_path:
+        print(f"⚠️  Config file not found (tried: {', '.join(config_paths)})")
         print("Using default settings...")
         return get_default_config(preset)
 

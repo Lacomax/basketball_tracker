@@ -41,6 +41,12 @@ python -c "from ultralytics import YOLO; import torch; print('Devices:', torch.c
 
 ### Archivo de Configuración: `config_performance.yaml`
 
+Primero, copia el archivo de ejemplo:
+
+```bash
+copy config_performance.yaml.example config_performance.yaml
+```
+
 Este archivo contiene todas las optimizaciones para tu hardware. Las configuraciones principales son:
 
 #### Para RTX 4090 / 4080 (24GB VRAM):
