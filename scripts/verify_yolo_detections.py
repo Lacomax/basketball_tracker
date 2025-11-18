@@ -22,7 +22,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.config import setup_logging
-from src.utils.video_utils import open_video_robust, get_video_writer
+from src.utils.video_utils import open_video_robust, create_video_writer_robust
 from src.utils.ball_detection import get_yolo_model
 
 logger = setup_logging(__name__)
@@ -95,7 +95,7 @@ def verify_yolo_detections(video_path, output_path=None, conf_threshold=0.15,
     writer = None
     if save_video:
         output_video_path = 'outputs/yolo_detections_raw.mp4'
-        writer = get_video_writer(output_video_path, fps, (width, height))
+        writer = create_video_writer_robust(output_video_path, fps, width, height)
         if writer:
             logger.info(f"   💾 Guardando video anotado en: {output_video_path}")
 
