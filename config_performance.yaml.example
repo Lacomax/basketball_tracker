@@ -13,11 +13,11 @@ gpu:
 # Training Optimizations (for train_basketball_detector scripts)
 training:
   # Batch size - RTX GPUs have high VRAM, increase based on your model:
-  # RTX 4090/4080: 32-64
-  # RTX 4070/3090: 24-32
-  # RTX 3080/3070: 16-24
-  # RTX 3060: 12-16
-  batch_size: 32  # Adjust based on your specific RTX model
+  # RTX 4090/4080 Desktop (16-24GB): 32-64
+  # RTX 4070/3090 Desktop (12-16GB): 24-32
+  # RTX 4060/3080/3070 Desktop (8-12GB): 16-24
+  # RTX 4060/3060 Laptop (6-8GB): 12-16
+  batch_size: 24  # Adjust based on your specific RTX model
 
   # Workers - Windows has multiprocessing overhead
   # For Ryzen 9 (16 cores): use 4-8 workers

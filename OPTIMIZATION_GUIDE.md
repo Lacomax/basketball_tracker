@@ -271,6 +271,40 @@ Monitorea la temperatura con MSI Afterburner o HWiNFO:
 
 ## 🛠️ Troubleshooting
 
+### Error: "Pip failed" durante creación de environment (faiss-gpu)
+
+**Causa**: `faiss-gpu` tiene compatibilidad limitada con ciertas versiones de Python en Windows.
+
+**Solución Rápida**: Instala los paquetes manualmente en el environment existente
+
+```powershell
+# Activar el environment
+conda activate basketball_tracker_rtx
+
+# Ejecutar script de instalación
+.\install_packages.ps1
+
+# O instalar manualmente:
+pip install ultralytics>=8.3.0
+pip install faiss-cpu>=1.8.0
+pip install filterpy deep-sort-realtime boxmot transformers mplbasketball
+```
+
+**Nota**: `faiss-cpu` es suficientemente rápido para basketball tracking. La diferencia con `faiss-gpu` es mínima en este caso de uso.
+
+### Error: "ModuleNotFoundError: No module named 'ultralytics'"
+
+**Solución**: Ejecuta el script de instalación
+
+```powershell
+.\install_packages.ps1
+```
+
+O instala manualmente:
+```bash
+pip install ultralytics>=8.3.0
+```
+
 ### Error: "CUDA out of memory"
 
 **Solución**: Reduce el batch size en `config_performance.yaml`

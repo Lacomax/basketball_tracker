@@ -61,7 +61,9 @@ dependencies:
     - boxmot>=10.0.0
 
     # Fast similarity search
-    - faiss-gpu>=1.8.0  # GPU-accelerated version for faster ReID
+    # Note: faiss-gpu has limited Python version support on Windows
+    # Using faiss-cpu as fallback (still fast enough for basketball tracking)
+    - faiss-cpu>=1.8.0  # Fast similarity search for ReID
 
     # Professional visualizations
     - mplbasketball>=1.0.0
