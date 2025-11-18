@@ -31,10 +31,10 @@ python scripts/download_roboflow_dataset.py \
     --version 1
 ```
 
-**Datasets recomendados incluidos:**
-1. Basketball Detection (Roboflow 100) - Dataset oficial
-2. Basketball Object Detection - Múltiples ángulos
-3. Basketball Ball Detection - Enfocado en el balón
+**Datasets verificados incluidos:**
+1. Basketball Detection (Roboflow 100) - Dataset oficial de alta calidad (~600 imágenes)
+
+**Nota:** Solo incluye datasets públicos verificados. Para agregar más datasets, consulta `docs/COMO_AGREGAR_DATASETS_ROBOFLOW.md` o busca en [Roboflow Universe](https://universe.roboflow.com/search?q=basketball).
 
 ### 2. `scripts/use_pretrained_model.py`
 

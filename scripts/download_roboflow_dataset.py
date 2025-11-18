@@ -39,29 +39,29 @@ except ImportError:
 
 
 # Datasets recomendados de baloncesto en Roboflow Universe
+# Nota: Estos son datasets públicos verificados como accesibles
 RECOMMENDED_DATASETS = [
     {
         'name': 'Basketball Detection (Roboflow 100)',
         'workspace': 'roboflow-100',
         'project': 'basketball-detection',
         'version': 1,
-        'description': 'Dataset oficial de Roboflow 100 con detección de baloncesto'
-    },
-    {
-        'name': 'Basketball Object Detection',
-        'workspace': 'basketball-zyfcb',
-        'project': 'basketball-cvwfh',
-        'version': 2,
-        'description': 'Dataset con múltiples ángulos de cancha de baloncesto'
-    },
-    {
-        'name': 'Basketball Ball Detection',
-        'workspace': 'basketball-ball',
-        'project': 'basketball-ball-detection',
-        'version': 1,
-        'description': 'Enfocado específicamente en detección del balón'
+        'description': 'Dataset oficial de Roboflow 100 - Alta calidad, bien anotado'
     },
 ]
+
+# Datasets adicionales que puedes explorar en Roboflow Universe:
+# - https://universe.roboflow.com/search?q=basketball
+# - https://universe.roboflow.com/search?q=ball%20detection
+#
+# Para agregar un dataset personalizado, añádelo a RECOMMENDED_DATASETS siguiendo el formato:
+# {
+#     'name': 'Nombre del Dataset',
+#     'workspace': 'nombre-workspace',
+#     'project': 'nombre-proyecto',
+#     'version': 1,
+#     'description': 'Descripción breve'
+# }
 
 
 def download_dataset(api_key, workspace, project, version, output_dir='data/basketball_training'):

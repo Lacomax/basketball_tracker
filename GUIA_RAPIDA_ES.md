@@ -114,9 +114,9 @@ python scripts/download_roboflow_dataset.py \
 ```
 
 **Esto descarga:**
-- Basketball Detection (Roboflow 100)
-- Basketball Object Detection
-- Basketball Ball Detection
+- Basketball Detection (Roboflow 100) - Dataset oficial verificado
+
+**Nota:** El script incluye solo datasets públicos verificados. Para agregar más datasets, consulta `docs/COMO_AGREGAR_DATASETS_ROBOFLOW.md`
 
 **Los guarda en:** `data/basketball_training/`
 

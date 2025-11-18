@@ -658,8 +658,9 @@ Antes de entrenar tu modelo:
 ### Datasets Públicos
 
 Para complementar tus anotaciones:
-- [Roboflow Basketball Detection](https://universe.roboflow.com/roboflow-100/basketball-detection)
-- [Basketball Object Detection](https://universe.roboflow.com/search?q=basketball)
+- [Roboflow Basketball Detection](https://universe.roboflow.com/roboflow-100/basketball-detection) (Verificado)
+- [Buscar más datasets](https://universe.roboflow.com/search?q=basketball)
+- [Guía para agregar datasets](COMO_AGREGAR_DATASETS_ROBOFLOW.md)
 
 ---
 
