@@ -1,6 +1,18 @@
 {
-  "team1": "FCBB",
-  "team2": "Yellow",
-  "referee": "Referee",
-  "public": "Public"
+  "team1": {
+    "name": "FCBB",
+    "color": [255, 0, 0]
+  },
+  "team2": {
+    "name": "Yellow",
+    "color": [0, 255, 255]
+  },
+  "referee": {
+    "name": "Referee",
+    "color": [128, 128, 128]
+  },
+  "public": {
+    "name": "Public",
+    "color": [64, 64, 64]
+  }
 }
