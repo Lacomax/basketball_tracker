@@ -30,6 +30,10 @@ if os.path.exists("input_video_converted.mp4"):
     input_video = "input_video_converted.mp4"
 elif os.path.exists("input_video.mp4"):
     input_video = "input_video.mp4"
+elif os.path.exists("data/input_video.mp4"):
+    input_video = "data/input_video.mp4"
+elif os.path.exists("data/input_video_converted.mp4"):
+    input_video = "data/input_video_converted.mp4"
 else:
     print("❌ Video not found")
     sys.exit(1)
