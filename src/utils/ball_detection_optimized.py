@@ -244,7 +244,8 @@ def detect_ball_yolo_batch(frames: List[np.ndarray],
 def detect_ball_yolo(frame: np.ndarray,
                     search_point: Optional[tuple] = None,
                     max_distance: int = 150,
-                    debug_frame: int = None) -> Optional[dict]:
+                    debug_frame: int = None,
+                    ball_velocity: float = 0.0) -> Optional[dict]:
     """
     Detect basketball using YOLO11 (optimized single-frame version).
 
@@ -255,15 +256,23 @@ def detect_ball_yolo(frame: np.ndarray,
         search_point: Optional (x, y) to search near
         max_distance: Maximum distance from search_point to consider detection
         debug_frame: Frame number for debug logging
+        ball_velocity: Current ball velocity (px/frame) for adaptive threshold
 
     Returns:
         Dict with 'center' and 'radius', or None if no ball detected
     """
+    # Adaptive max_distance based on ball velocity
+    adaptive_max_distance = max_distance
+    if ball_velocity > 15:  # Fast moving ball (>15 px/frame)
+        adaptive_max_distance = int(max_distance * 2.0)  # 500px for default 250px
+    elif ball_velocity > 8:  # Medium speed
+        adaptive_max_distance = int(max_distance * 1.5)  # 375px for default 250px
+
     # Use batch function with single frame for consistency
     results = detect_ball_yolo_batch(
         [frame],
         [search_point],
-        max_distance,
+        adaptive_max_distance,
         [debug_frame]
     )
     return results[0] if results else None
@@ -345,7 +354,8 @@ def _process_yolo_detections(boxes, search_point: Optional[tuple], max_distance:
 def auto_detect_ball(frame: np.ndarray,
                     point: tuple,
                     use_yolo: bool = True,
-                    debug_frame: int = None) -> dict:
+                    debug_frame: int = None,
+                    ball_velocity: float = 0.0) -> dict:
     """
     Automatically detect a basketball around a clicked point (optimized).
 
@@ -357,19 +367,22 @@ def auto_detect_ball(frame: np.ndarray,
         point: Tuple (x, y) click coordinates
         use_yolo: Whether to try YOLO detection first (default True)
         debug_frame: Frame number for debug logging
+        ball_velocity: Current ball velocity (px/frame) for adaptive detection
 
     Returns:
         Dictionary with 'center', 'radius', and 'method'
     """
     x, y = int(point[0]), int(point[1])
 
-    # Try YOLO detection first (GPU-accelerated)
+    # Try YOLO detection first (GPU-accelerated) with adaptive threshold
     if use_yolo:
+        # Use larger base threshold (250px) for basketball - it moves fast!
         yolo_result = detect_ball_yolo(
             frame,
             search_point=(x, y),
-            max_distance=150,
-            debug_frame=debug_frame
+            max_distance=250,
+            debug_frame=debug_frame,
+            ball_velocity=ball_velocity
         )
         if yolo_result is not None:
             yolo_result['method'] = 'yolo_rtx'

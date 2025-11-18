@@ -302,7 +302,8 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
         if ret:
             try:
                 predicted_center = tuple(det['center'])
-                detected = auto_detect_ball(frame, predicted_center, use_yolo=True, debug_frame=frame_num)
+                ball_velocity = det.get('velocity', 0.0)  # Get velocity for adaptive threshold
+                detected = auto_detect_ball(frame, predicted_center, use_yolo=True, debug_frame=frame_num, ball_velocity=ball_velocity)
                 detected_center = detected['center']
                 detection_method = detected.get('method', 'unknown')
 
@@ -314,7 +315,15 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
                 dist = np.sqrt((detected_center[0] - predicted_center[0])**2 +
                               (detected_center[1] - predicted_center[1])**2)
 
-                if dist < 50:  # Within 50px of interpolation (increased for YOLO)
+                # Adaptive acceptance threshold based on velocity
+                # YOLO is more accurate than interpolation, so trust it even if far from prediction
+                acceptance_threshold = 100  # Base threshold (was 50px)
+                if ball_velocity > 15:  # Fast moving ball
+                    acceptance_threshold = 200  # Accept larger deviations
+                elif ball_velocity > 8:  # Medium speed
+                    acceptance_threshold = 150
+
+                if dist < acceptance_threshold:
                     # Use detected position (more accurate)
                     det['center'] = list(detected_center)
                     det['method'] = f'auto-refined-{detection_method}'
@@ -322,7 +331,12 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
                     refined_count += 1
 
                     if detection_method == 'yolo':
-                        print(f"  ✓ Frame {frame_num}: YOLO detected ball at ({detected_center[0]}, {detected_center[1]})")
+                        print(f"  ✓ Frame {frame_num}: YOLO detected ball at ({detected_center[0]}, {detected_center[1]}) [dist={dist:.1f}px, threshold={acceptance_threshold}px]")
+                else:
+                    # Detection too far from prediction, likely false positive or very bad interpolation
+                    # For YOLO detections with high confidence, log this as it might indicate interpolation error
+                    if detection_method == 'yolo' and detected.get('confidence', 0) > 0.5:
+                        logger.warning(f"Frame {frame_num}: YOLO detected ball at {detected_center} but {dist:.1f}px from prediction {predicted_center} (threshold={acceptance_threshold}px, velocity={ball_velocity:.1f}px/frame)")
             except Exception as e:
                 logger.debug(f"Frame {frame_num}: Detection failed - {e}")
                 pass  # Keep interpolated position
