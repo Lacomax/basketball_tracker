@@ -77,6 +77,8 @@ basketball_tracker/
 
 ### Quick Install
 
+#### Linux/Mac:
+
 ```bash
 # Clone repository
 git clone <repository-url>
@@ -87,6 +89,27 @@ pip install -r requirements.txt
 
 # (Optional) Install as editable package
 pip install -e .
+```
+
+#### Windows:
+
+```powershell
+# Clone repository
+git clone <repository-url>
+cd basketball_tracker
+
+# Run Windows setup script (configures environment + creates directories)
+.\setup_windows.ps1
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+**Windows Note:** If you get OpenMP errors, see [Windows Troubleshooting Guide](docs/SOLUCION_PROBLEMAS_WINDOWS.md)
+
+**Quick fix for OpenMP errors:**
+```powershell
+.\fix_windows_openmp.ps1
 ```
 
 ## 📖 Usage
@@ -323,6 +346,47 @@ for video_file in os.listdir("data/raw"):
 # Train on multiple GPUs
 trainer.train(epochs=50, device="cuda:0,cuda:1")
 ```
+
+## 🆕 Quick Start with Pre-trained Models & Roboflow
+
+### Use Pre-trained Model (No Training Required)
+
+```bash
+# Test detection with pre-trained YOLO model
+python scripts/use_pretrained_model.py --video input_video.mp4
+
+# Use custom trained model
+python scripts/use_pretrained_model.py --video input_video.mp4 --model models/basketball_detector.pt
+```
+
+### Download Datasets from Roboflow
+
+```bash
+# List available verified datasets
+python scripts/download_roboflow_dataset.py --list
+
+# Download all recommended datasets
+python scripts/download_roboflow_dataset.py --api-key YOUR_API_KEY --download-all
+
+# Download specific dataset
+python scripts/download_roboflow_dataset.py \
+    --api-key YOUR_API_KEY \
+    --workspace roboflow-100 \
+    --project basketball-detection
+```
+
+### Extract Frames for Annotation
+
+```bash
+# Extract frames from video for annotation in Roboflow
+python scripts/extract_frames_for_annotation.py --video input_video.mp4 --interval 10
+```
+
+**See full guides:**
+- 🇪🇸 [Spanish Quick Start](GUIA_RAPIDA_ES.md)
+- 📖 [Annotation Guide (Spanish)](docs/GUIA_ANOTACION_VIDEOS.md)
+- 🔧 [Roboflow Setup Guide](docs/ROBOFLOW_SETUP_README.md)
+- 🪟 [Windows Troubleshooting](docs/SOLUCION_PROBLEMAS_WINDOWS.md)
 
 ## 📚 Documentation
 
