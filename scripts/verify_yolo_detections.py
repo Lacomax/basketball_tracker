@@ -58,7 +58,7 @@ def draw_detection(frame, x1, y1, x2, y2, conf, class_id, class_name, color=(0, 
 
 
 def verify_yolo_detections(video_path, output_path=None, conf_threshold=0.15,
-                          save_video=False, show_window=True):
+                          save_video=False, show_window=True, min_size=15, max_size=60):
     """
     Procesa el video mostrando TODAS las detecciones YOLO sin filtros.
 
@@ -68,9 +68,12 @@ def verify_yolo_detections(video_path, output_path=None, conf_threshold=0.15,
         conf_threshold: Umbral de confianza mínimo
         save_video: Si True, guarda video con detecciones visualizadas
         show_window: Si True, muestra ventana con preview (solo primeros 50 frames)
+        min_size: Tamaño mínimo del balón en píxeles (default: 15)
+        max_size: Tamaño máximo del balón en píxeles (default: 60)
     """
     logger.info(f"📹 Verificando detecciones YOLO en: {video_path}")
     logger.info(f"   Umbral de confianza: {conf_threshold}")
+    logger.info(f"   Rango de tamaño permitido: {min_size}-{max_size} píxeles")
 
     # Load YOLO model
     model = get_yolo_model()
@@ -132,22 +135,36 @@ def verify_yolo_detections(video_path, output_path=None, conf_threshold=0.15,
 
         # Process basketball detections (class 0)
         if len(results) > 0 and len(results[0].boxes) > 0:
-            frame_stats['frames_with_detections'] += 1
+            has_valid_detection = False
 
             for box in results[0].boxes:
                 x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
                 conf = float(box.conf[0])
                 class_id = int(box.cls[0])
 
+                # Calculate size
+                w = x2 - x1
+                h = y2 - y1
+                size = max(w, h)
+
                 frame_stats['total_detections'] += 1
                 frame_stats['basketball_detections'] += 1
+
+                # Filter by size (basketball should be 15-60 pixels, not a huge window!)
+                if size < min_size or size > max_size:
+                    # Draw red box for rejected (wrong size)
+                    cx, cy = draw_detection(frame, x1, y1, x2, y2, conf, class_id,
+                                           f"REJECTED (size={size:.0f}px)", color=(0, 0, 255))
+                    continue
+
+                has_valid_detection = True
 
                 if conf > 0.5:
                     frame_stats['high_conf_detections'] += 1
 
                 # Draw green box for basketball
                 cx, cy = draw_detection(frame, x1, y1, x2, y2, conf, class_id,
-                                       "basketball", color=(0, 255, 0))
+                                       f"basketball ({size:.0f}px)", color=(0, 255, 0))
 
                 detections_this_frame.append({
                     'class': 'basketball',
@@ -155,9 +172,13 @@ def verify_yolo_detections(video_path, output_path=None, conf_threshold=0.15,
                     'bbox': [float(x1), float(y1), float(x2), float(y2)],
                     'center': [int(cx), int(cy)],
                     'confidence': float(conf),
-                    'width': float(x2 - x1),
-                    'height': float(y2 - y1)
+                    'width': float(w),
+                    'height': float(h),
+                    'size': float(size)
                 })
+
+            if has_valid_detection:
+                frame_stats['frames_with_detections'] += 1
 
         # Check for other detections (all classes)
         if len(results_all) > 0 and len(results_all[0].boxes) > 0:
@@ -300,6 +321,10 @@ def main():
                        help='Ruta para guardar detecciones JSON')
     parser.add_argument('--conf', type=float, default=0.15,
                        help='Umbral de confianza mínimo (default: 0.15)')
+    parser.add_argument('--min-size', type=int, default=15,
+                       help='Tamaño mínimo del balón en píxeles (default: 15)')
+    parser.add_argument('--max-size', type=int, default=60,
+                       help='Tamaño máximo del balón en píxeles (default: 60)')
     parser.add_argument('--save-video', action='store_true',
                        help='Guardar video con detecciones visualizadas')
     parser.add_argument('--no-window', action='store_true',
@@ -325,7 +350,9 @@ def main():
         output_path=args.output,
         conf_threshold=args.conf,
         save_video=args.save_video,
-        show_window=not args.no_window
+        show_window=not args.no_window,
+        min_size=args.min_size,
+        max_size=args.max_size
     )
 
 
