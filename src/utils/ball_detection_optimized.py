@@ -215,7 +215,7 @@ def detect_ball_yolo_batch(frames: List[np.ndarray],
         # YOLO batch inference with optimizations
         results = model(
             frames,
-            classes=[32],  # Sports ball class
+            classes=[0],  # Basketball class (custom trained model)
             verbose=False,
             conf=0.15,
             half=use_fp16,  # Use FP16 on RTX

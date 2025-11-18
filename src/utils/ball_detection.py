@@ -127,8 +127,8 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
     """
     Detect basketball using YOLO11.
 
-    First tries class 32 (sports ball), then falls back to detecting small objects
-    near the search point if no sports balls are found.
+    First tries class 0 (basketball - custom trained model), then falls back to detecting small objects
+    near the search point if no basketballs are found.
 
     Args:
         frame: Input frame
@@ -146,20 +146,20 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
     # Debug every 50 frames
     show_debug = debug_frame and debug_frame % 50 == 0
 
-    # STRATEGY 1: Try detecting sports ball (class 32)
-    results = model(frame, classes=[32], verbose=False, conf=0.15)
-    num_sports_balls = len(results[0].boxes) if len(results) > 0 else 0
+    # STRATEGY 1: Try detecting basketball (class 0 - custom trained model)
+    results = model(frame, classes=[0], verbose=False, conf=0.15)
+    num_basketballs = len(results[0].boxes) if len(results) > 0 else 0
 
     if show_debug:
-        print(f"\n  [Frame {debug_frame} DEBUG] YOLO Strategy 1 (sports ball): {num_sports_balls} detections")
+        print(f"\n  [Frame {debug_frame} DEBUG] YOLO Strategy 1 (basketball class 0): {num_basketballs} detections")
 
-    if num_sports_balls > 0:
-        print(f"  🔍 YOLO found {num_sports_balls} sports ball candidate(s)")
+    if num_basketballs > 0:
+        print(f"  🔍 YOLO found {num_basketballs} basketball candidate(s)")
         best_detection = _process_yolo_detections(results[0].boxes, search_point, max_distance)
         if best_detection:
             return best_detection
 
-    # STRATEGY 2: If no sports ball found, run full detection and look for small objects near search point
+    # STRATEGY 2: If no basketball found, run full detection and look for small objects near search point
     if search_point is not None:
         # Run without class filter but with very low confidence
         results_all = model(frame, verbose=False, conf=0.05)
