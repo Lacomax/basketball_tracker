@@ -230,10 +230,25 @@ def _process_yolo_detections(boxes, search_point: Optional[tuple], max_distance:
     min_dist = float('inf')
     rejected_count = 0
 
+    # Size filtering: basketball should be 15-60 pixels (not huge windows!)
+    MIN_BALL_SIZE = 15  # pixels
+    MAX_BALL_SIZE = 60  # pixels
+
     for box in boxes:
         # Get bounding box coordinates
         x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
         confidence = float(box.conf[0])
+
+        # Calculate size of bounding box
+        width = x2 - x1
+        height = y2 - y1
+        size = max(width, height)
+
+        # Filter by size: reject objects that are too small or too large
+        if size < MIN_BALL_SIZE or size > MAX_BALL_SIZE:
+            print(f"    - Ball at ({int((x1+x2)/2)}, {int((y1+y2)/2)}), conf={confidence:.3f}, size={size:.0f}px → REJECTED (wrong size, expected {MIN_BALL_SIZE}-{MAX_BALL_SIZE}px)")
+            rejected_count += 1
+            continue
 
         # Calculate center and radius from bounding box
         cx = int((x1 + x2) / 2)

@@ -309,6 +309,10 @@ def _process_yolo_detections(boxes, search_point: Optional[tuple], max_distance:
     best_detection = None
     min_dist = float('inf')
 
+    # Size filtering: basketball should be 15-60 pixels (not huge windows!)
+    MIN_BALL_SIZE = 15  # pixels
+    MAX_BALL_SIZE = 60  # pixels
+
     # Move to CPU for processing (more efficient for small data)
     boxes_cpu = boxes.cpu()
 
@@ -316,6 +320,15 @@ def _process_yolo_detections(boxes, search_point: Optional[tuple], max_distance:
         # Get bounding box coordinates
         x1, y1, x2, y2 = box.xyxy[0].numpy()
         confidence = float(box.conf[0])
+
+        # Calculate size of bounding box
+        width = x2 - x1
+        height = y2 - y1
+        size = max(width, height)
+
+        # Filter by size: reject objects that are too small or too large
+        if size < MIN_BALL_SIZE or size > MAX_BALL_SIZE:
+            continue  # Skip silently (GPU-optimized version)
 
         # Calculate center and radius
         cx = int((x1 + x2) / 2)
