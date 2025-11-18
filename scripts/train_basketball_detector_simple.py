@@ -34,18 +34,66 @@ def find_datasets(base_dir='data/basketball_training'):
     datasets = []
 
     if not os.path.exists(base_dir):
+        print(f"   ⚠️  Directorio no existe: {base_dir}")
         return datasets
 
-    for item in os.listdir(base_dir):
+    items = os.listdir(base_dir)
+    if not items:
+        print(f"   ⚠️  Directorio vacío: {base_dir}")
+        return datasets
+
+    print(f"   Buscando datasets en: {os.path.abspath(base_dir)}")
+    print(f"   Encontrados {len(items)} item(s) en el directorio\n")
+
+    for item in items:
         dataset_path = os.path.join(base_dir, item)
 
         if os.path.isdir(dataset_path):
+            print(f"   Verificando: {item}/")
+
             # Check if it has data.yaml or is a valid YOLO dataset
             data_yaml = os.path.join(dataset_path, 'data.yaml')
-            train_dir = os.path.join(dataset_path, 'train', 'images')
+            train_images_dir = os.path.join(dataset_path, 'train', 'images')
+            train_dir = os.path.join(dataset_path, 'train')
 
-            if os.path.exists(data_yaml) or os.path.exists(train_dir):
+            # Roboflow sometimes creates nested structure, check for that too
+            # e.g., dataset_name/dataset_name/train/
+            nested_check = os.path.join(dataset_path, item, 'train', 'images')
+
+            has_data_yaml = os.path.exists(data_yaml)
+            has_train_images = os.path.exists(train_images_dir)
+            has_train_dir = os.path.exists(train_dir)
+            has_nested = os.path.exists(nested_check)
+
+            print(f"      - data.yaml: {'✓' if has_data_yaml else '✗'}")
+            print(f"      - train/: {'✓' if has_train_dir else '✗'}")
+            print(f"      - train/images/: {'✓' if has_train_images else '✗'}")
+
+            # Use nested path if found
+            if has_nested and not has_train_images:
+                print(f"      - Estructura anidada detectada")
+                dataset_path = os.path.join(dataset_path, item)
+                train_images_dir = nested_check
+                has_train_images = True
+
+            if has_data_yaml or has_train_images:
                 datasets.append(dataset_path)
+                print(f"      ✅ Dataset válido encontrado\n")
+            else:
+                print(f"      ❌ No es un dataset YOLO válido")
+                print(f"         (Falta data.yaml o train/images/)\n")
+
+                # Show what's actually in this directory
+                try:
+                    contents = os.listdir(dataset_path)[:5]  # First 5 items
+                    print(f"      Contenido: {', '.join(contents)}")
+                    if len(os.listdir(dataset_path)) > 5:
+                        print(f"      ... y {len(os.listdir(dataset_path)) - 5} más")
+                except:
+                    pass
+                print()
+        else:
+            print(f"   Ignorando archivo: {item}\n")
 
     return datasets
 
@@ -193,15 +241,18 @@ def main():
 
     if not datasets:
         print("\n❌ No datasets found!")
-        print("\n📥 Download datasets manually:")
-        print("1. Go to: https://universe.roboflow.com/roboflow-100/basketball-detection")
-        print("2. Click 'Download Dataset'")
-        print("3. Select format: YOLOv8")
-        print("4. Download and extract to: data/basketball_training/dataset_1/")
-        print("\nOr try these datasets:")
-        print("- https://universe.roboflow.com/roboflow-100/basketball-detection")
-        print("- https://universe.roboflow.com/search?q=basketball%20ball")
-        print("\nThen run this script again.")
+        print("\n💡 Soluciones:")
+        print("\n1. Descarga con script automático:")
+        print("   python scripts/download_roboflow_dataset.py --api-key YOUR_KEY --download-all")
+        print("\n2. Descarga manual:")
+        print("   a. Ve a: https://universe.roboflow.com/roboflow-100/basketball-detection")
+        print("   b. Click 'Download Dataset'")
+        print("   c. Selecciona formato: YOLOv8")
+        print("   d. Descarga y extrae a: data/basketball_training/")
+        print("\n3. Diagnostica el problema:")
+        print("   python scripts/diagnose_datasets.py")
+        print("\n4. Busca más datasets:")
+        print("   https://universe.roboflow.com/search?q=basketball")
         return 1
 
     print(f"   ✓ Found {len(datasets)} dataset(s):")
