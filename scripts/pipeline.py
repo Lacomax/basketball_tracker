@@ -20,8 +20,14 @@ if os.path.exists("input_video_converted.mp4"):
     video_file = "input_video_converted.mp4"
 elif os.path.exists("input_video.mp4"):
     video_file = "input_video.mp4"
+elif os.path.exists("data/input_video.mp4"):
+    video_file = "data/input_video.mp4"
+elif os.path.exists("data/input_video_converted.mp4"):
+    video_file = "data/input_video_converted.mp4"
 else:
-    print("❌ No video found (input_video.mp4 or input_video_converted.mp4)")
+    print("❌ No video found")
+    print("   Buscado en: input_video.mp4, input_video_converted.mp4,")
+    print("               data/input_video.mp4, data/input_video_converted.mp4")
     sys.exit(1)
 
 print(f"✓ Video found: {video_file}")
