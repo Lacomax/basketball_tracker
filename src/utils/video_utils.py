@@ -84,10 +84,11 @@ def create_video_writer_robust(output_path: str, fps: int, width: int, height: i
     """
     Create VideoWriter with multiple fallback codecs for cross-platform compatibility.
 
-    Tries in order:
-    1. H.264 (avc1) - best quality and compatibility
-    2. mp4v - widely supported
+    Tries in order (Windows-optimized):
+    1. mp4v - works natively on Windows without external libs
+    2. MJPG - MJPEG, very compatible
     3. XVID - fallback
+    4. H.264 (avc1) - best quality but requires OpenH264 on Windows
 
     Args:
         output_path: Output video path
@@ -102,10 +103,10 @@ def create_video_writer_robust(output_path: str, fps: int, width: int, height: i
         IOError: If video writer cannot be created with any codec
     """
     codecs = [
-        ('avc1', cv2.CAP_FFMPEG, 'H.264'),
-        ('mp4v', cv2.CAP_FFMPEG, 'MP4V'),
-        ('XVID', None, 'XVID'),
-        ('MJPG', None, 'MJPEG'),
+        ('mp4v', None, 'MP4V-MPEG4'),  # Works natively on Windows
+        ('MJPG', None, 'MJPEG'),       # Very compatible
+        ('XVID', None, 'XVID'),        # Alternative
+        ('avc1', cv2.CAP_FFMPEG, 'H.264'),  # Requires OpenH264
     ]
 
     for codec_str, backend, name in codecs:
