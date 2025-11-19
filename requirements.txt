@@ -30,6 +30,7 @@ mplbasketball>=1.0.0      # Professional basketball court visualizations (latest
 
 # Optional: Performance
 numba>=0.59.0             # JIT compilation for speed
+tqdm>=4.66.0              # Progress bars
 
 # Roboflow API (for dataset download)
 roboflow>=1.1.0           # Roboflow API for downloading datasets

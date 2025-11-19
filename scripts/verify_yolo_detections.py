@@ -78,13 +78,13 @@ def verify_yolo_detections(video_path, output_path=None, conf_threshold=0.15,
     # Load YOLO model
     model = get_yolo_model()
     if model is None:
-        logger.error("❌ No se pudo cargar el modelo YOLO")
+        logger.error("[X] No se pudo cargar el modelo YOLO")
         return
 
     # Open video
     cap = open_video_robust(video_path)
     if cap is None:
-        logger.error(f"❌ No se pudo abrir el video: {video_path}")
+        logger.error(f"[X] No se pudo abrir el video: {video_path}")
         return
 
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -115,7 +115,7 @@ def verify_yolo_detections(video_path, output_path=None, conf_threshold=0.15,
 
     frame_num = 0
 
-    logger.info("🔍 Procesando frames...")
+    logger.info("[D] Procesando frames...")
 
     while True:
         ret, frame = cap.read()
@@ -275,7 +275,7 @@ def verify_yolo_detections(video_path, output_path=None, conf_threshold=0.15,
         # Find frames with multiple detections
         multi_detection_frames = [f for f, dets in all_detections.items() if len(dets) > 1]
         if multi_detection_frames:
-            logger.info(f"\n⚠️ Frames con múltiples detecciones: {len(multi_detection_frames)}")
+            logger.info(f"\n[!]️ Frames con múltiples detecciones: {len(multi_detection_frames)}")
             logger.info(f"   Ejemplos: {multi_detection_frames[:10]}")
 
     logger.info("="*70)
@@ -284,25 +284,25 @@ def verify_yolo_detections(video_path, output_path=None, conf_threshold=0.15,
     logger.info("\n💡 RECOMENDACIONES:")
 
     if frame_stats['basketball_detections'] == 0:
-        logger.warning("❌ NO se detectó ningún basketball!")
+        logger.warning("[X] NO se detectó ningún basketball!")
         logger.warning("   → Verifica que el modelo esté entrenado correctamente")
         logger.warning("   → Verifica que la ruta del modelo sea correcta")
     elif frame_stats['basketball_detections'] < frame_stats['total_frames'] * 0.3:
-        logger.warning(f"⚠️ Solo {frame_stats['basketball_detections']} detecciones de basketball "
+        logger.warning(f"[!]️ Solo {frame_stats['basketball_detections']} detecciones de basketball "
                       f"en {frame_stats['total_frames']} frames")
         logger.warning("   → El modelo podría necesitar más entrenamiento")
         logger.warning("   → Considera agregar más datos de entrenamiento")
     else:
-        logger.info(f"✓ Buen ratio de detección: {frame_stats['basketball_detections']} detecciones")
+        logger.info(f"[+] Buen ratio de detección: {frame_stats['basketball_detections']} detecciones")
 
     if frame_stats['high_conf_detections'] < frame_stats['total_detections'] * 0.5:
-        logger.warning(f"⚠️ Solo {frame_stats['high_conf_detections']/max(1,frame_stats['total_detections'])*100:.1f}% "
+        logger.warning(f"[!]️ Solo {frame_stats['high_conf_detections']/max(1,frame_stats['total_detections'])*100:.1f}% "
                       "de las detecciones tienen alta confianza (>0.5)")
         logger.warning("   → Considera aumentar el umbral de confianza")
         logger.warning("   → El modelo podría necesitar más entrenamiento")
 
     if len(multi_detection_frames) > frame_stats['frames_with_detections'] * 0.3:
-        logger.warning(f"⚠️ Muchos frames con múltiples detecciones: {len(multi_detection_frames)}")
+        logger.warning(f"[!]️ Muchos frames con múltiples detecciones: {len(multi_detection_frames)}")
         logger.warning("   → Podrían ser falsos positivos")
         logger.warning("   → Considera usar Non-Maximum Suppression (NMS) más agresivo")
 
@@ -338,7 +338,7 @@ def main():
         # Try data/ folder
         video_path = Path('data') / video_path.name
         if not video_path.exists():
-            logger.error(f"❌ Video no encontrado: {args.video}")
+            logger.error(f"[X] Video no encontrado: {args.video}")
             return
 
     # Create outputs directory

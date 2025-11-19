@@ -32,7 +32,7 @@ from pathlib import Path
 try:
     from roboflow import Roboflow
 except ImportError:
-    print("❌ Error: El paquete 'roboflow' no está instalado.")
+    print("[X] Error: El paquete 'roboflow' no está instalado.")
     print("\n📦 Instala con:")
     print("   pip install roboflow")
     sys.exit(1)
@@ -102,7 +102,7 @@ def download_dataset(api_key, workspace, project, version, output_dir='data/bask
             overwrite=False
         )
 
-        print(f"   ✓ Dataset descargado: {dataset_path}")
+        print(f"   [+] Dataset descargado: {dataset_path}")
 
         # Mostrar estadísticas
         train_images = os.path.join(dataset_path, 'train', 'images')
@@ -119,7 +119,7 @@ def download_dataset(api_key, workspace, project, version, output_dir='data/bask
         return dataset_path
 
     except Exception as e:
-        print(f"   ❌ Error descargando dataset: {str(e)}")
+        print(f"   [X] Error descargando dataset: {str(e)}")
         print(f"\n💡 Verifica que el dataset existe en:")
         print(f"   https://universe.roboflow.com/{workspace}/{project}")
         return None
@@ -257,7 +257,7 @@ Para obtener tu API key:
 
     # Verificar API key
     if not args.api_key:
-        print("❌ Error: Se requiere --api-key para descargar datasets")
+        print("[X] Error: Se requiere --api-key para descargar datasets")
         print("\n📖 Obtén tu API key en: https://roboflow.com/")
         print("   Settings -> API Keys -> Private API Key")
         print("\nO usa --list para ver datasets disponibles")
@@ -283,7 +283,7 @@ Para obtener tu API key:
 
     # Descargar dataset específico
     if not args.workspace or not args.project:
-        print("❌ Error: Se requiere --workspace y --project para descargar un dataset específico")
+        print("[X] Error: Se requiere --workspace y --project para descargar un dataset específico")
         print("\n💡 Usa --list para ver datasets recomendados")
         print("💡 Usa --download-all para descargar todos los recomendados")
         return 1

@@ -41,6 +41,7 @@ def get_yolo_model():
 
             # Try custom models first
             custom_models = [
+                'models/basketball_detector_custom.pt',  # Custom trained on manual annotations
                 'models/basketball_detector_yolo11l.pt',
                 'models/basketball_detector.pt',
                 'yolo11l.pt',  # Try pre-trained large model
@@ -158,8 +159,15 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
     if show_debug and ball_velocity > 0:
         print(f"  [Frame {debug_frame} DEBUG] Ball velocity: {ball_velocity:.1f} px/frame, adaptive threshold: {adaptive_max_distance}px")
 
+    # Get config for detection thresholds
+    from ..utils.config_loader import get_config
+    config = get_config()
+    ball_config = config.get('ball', {})
+    conf_primary = ball_config.get('yolo_conf_primary', 0.15)
+    conf_fallback = ball_config.get('yolo_conf_fallback', 0.05)
+
     # STRATEGY 1: Try detecting basketball (class 0 - custom trained model)
-    results = model(frame, classes=[0], verbose=False, conf=0.15)
+    results = model(frame, classes=[0], verbose=False, conf=conf_primary)
     num_basketballs = len(results[0].boxes) if len(results) > 0 else 0
 
     if show_debug:
@@ -174,7 +182,7 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
     # STRATEGY 2: If no basketball found, run full detection and look for small objects near search point
     if search_point is not None:
         # Run without class filter but with very low confidence
-        results_all = model(frame, verbose=False, conf=0.05)
+        results_all = model(frame, verbose=False, conf=conf_fallback)
         total_detections = len(results_all[0].boxes) if len(results_all) > 0 else 0
 
         if show_debug:
@@ -226,13 +234,17 @@ def detect_ball_yolo(frame: np.ndarray, search_point: Optional[tuple] = None, ma
 
 def _process_yolo_detections(boxes, search_point: Optional[tuple], max_distance: int) -> Optional[dict]:
     """Helper function to process YOLO detection boxes."""
+    from ..utils.config_loader import get_config
+    config = get_config()
+
     best_detection = None
     min_dist = float('inf')
     rejected_count = 0
 
-    # Size filtering: basketball should be 15-60 pixels (not huge windows!)
-    MIN_BALL_SIZE = 15  # pixels
-    MAX_BALL_SIZE = 60  # pixels
+    # Size filtering: get from config or use defaults
+    ball_config = config.get('ball', {})
+    MIN_BALL_SIZE = ball_config.get('min_size', 15)  # pixels
+    MAX_BALL_SIZE = ball_config.get('max_size', 60)  # pixels
 
     for box in boxes:
         # Get bounding box coordinates

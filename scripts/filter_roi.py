@@ -14,43 +14,55 @@ import numpy as np
 # Add parent directory to path so we can import from src/
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.utils.video_utils import open_video_robust
+from src.utils.config_loader import get_config
+
+# Load configuration
+config = get_config()
+config.ensure_directories()
 
 print("=" * 60)
 print("COURT ROI SELECTOR & TRACKING FILTER")
 print("=" * 60)
 print()
 
-# Check for required files
+# Check for required files using config
 input_video = None
-if os.path.exists("input_video_converted.mp4"):
-    input_video = "input_video_converted.mp4"
-elif os.path.exists("input_video.mp4"):
-    input_video = "input_video.mp4"
-else:
-    print("❌ Video not found")
+video_paths = config.get_video_paths()
+
+for path in video_paths:
+    if os.path.exists(path):
+        input_video = path
+        break
+
+if not input_video:
+    print("[X] Video not found")
+    print("   Searched in:")
+    for path in video_paths:
+        print(f"     - {path}")
     sys.exit(1)
 
-tracking_file = "outputs/tracked_players.json"
+output_dir = config.get_output_dir()
+tracking_file = f"{output_dir}/tracked_players.json"
 if not os.path.exists(tracking_file):
-    print(f"❌ Tracking data not found: {tracking_file}")
+    print(f"[X] Tracking data not found: {tracking_file}")
     sys.exit(1)
 
-print(f"✓ Video: {input_video}")
-print(f"✓ Tracking data: {tracking_file}")
+print(f"[+] Video: {input_video}")
+print(f"[+] Tracking data: {tracking_file}")
 print()
 
 # Load tracking data
 with open(tracking_file, 'r') as f:
     tracking_data = json.load(f)
 
-print(f"✓ Loaded tracking data for {len(tracking_data)} frames")
+print(f"[+] Loaded tracking data for {len(tracking_data)} frames")
 print()
 
 # Open video with robust method (tries multiple backends)
 try:
     cap = open_video_robust(input_video)
 except IOError as e:
-    print(f"❌ {e}")
+    print(f"[X] {e}")
     sys.exit(1)
 
 # Read first frame
@@ -58,7 +70,7 @@ ret, first_frame = cap.read()
 cap.release()
 
 if not ret:
-    print("❌ Cannot read first frame")
+    print("[X] Cannot read first frame")
     sys.exit(1)
 
 print("=" * 60)
@@ -123,10 +135,10 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 if len(roi_points) < 4:
-    print("❌ Need at least 4 points to define ROI")
+    print("[X] Need at least 4 points to define ROI")
     sys.exit(1)
 
-print(f"✓ ROI defined with {len(roi_points)} points")
+print(f"[+] ROI defined with {len(roi_points)} points")
 
 # Save ROI
 roi_data = {
@@ -134,10 +146,11 @@ roi_data = {
     'num_points': len(roi_points)
 }
 
-with open('outputs/court_roi.json', 'w') as f:
+roi_file = f"{output_dir}/court_roi.json"
+with open(roi_file, 'w') as f:
     json.dump(roi_data, f, indent=2)
 
-print(f"✓ ROI saved to outputs/court_roi.json")
+print(f"[+] ROI saved to {roi_file}")
 print()
 
 # Create ROI mask
@@ -244,17 +257,17 @@ for frame_idx, players in tracking_data.items():
     if filtered_players:  # Only keep frames with at least one player
         filtered_data[frame_idx] = filtered_players
 
-print(f"✓ Players kept (inside court): {players_kept}")
-print(f"✓ Players filtered out: {players_filtered_out}")
-print(f"✓ Frames with players: {len(filtered_data)}/{len(tracking_data)}")
+print(f"[+] Players kept (inside court): {players_kept}")
+print(f"[+] Players filtered out: {players_filtered_out}")
+print(f"[+] Frames with players: {len(filtered_data)}/{len(tracking_data)}")
 print()
 
 # Save filtered data
-output_file = "outputs/tracked_players_filtered.json"
+output_file = f"{output_dir}/tracked_players_filtered.json"
 with open(output_file, 'w') as f:
     json.dump(filtered_data, f, indent=2)
 
-print(f"✓ Filtered tracking data saved to {output_file}")
+print(f"[+] Filtered tracking data saved to {output_file}")
 print()
 
 # Get unique player IDs
@@ -265,7 +278,7 @@ for players in filtered_data.values():
         if track_id is not None:
             unique_ids.add(track_id)
 
-print(f"✓ Unique players in court: {len(unique_ids)}")
+print(f"[+] Unique players in court: {len(unique_ids)}")
 print(f"  IDs: {sorted(unique_ids)}")
 print()
 

@@ -10,28 +10,36 @@ import sys
 import os
 import json
 from collections import defaultdict
+# Add parent directory to path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.utils.config_loader import get_config
+
+# Load configuration
+config = get_config()
+config.ensure_directories()
 
 print("=" * 60)
 print("TEAM ASSIGNMENT")
 print("=" * 60)
 print()
 
-# Check for required files
+# Check for required files using config
+output_dir = config.get_output_dir()
 tracking_file = None
-if os.path.exists("outputs/tracked_players_named.json"):
-    tracking_file = "outputs/tracked_players_named.json"
-    print("✓ Using named tracking data")
-elif os.path.exists("outputs/tracked_players_filtered.json"):
-    tracking_file = "outputs/tracked_players_filtered.json"
-    print("✓ Using filtered tracking data")
-elif os.path.exists("outputs/tracked_players.json"):
-    tracking_file = "outputs/tracked_players.json"
-    print("✓ Using raw tracking data")
+if os.path.exists(f"{output_dir}/tracked_players_named.json"):
+    tracking_file = f"{output_dir}/tracked_players_named.json"
+    print("[+] Using named tracking data")
+elif os.path.exists(f"{output_dir}/tracked_players_filtered.json"):
+    tracking_file = f"{output_dir}/tracked_players_filtered.json"
+    print("[+] Using filtered tracking data")
+elif os.path.exists(f"{output_dir}/tracked_players.json"):
+    tracking_file = f"{output_dir}/tracked_players.json"
+    print("[+] Using raw tracking data")
 else:
-    print("❌ No tracking data found")
+    print("[X] No tracking data found")
     sys.exit(1)
 
-print(f"✓ Tracking data: {tracking_file}")
+print(f"[+] Tracking data: {tracking_file}")
 print()
 
 # Load tracking data
@@ -48,17 +56,18 @@ for frame_data in tracking_data.values():
             name = player.get('name', f'Player {track_id}')
             unique_players[track_id] = name
 
-print(f"✓ Found {len(unique_players)} unique players")
+print(f"[+] Found {len(unique_players)} unique players")
 print()
 
 # Load previous team assignments if available
 team_assignments = {}
-if os.path.exists('outputs/team_assignments.json'):
+team_assignments_file = f"{output_dir}/team_assignments.json"
+if os.path.exists(team_assignments_file):
     try:
-        with open('outputs/team_assignments.json', 'r') as f:
+        with open(team_assignments_file, 'r') as f:
             team_assignments_raw = json.load(f)
             team_assignments = {int(k): v for k, v in team_assignments_raw.items()}
-        print(f"✓ Loaded {len(team_assignments)} previous team assignments")
+        print(f"[+] Loaded {len(team_assignments)} previous team assignments")
         print()
     except (FileNotFoundError, json.JSONDecodeError):
         pass
@@ -87,9 +96,10 @@ COLOR_SUGGESTIONS = {
 
 # Load previous team names if available
 previous_team_names = {}
-if os.path.exists('outputs/team_names.json'):
+team_names_file = f"{output_dir}/team_names.json"
+if os.path.exists(team_names_file):
     try:
-        with open('outputs/team_names.json', 'r') as f:
+        with open(team_names_file, 'r') as f:
             previous_team_names = json.load(f)
 
         # Handle both old format (string) and new format (dict)
@@ -117,7 +127,7 @@ print("Colors (secondary): purple, cyan, white, black, gray")
 team1_color_input = input(f"Team 1 color (e.g., 'red', 'blue'): ").strip().lower()
 if team1_color_input in COLOR_SUGGESTIONS:
     team1_color = COLOR_SUGGESTIONS[team1_color_input][0]
-    print(f"  ✓ {COLOR_SUGGESTIONS[team1_color_input][1]}")
+    print(f"  [+] {COLOR_SUGGESTIONS[team1_color_input][1]}")
 else:
     # Try to get from previous
     prev = previous_team_names.get('team1', {})
@@ -136,7 +146,7 @@ print("Colors (secondary): purple, cyan, white, black, gray")
 team2_color_input = input(f"Team 2 color (e.g., 'yellow', 'green'): ").strip().lower()
 if team2_color_input in COLOR_SUGGESTIONS:
     team2_color = COLOR_SUGGESTIONS[team2_color_input][0]
-    print(f"  ✓ {COLOR_SUGGESTIONS[team2_color_input][1]}")
+    print(f"  [+] {COLOR_SUGGESTIONS[team2_color_input][1]}")
 else:
     # Try to get from previous
     prev = previous_team_names.get('team2', {})
@@ -165,12 +175,12 @@ team_names = {
         'color': [64, 64, 64]  # Dark gray
     }
 }
-with open('outputs/team_names.json', 'w') as f:
+with open(team_names_file, 'w') as f:
     json.dump(team_names, f, indent=2)
 
 print()
-print(f"✓ Teams: {team1} vs {team2}")
-print(f"✓ Other: {referee_team}, {public_category}")
+print(f"[+] Teams: {team1} vs {team2}")
+print(f"[+] Other: {referee_team}, {public_category}")
 print()
 
 # Assign players to teams
@@ -200,31 +210,31 @@ for track_id in sorted(unique_players.keys()):
 
     if assignment == '1':
         team_assignments[track_id] = team1
-        print(f"  ✓ {player_name} → {team1}")
+        print(f"  [+] {player_name} → {team1}")
     elif assignment == '2':
         team_assignments[track_id] = team2
-        print(f"  ✓ {player_name} → {team2}")
+        print(f"  [+] {player_name} → {team2}")
     elif assignment == '3':
         team_assignments[track_id] = referee_team
-        print(f"  ✓ {player_name} → {referee_team}")
+        print(f"  [+] {player_name} → {referee_team}")
     elif assignment == 'P':
         team_assignments[track_id] = public_category
-        print(f"  ✓ {player_name} → {public_category}")
+        print(f"  [+] {player_name} → {public_category}")
     elif previous_team:
         # Keep previous
-        print(f"  ✓ {player_name} → {previous_team} (kept)")
+        print(f"  [+] {player_name} → {previous_team} (kept)")
     else:
         # No assignment
         team_assignments[track_id] = "Unknown"
-        print(f"  ⚠ {player_name} → Unknown (no assignment)")
+        print(f"  [!] {player_name} → Unknown (no assignment)")
 
     print()
 
 # Save team assignments
-with open('outputs/team_assignments.json', 'w') as f:
+with open(team_assignments_file, 'w') as f:
     json.dump(team_assignments, f, indent=2)
 
-print("✓ Team assignments saved to outputs/team_assignments.json")
+print(f"[+] Team assignments saved to {team_assignments_file}")
 print()
 
 # Update tracking data with team assignments
@@ -241,7 +251,7 @@ output_file = tracking_file.replace('.json', '_teams.json')
 with open(output_file, 'w') as f:
     json.dump(tracking_data, f, indent=2)
 
-print(f"✓ Updated tracking data saved to {output_file}")
+print(f"[+] Updated tracking data saved to {output_file}")
 print()
 
 # Show team summary

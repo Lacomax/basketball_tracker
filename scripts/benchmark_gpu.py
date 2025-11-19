@@ -49,12 +49,12 @@ def print_gpu_info():
     print_separator("GPU INFORMATION")
 
     if not torch.cuda.is_available():
-        print("❌ CUDA not available!")
+        print("[X] CUDA not available!")
         print("\nTo install PyTorch with CUDA support:")
         print("conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia")
         return False
 
-    print(f"✓ CUDA Available")
+    print(f"[+] CUDA Available")
     print(f"  CUDA Version: {torch.version.cuda}")
     print(f"  PyTorch Version: {torch.__version__}")
     print(f"  cuDNN Version: {torch.backends.cudnn.version()}")
@@ -70,17 +70,17 @@ def print_gpu_info():
         # Determine GPU generation and features
         if props.major >= 8:  # Ampere (RTX 30xx), Ada (RTX 40xx)
             print(f"  Architecture: Ampere/Ada (RTX 30xx/40xx series)")
-            print(f"  Tensor Cores: Gen 3/4 ✓")
+            print(f"  Tensor Cores: Gen 3/4 [+]")
             print(f"  FP16 Speedup: ~2-3x")
             print(f"  Recommended: Use FP16 + large batch sizes")
         elif props.major == 7 and props.minor >= 5:  # Turing (RTX 20xx)
             print(f"  Architecture: Turing (RTX 20xx series)")
-            print(f"  Tensor Cores: Gen 2 ✓")
+            print(f"  Tensor Cores: Gen 2 [+]")
             print(f"  FP16 Speedup: ~2x")
             print(f"  Recommended: Use FP16")
         elif props.major == 7:  # Volta
             print(f"  Architecture: Volta")
-            print(f"  Tensor Cores: Gen 1 ✓")
+            print(f"  Tensor Cores: Gen 1 [+]")
         else:
             print(f"  Tensor Cores: ✗")
             print(f"  Warning: FP16 may not provide speedup")
@@ -147,10 +147,10 @@ def benchmark_inference(model_path='yolo11n.pt', batch_sizes=[1, 4, 8, 16], num_
                 mem_after = get_gpu_memory()
                 mem_used = mem_after['allocated'] - mem_before['allocated']
 
-                print(f"  ✓ FPS: {fps:.1f}")
-                print(f"  ✓ Latency: {1000/fps:.1f} ms/frame")
-                print(f"  ✓ Memory: {mem_used*1024:.0f} MB")
-                print(f"  ✓ Time: {elapsed:.2f}s for {processed_frames} frames")
+                print(f"  [+] FPS: {fps:.1f}")
+                print(f"  [+] Latency: {1000/fps:.1f} ms/frame")
+                print(f"  [+] Memory: {mem_used*1024:.0f} MB")
+                print(f"  [+] Time: {elapsed:.2f}s for {processed_frames} frames")
 
                 results.append({
                     'batch_size': batch_size,
@@ -167,7 +167,7 @@ def benchmark_inference(model_path='yolo11n.pt', batch_sizes=[1, 4, 8, 16], num_
                     torch.cuda.empty_cache()
 
             except Exception as e:
-                print(f"  ❌ Failed: {e}")
+                print(f"  [X] Failed: {e}")
                 continue
 
     # Print summary
@@ -195,7 +195,7 @@ def benchmark_training(epochs=3, batch_sizes=[8, 16, 24, 32], imgsz=640):
 
     # Check if we have a dataset
     if not os.path.exists('data/basketball_combined/data.yaml'):
-        print("⚠️  No training dataset found at data/basketball_combined/")
+        print("[!]️  No training dataset found at data/basketball_combined/")
         print("   Skipping training benchmark")
         print("   Run this after combining datasets")
         return []
@@ -246,9 +246,9 @@ def benchmark_training(epochs=3, batch_sizes=[8, 16, 24, 32], imgsz=640):
                 total_images = images_per_epoch * epochs
                 throughput = total_images / elapsed
 
-                print(f"  ✓ Throughput: {throughput:.1f} images/sec")
-                print(f"  ✓ Time: {elapsed:.1f}s for {epochs} epochs")
-                print(f"  ✓ Memory: {mem_used*1024:.0f} MB")
+                print(f"  [+] Throughput: {throughput:.1f} images/sec")
+                print(f"  [+] Time: {elapsed:.1f}s for {epochs} epochs")
+                print(f"  [+] Memory: {mem_used*1024:.0f} MB")
 
                 results.append({
                     'batch_size': batch_size,
@@ -265,12 +265,12 @@ def benchmark_training(epochs=3, batch_sizes=[8, 16, 24, 32], imgsz=640):
 
             except RuntimeError as e:
                 if 'out of memory' in str(e).lower():
-                    print(f"  ❌ Out of Memory")
+                    print(f"  [X] Out of Memory")
                 else:
-                    print(f"  ❌ Failed: {e}")
+                    print(f"  [X] Failed: {e}")
                 continue
             except Exception as e:
-                print(f"  ❌ Failed: {e}")
+                print(f"  [X] Failed: {e}")
                 continue
 
     # Print summary
@@ -296,7 +296,7 @@ def recommend_settings():
     print_separator("RECOMMENDED SETTINGS")
 
     if not torch.cuda.is_available():
-        print("❌ No CUDA GPU detected")
+        print("[X] No CUDA GPU detected")
         return
 
     props = torch.cuda.get_device_properties(0)

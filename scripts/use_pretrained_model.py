@@ -26,7 +26,7 @@ import cv2
 try:
     from ultralytics import YOLO
 except ImportError:
-    print("❌ Error: ultralytics no está instalado")
+    print("[X] Error: ultralytics no está instalado")
     print("📦 Instala con: pip install ultralytics")
     sys.exit(1)
 
@@ -67,14 +67,14 @@ def download_pretrained_basketball_model():
         # Buscar el archivo de pesos
         weights_path = os.path.join(model_path, "weights", "best.pt")
         if os.path.exists(weights_path):
-            print(f"✓ Modelo descargado: {weights_path}")
+            print(f"[+] Modelo descargado: {weights_path}")
             return weights_path
         else:
-            print("⚠️  No se encontraron pesos pre-entrenados")
+            print("[!]️  No se encontraron pesos pre-entrenados")
             return None
 
     except Exception as e:
-        print(f"❌ Error descargando modelo: {str(e)}")
+        print(f"[X] Error descargando modelo: {str(e)}")
         print("\n💡 Usa un modelo YOLO pre-entrenado genérico en su lugar")
         return None
 
@@ -98,13 +98,13 @@ def detect_basketball_generic(video_path, output_path, model_name="yolo11l.pt", 
 
     # Verificar si el archivo existe
     if not os.path.exists(video_path):
-        print(f"❌ Error: No se encuentra el video: {video_path}")
+        print(f"[X] Error: No se encuentra el video: {video_path}")
         return False
 
     # Abrir video
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
-        print(f"❌ Error: No se puede abrir el video")
+        print(f"[X] Error: No se puede abrir el video")
         return False
 
     # Obtener propiedades del video
@@ -227,7 +227,7 @@ def detect_basketball_custom(video_path, output_path, model_path, conf_threshold
     print(f"\n🏀 Usando modelo personalizado: {model_path}")
 
     if not os.path.exists(model_path):
-        print(f"❌ Error: No se encuentra el modelo: {model_path}")
+        print(f"[X] Error: No se encuentra el modelo: {model_path}")
         return False
 
     # Cargar modelo
@@ -319,7 +319,7 @@ Notas:
 
     # Verificar que el video existe
     if not os.path.exists(args.video):
-        print(f"❌ Error: No se encuentra el video: {args.video}")
+        print(f"[X] Error: No se encuentra el video: {args.video}")
         return 1
 
     # Generar path de salida

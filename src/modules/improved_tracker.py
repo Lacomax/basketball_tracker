@@ -5,6 +5,11 @@ This module provides robust player tracking across frames using
 DeepSORT algorithm with fallback to simple IoU tracking.
 """
 
+# Fix OpenMP conflict in Windows
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
+
 import cv2
 import numpy as np
 import json

@@ -5,10 +5,13 @@ This module uses polynomial interpolation and physics-based prediction
 to generate smooth, realistic basketball trajectories.
 """
 
+# Fix OpenMP conflict in Windows
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
 import cv2
 import numpy as np
 import json
-import os
 import logging
 from typing import Dict, List, Tuple
 from scipy.signal import savgol_filter
@@ -562,11 +565,21 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
 
     # Apply smoothing to make trajectory more fluid
     logger.info("Applying Kalman filter for smooth trajectory...")
-    detection_points = apply_kalman_smoothing(detection_points, process_var=0.5, measurement_var=3.0)
+    # Get smoothing parameters from config
+    from ..utils.config_loader import get_config
+    config = get_config()
+
+    kalman_params = config.get('smoothing', {}).get('kalman', {})
+    process_var = kalman_params.get('process_variance', 0.25)
+    measurement_var = kalman_params.get('measurement_variance', 10.0)
+    detection_points = apply_kalman_smoothing(detection_points, process_var=process_var, measurement_var=measurement_var)
 
     # Optional: Apply additional Savitzky-Golay smoothing for extra smoothness
     logger.info("Applying Savitzky-Golay filter for additional smoothing...")
-    detection_points = apply_savgol_smoothing(detection_points, window_length=9, polyorder=3)
+    savgol_params = config.get('smoothing', {}).get('savgol', {})
+    window_length = savgol_params.get('window_length', 17)
+    polyorder = savgol_params.get('polyorder', 3)
+    detection_points = apply_savgol_smoothing(detection_points, window_length=window_length, polyorder=polyorder)
 
     cap.release()
 

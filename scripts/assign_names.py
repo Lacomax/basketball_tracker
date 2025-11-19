@@ -18,50 +18,62 @@ from collections import defaultdict
 # Add parent directory to path so we can import from src/
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.utils.video_utils import open_video_robust
+from src.utils.config_loader import get_config
+
+# Load configuration
+config = get_config()
+config.ensure_directories()
 
 print("=" * 60)
 print("PLAYER NAME ASSIGNMENT & ID CONSOLIDATION")
 print("=" * 60)
 print()
 
-# Check for required files
+# Check for required files using config
 input_video = None
-if os.path.exists("input_video_converted.mp4"):
-    input_video = "input_video_converted.mp4"
-elif os.path.exists("input_video.mp4"):
-    input_video = "input_video.mp4"
-else:
-    print("❌ Video not found")
+video_paths = config.get_video_paths()
+
+for path in video_paths:
+    if os.path.exists(path):
+        input_video = path
+        break
+
+if not input_video:
+    print("[X] Video not found")
+    print("   Searched in:")
+    for path in video_paths:
+        print(f"     - {path}")
     sys.exit(1)
 
 # Use filtered data if available
+output_dir = config.get_output_dir()
 tracking_file = None
-if os.path.exists("outputs/tracked_players_filtered.json"):
-    tracking_file = "outputs/tracked_players_filtered.json"
-    print("✓ Using filtered tracking data (court ROI)")
-elif os.path.exists("outputs/tracked_players.json"):
-    tracking_file = "outputs/tracked_players.json"
-    print("⚠ Using unfiltered data (may include bench/crowd)")
+if os.path.exists(f"{output_dir}/tracked_players_filtered.json"):
+    tracking_file = f"{output_dir}/tracked_players_filtered.json"
+    print("[+] Using filtered tracking data (court ROI)")
+elif os.path.exists(f"{output_dir}/tracked_players.json"):
+    tracking_file = f"{output_dir}/tracked_players.json"
+    print("[!] Using unfiltered data (may include bench/crowd)")
 else:
-    print("❌ No tracking data found")
+    print("[X] No tracking data found")
     sys.exit(1)
 
-print(f"✓ Video: {input_video}")
-print(f"✓ Tracking data: {tracking_file}")
+print(f"[+] Video: {input_video}")
+print(f"[+] Tracking data: {tracking_file}")
 print()
 
 # Load tracking data
 with open(tracking_file, 'r') as f:
     tracking_data = json.load(f)
 
-print(f"✓ Loaded tracking data for {len(tracking_data)} frames")
+print(f"[+] Loaded tracking data for {len(tracking_data)} frames")
 print()
 
 # Open video with robust method (tries multiple backends)
 try:
     cap = open_video_robust(input_video)
 except IOError as e:
-    print(f"❌ {e}")
+    print(f"[X] {e}")
     sys.exit(1)
 
 # Collect player images for each unique ID
@@ -88,18 +100,19 @@ while True:
 
 cap.release()
 
-print(f"✓ Found {len(player_images)} unique player IDs")
+print(f"[+] Found {len(player_images)} unique player IDs")
 print()
 
 # Load previous player names if available
 previous_names = {}
-if os.path.exists('outputs/player_names.json'):
+player_names_file = f"{output_dir}/player_names.json"
+if os.path.exists(player_names_file):
     try:
-        with open('outputs/player_names.json', 'r') as f:
+        with open(player_names_file, 'r') as f:
             # Convert string keys to int
             previous_names_raw = json.load(f)
             previous_names = {int(k): v for k, v in previous_names_raw.items()}
-        print(f"✓ Loaded {len(previous_names)} previous player names")
+        print(f"[+] Loaded {len(previous_names)} previous player names")
         print()
     except (FileNotFoundError, json.JSONDecodeError):
         pass
@@ -211,28 +224,28 @@ for track_id in sorted(player_images.keys()):
     if name:
         # User entered a new name
         player_names[track_id] = name
-        print(f"  ✓ Assigned: ID {track_id} → {name}")
+        print(f"  [+] Assigned: ID {track_id} → {name}")
     elif previous_name:
         # Keep previous name
         player_names[track_id] = previous_name
-        print(f"  ✓ Kept: ID {track_id} → {previous_name}")
+        print(f"  [+] Kept: ID {track_id} → {previous_name}")
     else:
         # No name, use default
         player_names[track_id] = f"Player {track_id}"
-        print(f"  ⚠ Skipped: Using 'Player {track_id}'")
+        print(f"  [!] Skipped: Using 'Player {track_id}'")
 
     print()
 
 cv2.destroyAllWindows()
 
-print(f"✓ Assigned names to {len(player_names)} players")
+print(f"[+] Assigned names to {len(player_names)} players")
 print()
 
 # Save player names
-with open('outputs/player_names.json', 'w') as f:
+with open(player_names_file, 'w') as f:
     json.dump(player_names, f, indent=2)
 
-print("✓ Player names saved to outputs/player_names.json")
+print(f"[+] Player names saved to {player_names_file}")
 print()
 
 # Auto-detect IDs with same name
@@ -253,7 +266,7 @@ for name, ids in name_to_ids.items():
         auto_merges.append((name, ids))
 
 if auto_merges:
-    print("🔍 Detected players with same name but different IDs:")
+    print("[D] Detected players with same name but different IDs:")
     print()
     for name, ids in auto_merges:
         print(f"  '{name}': IDs {sorted(ids)}")
@@ -262,12 +275,12 @@ if auto_merges:
     merge_auto = input("Auto-merge these IDs? (Y/n): ").strip().lower()
     if merge_auto != 'n':
         id_merges = [ids for name, ids in auto_merges]
-        print(f"✓ Will auto-merge {len(id_merges)} groups")
+        print(f"[+] Will auto-merge {len(id_merges)} groups")
     else:
-        print("⚠ Skipping auto-merge")
+        print("[!] Skipping auto-merge")
         id_merges = []
 else:
-    print("✓ No duplicate names detected")
+    print("[+] No duplicate names detected")
     id_merges = []
 
 print()
@@ -287,19 +300,19 @@ while True:
     try:
         ids_to_merge = [int(x.strip()) for x in merge_input.split(',')]
         if len(ids_to_merge) < 2:
-            print("  ⚠ Need at least 2 IDs to merge")
+            print("  [!] Need at least 2 IDs to merge")
             continue
 
         # Verify IDs exist
         valid_ids = [id for id in ids_to_merge if id in player_names]
         if len(valid_ids) != len(ids_to_merge):
-            print(f"  ⚠ Some IDs don't exist: {set(ids_to_merge) - set(valid_ids)}")
+            print(f"  [!] Some IDs don't exist: {set(ids_to_merge) - set(valid_ids)}")
             continue
 
         id_merges.append(ids_to_merge)
-        print(f"  ✓ Will merge: {ids_to_merge} → {ids_to_merge[0]}")
+        print(f"  [+] Will merge: {ids_to_merge} → {ids_to_merge[0]}")
     except ValueError:
-        print("  ⚠ Invalid format. Use comma-separated numbers")
+        print("  [!] Invalid format. Use comma-separated numbers")
 
 print()
 
@@ -329,7 +342,7 @@ if id_merges:
         if source_id in player_names:
             del player_names[source_id]
 
-    print(f"✓ Merged {len(id_mapping)} IDs")
+    print(f"[+] Merged {len(id_mapping)} IDs")
     print()
 
 # Add names to tracking data
@@ -342,15 +355,15 @@ for frame_idx, players in tracking_data.items():
         else:
             player['name'] = f"Player {track_id}"
 
-print("✓ Names added to tracking data")
+print("[+] Names added to tracking data")
 print()
 
 # Save final data
-output_file = "outputs/tracked_players_named.json"
+output_file = f"{output_dir}/tracked_players_named.json"
 with open(output_file, 'w') as f:
     json.dump(tracking_data, f, indent=2)
 
-print(f"✓ Final tracking data saved to {output_file}")
+print(f"[+] Final tracking data saved to {output_file}")
 print()
 
 print("=" * 60)

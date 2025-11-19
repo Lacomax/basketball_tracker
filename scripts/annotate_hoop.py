@@ -6,40 +6,55 @@ For videos with static camera, the hoop position doesn't change.
 Click on the center of the hoop to mark its position.
 """
 
+# Fix OpenMP error
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
 import cv2
 import json
-import os
 import sys
 
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.utils.video_utils import open_video_robust
+from src.utils.config_loader import get_config
 
 print("=" * 70)
 print("BASKETBALL HOOP ANNOTATION")
 print("=" * 70)
 print()
 
-# Check video
-video_file = "input_video_converted.mp4" if os.path.exists("input_video_converted.mp4") else "input_video.mp4"
-if not os.path.exists(video_file):
-    print(f"❌ Video not found: {video_file}")
+# Get video from config
+config = get_config()
+video_paths = config.get_video_paths()
+
+video_file = None
+for path in video_paths:
+    if os.path.exists(path):
+        video_file = path
+        break
+
+if not video_file:
+    print(f"[X] Video not found")
+    print("   Searched in:")
+    for path in video_paths:
+        print(f"     - {path}")
     sys.exit(1)
 
-print(f"✓ Video: {video_file}")
+print(f"[+] Video: {video_file}")
 print()
 
 # Load video
 try:
     cap = open_video_robust(video_file)
 except IOError as e:
-    print(f"❌ {e}")
+    print(f"[X] {e}")
     sys.exit(1)
 
 # Read first frame
 ret, frame = cap.read()
 if not ret:
-    print("❌ Cannot read video frame")
+    print("[X] Cannot read video frame")
     sys.exit(1)
 
 cap.release()
@@ -93,9 +108,9 @@ while True:
         if hoop_center:
             break
         else:
-            print("⚠ Please click on the hoop center first")
+            print("[!] Please click on the hoop center first")
     elif key == 27:  # ESC
-        print("❌ Cancelled by user")
+        print("[X] Cancelled by user")
         cv2.destroyAllWindows()
         sys.exit(0)
 
@@ -113,7 +128,7 @@ os.makedirs('outputs', exist_ok=True)
 with open('outputs/hoop.json', 'w') as f:
     json.dump(hoop_data, f, indent=2)
 
-print("✓ Hoop position saved to outputs/hoop.json")
+print("[+] Hoop position saved to outputs/hoop.json")
 print()
 print(f"  Center: {hoop_center}")
 print(f"  Radius: {hoop_radius}px (for visualization)")

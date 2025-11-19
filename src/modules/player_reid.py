@@ -5,6 +5,11 @@ This module helps maintain consistent player IDs even when
 players temporarily leave and re-enter the frame.
 """
 
+# Fix OpenMP conflict in Windows
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
+
 import cv2
 import numpy as np
 import json

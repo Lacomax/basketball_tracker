@@ -18,68 +18,77 @@ from collections import defaultdict, deque
 # Add parent directory to path so we can import from src/
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.utils.video_utils import open_video_robust, create_video_writer_robust
+from src.utils.config_loader import get_config
+
+# Load configuration
+config = get_config()
+config.ensure_directories()
 
 print("=" * 60)
 print("BASKETBALL TRACKER - VIDEO VISUALIZATION")
 print("=" * 60)
 print()
 
-# Check for required files
+# Check for required files using config
 input_video = None
-if os.path.exists("input_video_converted.mp4"):
-    input_video = "input_video_converted.mp4"
-elif os.path.exists("input_video.mp4"):
-    input_video = "input_video.mp4"
-elif os.path.exists("data/input_video.mp4"):
-    input_video = "data/input_video.mp4"
-elif os.path.exists("data/input_video_converted.mp4"):
-    input_video = "data/input_video_converted.mp4"
-else:
-    print("❌ Video not found")
+video_paths = config.get_video_paths()
+
+for path in video_paths:
+    if os.path.exists(path):
+        input_video = path
+        break
+
+if not input_video:
+    print("[X] Video not found")
+    print("   Searched in:")
+    for path in video_paths:
+        print(f"     - {path}")
     sys.exit(1)
 
 # Use the best available tracking data
+output_dir = config.get_output_dir()
 tracking_file = None
-if os.path.exists("outputs/tracked_players_named_teams.json"):
-    tracking_file = "outputs/tracked_players_named_teams.json"
-    print("✓ Using named tracking data with teams (BEST)")
-elif os.path.exists("outputs/tracked_players_filtered_teams.json"):
-    tracking_file = "outputs/tracked_players_filtered_teams.json"
-    print("✓ Using filtered tracking data with teams")
-elif os.path.exists("outputs/tracked_players_teams.json"):
-    tracking_file = "outputs/tracked_players_teams.json"
-    print("✓ Using tracking data with teams")
-elif os.path.exists("outputs/tracked_players_named.json"):
-    tracking_file = "outputs/tracked_players_named.json"
-    print("✓ Using named tracking data (with player names)")
-elif os.path.exists("outputs/tracked_players_filtered.json"):
-    tracking_file = "outputs/tracked_players_filtered.json"
-    print("✓ Using filtered tracking data (court ROI only)")
-elif os.path.exists("outputs/tracked_players.json"):
-    tracking_file = "outputs/tracked_players.json"
-    print("⚠ Using raw tracking data (may include bench/crowd)")
+if os.path.exists(f"{output_dir}/tracked_players_named_teams.json"):
+    tracking_file = f"{output_dir}/tracked_players_named_teams.json"
+    print("[+] Using named tracking data with teams (BEST)")
+elif os.path.exists(f"{output_dir}/tracked_players_filtered_teams.json"):
+    tracking_file = f"{output_dir}/tracked_players_filtered_teams.json"
+    print("[+] Using filtered tracking data with teams")
+elif os.path.exists(f"{output_dir}/tracked_players_teams.json"):
+    tracking_file = f"{output_dir}/tracked_players_teams.json"
+    print("[+] Using tracking data with teams")
+elif os.path.exists(f"{output_dir}/tracked_players_named.json"):
+    tracking_file = f"{output_dir}/tracked_players_named.json"
+    print("[+] Using named tracking data (with player names)")
+elif os.path.exists(f"{output_dir}/tracked_players_filtered.json"):
+    tracking_file = f"{output_dir}/tracked_players_filtered.json"
+    print("[+] Using filtered tracking data (court ROI only)")
+elif os.path.exists(f"{output_dir}/tracked_players.json"):
+    tracking_file = f"{output_dir}/tracked_players.json"
+    print("[!] Using raw tracking data (may include bench/crowd)")
 else:
-    print("❌ No tracking data found")
+    print("[X] No tracking data found")
     print("Run player tracking first:")
     print("  python -m src.modules.improved_tracker --video input_video.mp4")
     sys.exit(1)
 
-print(f"✓ Video: {input_video}")
-print(f"✓ Tracking data: {tracking_file}")
+print(f"[+] Video: {input_video}")
+print(f"[+] Tracking data: {tracking_file}")
 print()
 
 # Load tracking data
 with open(tracking_file, 'r') as f:
     tracking_data = json.load(f)
 
-print(f"✓ Loaded tracking data for {len(tracking_data)} frames")
+print(f"[+] Loaded tracking data for {len(tracking_data)} frames")
 print()
 
 # Load team colors from team_names.json
 team_colors = {}
-if os.path.exists("outputs/team_names.json"):
+team_names_file = f"{output_dir}/team_names.json"
+if os.path.exists(team_names_file):
     try:
-        with open("outputs/team_names.json", 'r') as f:
+        with open(team_names_file, 'r') as f:
             team_names_data = json.load(f)
 
         # Support both old format (string) and new format (dict with color)
@@ -103,24 +112,25 @@ if os.path.exists("outputs/team_names.json"):
 
             team_colors[team_name] = team_color
 
-        print(f"✓ Loaded team colors: {list(team_colors.keys())}")
+        print(f"[+] Loaded team colors: {list(team_colors.keys())}")
     except (FileNotFoundError, json.JSONDecodeError) as e:
-        print(f"⚠ Could not load team colors: {e}")
+        print(f"[!] Could not load team colors: {e}")
 print()
 
 # Load ball trajectory if available
 ball_trajectory = {}
-if os.path.exists("outputs/detections.json"):
+detections_file = f"{output_dir}/detections.json"
+if os.path.exists(detections_file):
     try:
-        with open("outputs/detections.json", 'r') as f:
+        with open(detections_file, 'r') as f:
             ball_trajectory = json.load(f)
         # Convert string keys to int
         ball_trajectory = {int(k): v for k, v in ball_trajectory.items()}
-        print(f"✓ Loaded ball trajectory for {len(ball_trajectory)} frames")
+        print(f"[+] Loaded ball trajectory for {len(ball_trajectory)} frames")
     except (FileNotFoundError, json.JSONDecodeError):
-        print("⚠ No ball trajectory found")
+        print("[!] No ball trajectory found")
 else:
-    print("⚠ No ball trajectory found (outputs/detections.json)")
+    print(f"[!] No ball trajectory found ({detections_file})")
 print()
 
 # Team colors (cycling through colors for different track IDs)
@@ -188,7 +198,7 @@ player_trails = defaultdict(lambda: deque(maxlen=30))
 try:
     cap = open_video_robust(input_video)
 except IOError as e:
-    print(f"❌ {e}")
+    print(f"[X] {e}")
     sys.exit(1)
 
 fps = int(cap.get(cv2.CAP_PROP_FPS))
@@ -203,11 +213,11 @@ print(f"  - Total frames: {total_frames}")
 print()
 
 # Output video (use robust video writer)
-output_video = "outputs/annotated_video.mp4"
+output_video = f"{output_dir}/annotated_video.mp4"
 try:
     out = create_video_writer_robust(output_video, fps, width, height)
 except IOError as e:
-    print(f"❌ {e}")
+    print(f"[X] {e}")
     cap.release()
     sys.exit(1)
 
@@ -400,10 +410,10 @@ print()
 print(f"✅ Annotated video created: {output_video}")
 print()
 print("The video includes:")
-print("  ✓ Player bounding boxes with IDs")
-print("  ✓ Player movement trails (30 frame history)")
-print("  ✓ Team assignments (if detected)")
-print("  ✓ Real-time statistics overlay")
+print("  [+] Player bounding boxes with IDs")
+print("  [+] Player movement trails (30 frame history)")
+print("  [+] Team assignments (if detected)")
+print("  [+] Real-time statistics overlay")
 print()
 print(f"Total unique players tracked: {len(active_tracks)}")
 print()

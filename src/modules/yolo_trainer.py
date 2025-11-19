@@ -5,6 +5,11 @@ This module handles dataset preparation, model training, and inference
 for basketball detection using YOLOv8/YOLOv11.
 """
 
+# Fix OpenMP conflict in Windows
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
+
 import os
 import json
 import yaml

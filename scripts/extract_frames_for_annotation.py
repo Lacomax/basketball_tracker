@@ -48,7 +48,7 @@ def extract_frames(
         Número de frames extraídos
     """
     if not os.path.exists(video_path):
-        print(f"❌ Error: No se encuentra el video: {video_path}")
+        print(f"[X] Error: No se encuentra el video: {video_path}")
         return 0
 
     # Crear directorio de salida
@@ -57,7 +57,7 @@ def extract_frames(
     # Abrir video
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
-        print(f"❌ Error: No se puede abrir el video")
+        print(f"[X] Error: No se puede abrir el video")
         return 0
 
     # Obtener información del video

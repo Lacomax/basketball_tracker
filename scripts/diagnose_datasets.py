@@ -18,18 +18,18 @@ def diagnose_directory(base_dir='data/basketball_training'):
     print(f"\nDirectorio base: {base_dir}")
 
     if not os.path.exists(base_dir):
-        print(f"\n❌ El directorio no existe: {base_dir}")
+        print(f"\n[X] El directorio no existe: {base_dir}")
         print("\nCrea el directorio con:")
         print(f"  mkdir -p {base_dir}  # Linux/Mac")
         print(f"  New-Item -ItemType Directory -Force -Path {base_dir}  # PowerShell")
         return
 
-    print(f"✓ Directorio existe\n")
+    print(f"[+] Directorio existe\n")
 
     # Listar contenido
     items = os.listdir(base_dir)
     if not items:
-        print("❌ El directorio está vacío")
+        print("[X] El directorio está vacío")
         print("\nDescarga datasets con:")
         print("  python scripts/download_roboflow_dataset.py --api-key YOUR_KEY --download-all")
         return
@@ -66,7 +66,7 @@ def diagnose_directory(base_dir='data/basketball_training'):
             }
 
             for check_name, exists in checks.items():
-                status = "✓" if exists else "✗"
+                status = "[+]" if exists else "✗"
                 color = "green" if exists else "red"
                 print(f"  {status} {check_name}")
 
@@ -96,7 +96,7 @@ def diagnose_directory(base_dir='data/basketball_training'):
                 datasets_found.append(item_path)
                 print(f"\n  ✅ VÁLIDO - Dataset YOLO detectado")
             else:
-                print(f"\n  ⚠️  NO VÁLIDO - Estructura incorrecta")
+                print(f"\n  [!]️  NO VÁLIDO - Estructura incorrecta")
 
                 # Sugerencias
                 print("\n  💡 Estructura esperada:")
@@ -125,7 +125,7 @@ def diagnose_directory(base_dir='data/basketball_training'):
         print("\n🚀 Puedes entrenar con:")
         print("   python scripts/train_basketball_detector_simple.py")
     else:
-        print("\n❌ No se encontraron datasets válidos")
+        print("\n[X] No se encontraron datasets válidos")
         print("\n📥 Opciones:")
         print("   1. Descarga datasets de Roboflow:")
         print("      python scripts/download_roboflow_dataset.py --api-key YOUR_KEY --download-all")

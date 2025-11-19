@@ -1,7 +1,10 @@
+# Fix OpenMP error
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
 import cv2
 import numpy as np
 import json
-import os
 import logging
 
 from ..utils.ball_detection import auto_detect_ball

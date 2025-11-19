@@ -5,6 +5,11 @@ This module uses Fashion CLIP (CLIP fine-tuned on fashion/clothing)
 to classify players into teams based on jersey colors without training.
 """
 
+# Fix OpenMP conflict in Windows
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
+
 import cv2
 import numpy as np
 import json

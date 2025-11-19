@@ -37,7 +37,7 @@ def test_model_on_video(model_path: str, video_path: str, num_frames: int = 10):
     cap = cv2.VideoCapture(video_path)
 
     if not cap.isOpened():
-        print(f"❌ Could not open video: {video_path}")
+        print(f"[X] Could not open video: {video_path}")
         return
 
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -98,16 +98,16 @@ def test_model_on_video(model_path: str, video_path: str, num_frames: int = 10):
         if detections_count >= 7:
             print("\n✅ Model looks good! Detection rate >= 70%")
         elif detections_count >= 4:
-            print("\n⚠️  Model is okay but could be better (40-70% detection rate)")
+            print("\n[!]️  Model is okay but could be better (40-70% detection rate)")
             print("   Consider training for more epochs or using more data")
         else:
-            print("\n❌ Model needs improvement (< 40% detection rate)")
+            print("\n[X] Model needs improvement (< 40% detection rate)")
             print("   Consider:")
             print("   - Adding more diverse training data")
             print("   - Training for more epochs")
             print("   - Using data augmentation")
     else:
-        print("\n❌ Model detected nothing!")
+        print("\n[X] Model detected nothing!")
         print("   The model may not be trained correctly.")
         print("   Check training logs and dataset quality.")
 
@@ -180,7 +180,7 @@ def test_model_with_visualization(model_path: str, video_path: str, output_dir: 
         cv2.imwrite(output_path, annotated_frame)
 
     cap.release()
-    print(f"✓ Saved 10 annotated frames to {output_dir}")
+    print(f"[+] Saved 10 annotated frames to {output_dir}")
     print(f"  Review these images to assess model quality")
 
 
@@ -205,13 +205,13 @@ def main():
     args = parser.parse_args()
 
     if not os.path.exists(args.model):
-        print(f"❌ Model not found: {args.model}")
+        print(f"[X] Model not found: {args.model}")
         print("\nTrain a model first:")
         print("  python scripts/train_basketball_detector.py")
         return 1
 
     if not os.path.exists(args.video):
-        print(f"❌ Video not found: {args.video}")
+        print(f"[X] Video not found: {args.video}")
         return 1
 
     print("=" * 50)
