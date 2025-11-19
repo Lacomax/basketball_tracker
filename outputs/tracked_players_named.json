@@ -863,25 +863,6 @@
       ],
       "frames_tracked": 4,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        573,
-        483,
-        675
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": null,
-      "frames_tracked": 0,
-      "name": "public"
     }
   ],
   "5": [
@@ -1060,28 +1041,6 @@
       ],
       "frames_tracked": 5,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        573,
-        483,
-        675
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 1,
-      "name": "public"
     }
   ],
   "6": [
@@ -1260,28 +1219,6 @@
       ],
       "frames_tracked": 6,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        573,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 2,
-      "name": "public"
     }
   ],
   "7": [
@@ -1460,28 +1397,6 @@
       ],
       "frames_tracked": 7,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        573,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 3,
-      "name": "public"
     }
   ],
   "8": [
@@ -1660,28 +1575,6 @@
       ],
       "frames_tracked": 8,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        573,
-        483,
-        675
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 4,
-      "name": "public"
     }
   ],
   "9": [
@@ -1860,28 +1753,6 @@
       ],
       "frames_tracked": 9,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        573,
-        483,
-        675
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 5,
-      "name": "public"
     }
   ],
   "10": [
@@ -2060,28 +1931,6 @@
       ],
       "frames_tracked": 10,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        433,
-        573,
-        483,
-        675
-      ],
-      "confidence": 0.9,
-      "center": [
-        458,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        1,
-        0
-      ],
-      "frames_tracked": 6,
-      "name": "public"
     }
   ],
   "11": [
@@ -2260,28 +2109,6 @@
       ],
       "frames_tracked": 11,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        433,
-        573,
-        483,
-        675
-      ],
-      "confidence": 0.9,
-      "center": [
-        458,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 7,
-      "name": "public"
     }
   ],
   "12": [
@@ -2460,28 +2287,6 @@
       ],
       "frames_tracked": 12,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        433,
-        573,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        458,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 8,
-      "name": "public"
     }
   ],
   "13": [
@@ -2660,28 +2465,6 @@
       ],
       "frames_tracked": 13,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        573,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        0
-      ],
-      "frames_tracked": 9,
-      "name": "public"
     }
   ],
   "14": [
@@ -2860,28 +2643,6 @@
       ],
       "frames_tracked": 14,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        573,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 10,
-      "name": "public"
     }
   ],
   "15": [
@@ -3060,28 +2821,6 @@
       ],
       "frames_tracked": 15,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        573,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 11,
-      "name": "public"
     }
   ],
   "16": [
@@ -3260,28 +2999,6 @@
       ],
       "frames_tracked": 16,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        573,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 12,
-      "name": "public"
     }
   ],
   "17": [
@@ -3460,28 +3177,6 @@
       ],
       "frames_tracked": 17,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        573,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 13,
-      "name": "public"
     }
   ],
   "18": [
@@ -3660,28 +3355,6 @@
       ],
       "frames_tracked": 18,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        572,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 14,
-      "name": "public"
     }
   ],
   "19": [
@@ -3860,28 +3533,6 @@
       ],
       "frames_tracked": 19,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        432,
-        572,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        457,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 15,
-      "name": "public"
     }
   ],
   "20": [
@@ -4460,28 +4111,6 @@
       ],
       "frames_tracked": 22,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        433,
-        572,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        458,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 18,
-      "name": "public"
     }
   ],
   "23": [
@@ -4660,28 +4289,6 @@
       ],
       "frames_tracked": 23,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        433,
-        572,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        458,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 19,
-      "name": "public"
     }
   ],
   "24": [
@@ -4860,28 +4467,6 @@
       ],
       "frames_tracked": 24,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        433,
-        572,
-        483,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        458,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 20,
-      "name": "public"
     }
   ],
   "25": [
@@ -5060,28 +4645,6 @@
       ],
       "frames_tracked": 25,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        434,
-        572,
-        484,
-        675
-      ],
-      "confidence": 0.9,
-      "center": [
-        459,
-        623
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        1,
-        -1
-      ],
-      "frames_tracked": 21,
-      "name": "public"
     }
   ],
   "26": [
@@ -5260,28 +4823,6 @@
       ],
       "frames_tracked": 26,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        434,
-        572,
-        485,
-        675
-      ],
-      "confidence": 0.9,
-      "center": [
-        459,
-        623
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 22,
-      "name": "public"
     }
   ],
   "27": [
@@ -5460,28 +5001,6 @@
       ],
       "frames_tracked": 27,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        434,
-        572,
-        485,
-        675
-      ],
-      "confidence": 0.9,
-      "center": [
-        459,
-        623
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 23,
-      "name": "public"
     }
   ],
   "28": [
@@ -5660,28 +5179,6 @@
       ],
       "frames_tracked": 28,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        434,
-        572,
-        485,
-        675
-      ],
-      "confidence": 0.9,
-      "center": [
-        459,
-        623
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 24,
-      "name": "public"
     }
   ],
   "29": [
@@ -5860,28 +5357,6 @@
       ],
       "frames_tracked": 29,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        434,
-        572,
-        485,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        459,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        1
-      ],
-      "frames_tracked": 25,
-      "name": "public"
     }
   ],
   "30": [
@@ -6060,28 +5535,6 @@
       ],
       "frames_tracked": 30,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        434,
-        572,
-        485,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        459,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 26,
-      "name": "public"
     }
   ],
   "31": [
@@ -6260,28 +5713,6 @@
       ],
       "frames_tracked": 31,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        434,
-        573,
-        485,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        459,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 27,
-      "name": "public"
     }
   ],
   "32": [
@@ -7260,28 +6691,6 @@
       ],
       "frames_tracked": 36,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        434,
-        573,
-        485,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        459,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        -1
-      ],
-      "frames_tracked": 32,
-      "name": "public"
     }
   ],
   "37": [
@@ -7460,28 +6869,6 @@
       ],
       "frames_tracked": 37,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        434,
-        573,
-        485,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        459,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 33,
-      "name": "public"
     }
   ],
   "38": [
@@ -7660,28 +7047,6 @@
       ],
       "frames_tracked": 38,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        434,
-        573,
-        485,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        459,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 34,
-      "name": "public"
     }
   ],
   "39": [
@@ -7860,28 +7225,6 @@
       ],
       "frames_tracked": 39,
       "name": "YEL 7"
-    },
-    {
-      "track_id": 11,
-      "bbox": [
-        434,
-        573,
-        485,
-        676
-      ],
-      "confidence": 0.9,
-      "center": [
-        459,
-        624
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 35,
-      "name": "public"
     }
   ],
   "40": [
@@ -21478,28 +20821,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        160,
-        619,
-        215,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        654
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        1
-      ],
-      "frames_tracked": 110,
-      "name": "public"
-    },
-    {
       "track_id": 11,
       "bbox": [
         427,
@@ -21650,28 +20971,6 @@
       "keypoints": null,
       "velocity": [
         1,
-        0
-      ],
-      "frames_tracked": 111,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        159,
-        619,
-        216,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        654
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
         0
       ],
       "frames_tracked": 111,
@@ -21834,28 +21133,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        159,
-        619,
-        215,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        654
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 112,
-      "name": "public"
-    },
-    {
       "track_id": 11,
       "bbox": [
         427,
@@ -22001,28 +21278,6 @@
       "center": [
         718,
         595
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 113,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        159,
-        619,
-        215,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        654
       ],
       "team": "Team_1",
       "keypoints": null,
@@ -22190,28 +21445,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        158,
-        619,
-        214,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        654
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        0
-      ],
-      "frames_tracked": 114,
-      "name": "public"
-    },
-    {
       "track_id": 11,
       "bbox": [
         426,
@@ -22368,28 +21601,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        157,
-        620,
-        212,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        184,
-        655
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -2,
-        1
-      ],
-      "frames_tracked": 115,
-      "name": "public"
-    },
-    {
       "track_id": 11,
       "bbox": [
         426,
@@ -22535,28 +21746,6 @@
       "center": [
         718,
         595
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 116,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        157,
-        620,
-        211,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        184,
-        655
       ],
       "team": "Team_1",
       "keypoints": null,
@@ -22746,28 +21935,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        157,
-        620,
-        210,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        183,
-        655
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        0
-      ],
-      "frames_tracked": 117,
-      "name": "public"
-    },
-    {
       "track_id": 11,
       "bbox": [
         426,
@@ -22937,28 +22104,6 @@
       "keypoints": null,
       "velocity": [
         0,
-        0
-      ],
-      "frames_tracked": 118,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        156,
-        620,
-        209,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        182,
-        655
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -1,
         0
       ],
       "frames_tracked": 118,
@@ -23143,28 +22288,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        158,
-        621,
-        210,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        184,
-        655
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        2,
-        0
-      ],
-      "frames_tracked": 119,
-      "name": "public"
-    },
-    {
       "track_id": 11,
       "bbox": [
         426,
@@ -23321,28 +22444,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        159,
-        620,
-        212,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        185,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        1,
-        0
-      ],
-      "frames_tracked": 120,
-      "name": "public"
-    },
-    {
       "track_id": 11,
       "bbox": [
         427,
@@ -23488,28 +22589,6 @@
       "center": [
         718,
         596
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 121,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        159,
-        620,
-        212,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        185,
-        655
       ],
       "team": "Team_0",
       "keypoints": null,
@@ -23677,28 +22756,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        160,
-        621,
-        213,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        1,
-        0
-      ],
-      "frames_tracked": 122,
-      "name": "public"
-    },
-    {
       "track_id": 11,
       "bbox": [
         427,
@@ -23844,28 +22901,6 @@
       "center": [
         718,
         595
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 123,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        160,
-        621,
-        213,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        655
       ],
       "team": "Team_1",
       "keypoints": null,
@@ -24027,28 +23062,6 @@
       "keypoints": null,
       "velocity": [
         1,
-        0
-      ],
-      "frames_tracked": 124,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        159,
-        621,
-        213,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        655
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
         0
       ],
       "frames_tracked": 124,
@@ -24230,28 +23243,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        160,
-        621,
-        213,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 125,
-      "name": "public"
-    },
-    {
       "track_id": 11,
       "bbox": [
         428,
@@ -24419,28 +23410,6 @@
       "center": [
         718,
         595
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 126,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        160,
-        621,
-        213,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        655
       ],
       "team": "Team_1",
       "keypoints": null,
@@ -24630,28 +23599,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        162,
-        621,
-        215,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        188,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        2,
-        0
-      ],
-      "frames_tracked": 127,
-      "name": "public"
-    },
-    {
       "track_id": 11,
       "bbox": [
         427,
@@ -24830,28 +23777,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        162,
-        621,
-        216,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        189,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        1,
-        0
-      ],
-      "frames_tracked": 128,
-      "name": "public"
-    },
-    {
       "track_id": 3,
       "bbox": [
         811,
@@ -25000,28 +23925,6 @@
       "velocity": [
         0,
         0
-      ],
-      "frames_tracked": 129,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        162,
-        622,
-        217,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        189,
-        656
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        1
       ],
       "frames_tracked": 129,
       "name": "public"
@@ -25183,28 +24086,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        161,
-        622,
-        217,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        189,
-        656
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 130,
-      "name": "public"
-    },
-    {
       "track_id": 3,
       "bbox": [
         811,
@@ -25355,28 +24236,6 @@
       "keypoints": null,
       "velocity": [
         0,
-        0
-      ],
-      "frames_tracked": 131,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        160,
-        622,
-        215,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        656
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -2,
         0
       ],
       "frames_tracked": 131,
@@ -25539,28 +24398,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        159,
-        622,
-        214,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        656
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        0
-      ],
-      "frames_tracked": 132,
-      "name": "public"
-    },
-    {
       "track_id": 3,
       "bbox": [
         810,
@@ -25711,28 +24548,6 @@
       "keypoints": null,
       "velocity": [
         0,
-        0
-      ],
-      "frames_tracked": 133,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        160,
-        622,
-        216,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        188,
-        656
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        2,
         0
       ],
       "frames_tracked": 133,
@@ -25890,28 +24705,6 @@
       "velocity": [
         0,
         0
-      ],
-      "frames_tracked": 134,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        161,
-        622,
-        217,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        189,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        1,
-        1
       ],
       "frames_tracked": 134,
       "name": "public"
@@ -26251,28 +25044,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        160,
-        623,
-        216,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        188,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        0
-      ],
-      "frames_tracked": 136,
-      "name": "public"
-    },
-    {
       "track_id": 3,
       "bbox": [
         814,
@@ -26423,28 +25194,6 @@
       "keypoints": null,
       "velocity": [
         0,
-        0
-      ],
-      "frames_tracked": 137,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        215,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        -1,
         0
       ],
       "frames_tracked": 137,
@@ -26607,28 +25356,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        214,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        657
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        0
-      ],
-      "frames_tracked": 138,
-      "name": "public"
-    },
-    {
       "track_id": 3,
       "bbox": [
         818,
@@ -26785,28 +25512,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        214,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 139,
-      "name": "public"
-    },
-    {
       "track_id": 3,
       "bbox": [
         832,
@@ -26952,28 +25657,6 @@
       "center": [
         717,
         597
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 140,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        214,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        657
       ],
       "team": "Team_0",
       "keypoints": null,
@@ -27163,28 +25846,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        214,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 141,
-      "name": "public"
-    },
-    {
       "track_id": 3,
       "bbox": [
         845,
@@ -27352,28 +26013,6 @@
       "center": [
         718,
         596
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 142,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        158,
-        623,
-        215,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        657
       ],
       "team": "Team_1",
       "keypoints": null,
@@ -27563,28 +26202,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        158,
-        623,
-        215,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 143,
-      "name": "public"
-    },
-    {
       "track_id": 3,
       "bbox": [
         850,
@@ -27752,28 +26369,6 @@
       "center": [
         718,
         596
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 144,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        158,
-        623,
-        215,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        657
       ],
       "team": "Team_1",
       "keypoints": null,
@@ -27963,28 +26558,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        214,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 145,
-      "name": "public"
-    },
-    {
       "track_id": 7,
       "bbox": [
         610,
@@ -28130,28 +26703,6 @@
       "center": [
         719,
         596
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        1,
-        0
-      ],
-      "frames_tracked": 146,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        215,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        657
       ],
       "team": "Team_1",
       "keypoints": null,
@@ -28319,28 +26870,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        215,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 147,
-      "name": "public"
-    },
-    {
       "track_id": 7,
       "bbox": [
         612,
@@ -28497,28 +27026,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        215,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 148,
-      "name": "public"
-    },
-    {
       "track_id": 7,
       "bbox": [
         612,
@@ -28669,28 +27176,6 @@
       "keypoints": null,
       "velocity": [
         0,
-        0
-      ],
-      "frames_tracked": 149,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        158,
-        623,
-        215,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        186,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        -1,
         0
       ],
       "frames_tracked": 149,
@@ -29031,28 +27516,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        216,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        -1
-      ],
-      "frames_tracked": 151,
-      "name": "public"
-    },
-    {
       "track_id": 7,
       "bbox": [
         614,
@@ -29209,28 +27672,6 @@
       "name": "public"
     },
     {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        215,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        657
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 152,
-      "name": "public"
-    },
-    {
       "track_id": 7,
       "bbox": [
         615,
@@ -29376,28 +27817,6 @@
       "center": [
         721,
         596
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 153,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        159,
-        623,
-        215,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        657
       ],
       "team": "Team_0",
       "keypoints": null,
@@ -30587,7 +29006,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1277,
         455,
@@ -30603,7 +29022,7 @@
       "keypoints": null,
       "velocity": null,
       "frames_tracked": 0,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -30784,7 +29203,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1278,
         456,
@@ -30803,7 +29222,7 @@
         7
       ],
       "frames_tracked": 1,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -30984,7 +29403,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1282,
         456,
@@ -31003,7 +29422,7 @@
         0
       ],
       "frames_tracked": 2,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -31184,7 +29603,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1285,
         457,
@@ -31203,7 +29622,7 @@
         -2
       ],
       "frames_tracked": 3,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -31384,7 +29803,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1289,
         457,
@@ -31403,7 +29822,7 @@
         3
       ],
       "frames_tracked": 4,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -31584,7 +30003,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1289,
         462,
@@ -31603,7 +30022,7 @@
         5
       ],
       "frames_tracked": 5,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -31784,7 +30203,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1295,
         466,
@@ -31803,7 +30222,7 @@
         0
       ],
       "frames_tracked": 6,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -31984,7 +30403,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1297,
         470,
@@ -32003,7 +30422,7 @@
         3
       ],
       "frames_tracked": 7,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -32184,7 +30603,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1303,
         473,
@@ -32203,7 +30622,7 @@
         4
       ],
       "frames_tracked": 8,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -32241,28 +30660,6 @@
       "center": [
         717,
         597
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 168,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        160,
-        624,
-        216,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        188,
-        658
       ],
       "team": "Team_0",
       "keypoints": null,
@@ -32384,7 +30781,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1301,
         480,
@@ -32403,7 +30800,7 @@
         4
       ],
       "frames_tracked": 9,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -32447,28 +30844,6 @@
       "velocity": [
         0,
         1
-      ],
-      "frames_tracked": 169,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        160,
-        624,
-        215,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        658
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        0
       ],
       "frames_tracked": 169,
       "name": "public"
@@ -32584,7 +30959,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1300,
         484,
@@ -32603,7 +30978,7 @@
         2
       ],
       "frames_tracked": 10,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -32647,28 +31022,6 @@
       "velocity": [
         2,
         2
-      ],
-      "frames_tracked": 170,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        160,
-        624,
-        215,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        658
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
       ],
       "frames_tracked": 170,
       "name": "public"
@@ -32784,7 +31137,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1304,
         489,
@@ -32803,7 +31156,7 @@
         5
       ],
       "frames_tracked": 11,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -32847,28 +31200,6 @@
       "velocity": [
         0,
         -2
-      ],
-      "frames_tracked": 171,
-      "name": "public"
-    },
-    {
-      "track_id": 10,
-      "bbox": [
-        160,
-        624,
-        215,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        658
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
       ],
       "frames_tracked": 171,
       "name": "public"
@@ -32984,7 +31315,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1306,
         492,
@@ -33003,7 +31334,7 @@
         3
       ],
       "frames_tracked": 12,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -33184,7 +31515,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1307,
         495,
@@ -33203,7 +31534,7 @@
         2
       ],
       "frames_tracked": 13,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -33384,7 +31715,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1310,
         497,
@@ -33403,7 +31734,7 @@
         2
       ],
       "frames_tracked": 14,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -33584,7 +31915,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1312,
         500,
@@ -33603,7 +31934,7 @@
         1
       ],
       "frames_tracked": 15,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -33762,7 +32093,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1315,
         503,
@@ -33781,7 +32112,7 @@
         2
       ],
       "frames_tracked": 16,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -33940,7 +32271,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1310,
         504,
@@ -33959,7 +32290,7 @@
         1
       ],
       "frames_tracked": 17,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -34118,7 +32449,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1315,
         505,
@@ -34137,7 +32468,7 @@
         0
       ],
       "frames_tracked": 18,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -34296,7 +32627,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1318,
         505,
@@ -34315,7 +32646,7 @@
         -2
       ],
       "frames_tracked": 19,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -34341,28 +32672,6 @@
     }
   ],
   "179": [
-    {
-      "track_id": 10,
-      "bbox": [
-        160,
-        623,
-        214,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        -1
-      ],
-      "frames_tracked": 179,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -34474,7 +32783,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1314,
         512,
@@ -34493,7 +32802,7 @@
         4
       ],
       "frames_tracked": 20,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -34519,28 +32828,6 @@
     }
   ],
   "180": [
-    {
-      "track_id": 10,
-      "bbox": [
-        160,
-        623,
-        214,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 180,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -34652,7 +32939,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1317,
         509,
@@ -34671,7 +32958,7 @@
         -2
       ],
       "frames_tracked": 21,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -34716,28 +33003,6 @@
     }
   ],
   "181": [
-    {
-      "track_id": 10,
-      "bbox": [
-        160,
-        623,
-        214,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        187,
-        657
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 181,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -34849,7 +33114,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1318,
         508,
@@ -34868,7 +33133,7 @@
         1
       ],
       "frames_tracked": 22,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -34916,28 +33181,6 @@
     }
   ],
   "182": [
-    {
-      "track_id": 10,
-      "bbox": [
-        162,
-        624,
-        216,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        189,
-        658
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        2,
-        1
-      ],
-      "frames_tracked": 182,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -35049,7 +33292,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1322,
         510,
@@ -35068,7 +33311,7 @@
         1
       ],
       "frames_tracked": 23,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -35116,28 +33359,6 @@
     }
   ],
   "183": [
-    {
-      "track_id": 10,
-      "bbox": [
-        162,
-        624,
-        217,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        189,
-        658
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 183,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -35249,7 +33470,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1327,
         514,
@@ -35268,7 +33489,7 @@
         2
       ],
       "frames_tracked": 24,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -35316,28 +33537,6 @@
     }
   ],
   "184": [
-    {
-      "track_id": 10,
-      "bbox": [
-        163,
-        624,
-        217,
-        692
-      ],
-      "confidence": 0.9,
-      "center": [
-        190,
-        658
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        1,
-        0
-      ],
-      "frames_tracked": 184,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -35449,7 +33648,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1335,
         516,
@@ -35468,7 +33667,7 @@
         1
       ],
       "frames_tracked": 25,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -35649,7 +33848,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1338,
         517,
@@ -35668,7 +33867,7 @@
         0
       ],
       "frames_tracked": 26,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -35849,7 +34048,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1341,
         521,
@@ -35868,7 +34067,7 @@
         0
       ],
       "frames_tracked": 27,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -35916,28 +34115,6 @@
     }
   ],
   "187": [
-    {
-      "track_id": 10,
-      "bbox": [
-        163,
-        624,
-        219,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        191,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        1,
-        -1
-      ],
-      "frames_tracked": 187,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -36049,7 +34226,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1341,
         521,
@@ -36068,7 +34245,7 @@
         2
       ],
       "frames_tracked": 28,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -36116,28 +34293,6 @@
     }
   ],
   "188": [
-    {
-      "track_id": 10,
-      "bbox": [
-        163,
-        623,
-        220,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        191,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 188,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -36249,7 +34404,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1343,
         521,
@@ -36268,7 +34423,7 @@
         -2
       ],
       "frames_tracked": 29,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -36294,28 +34449,6 @@
     }
   ],
   "189": [
-    {
-      "track_id": 10,
-      "bbox": [
-        163,
-        623,
-        219,
-        691
-      ],
-      "confidence": 0.9,
-      "center": [
-        191,
-        657
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 189,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -36427,7 +34560,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1345,
         520,
@@ -36446,7 +34579,7 @@
         -1
       ],
       "frames_tracked": 30,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -36472,28 +34605,6 @@
     }
   ],
   "190": [
-    {
-      "track_id": 10,
-      "bbox": [
-        163,
-        622,
-        220,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        191,
-        656
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        -1
-      ],
-      "frames_tracked": 190,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -36605,7 +34716,7 @@
       "name": "RED 11"
     },
     {
-      "track_id": 25,
+      "track_id": 4,
       "bbox": [
         1346,
         518,
@@ -36624,7 +34735,7 @@
         -2
       ],
       "frames_tracked": 31,
-      "name": "RED 9"
+      "name": "RED 9 Mateo"
     },
     {
       "track_id": 1,
@@ -36650,28 +34761,6 @@
     }
   ],
   "191": [
-    {
-      "track_id": 10,
-      "bbox": [
-        163,
-        622,
-        220,
-        690
-      ],
-      "confidence": 0.9,
-      "center": [
-        191,
-        656
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 191,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -36807,28 +34896,6 @@
   ],
   "192": [
     {
-      "track_id": 10,
-      "bbox": [
-        163,
-        622,
-        220,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        191,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        -1
-      ],
-      "frames_tracked": 192,
-      "name": "public"
-    },
-    {
       "track_id": 7,
       "bbox": [
         690,
@@ -36962,28 +35029,6 @@
     }
   ],
   "193": [
-    {
-      "track_id": 10,
-      "bbox": [
-        163,
-        621,
-        221,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        192,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        1,
-        0
-      ],
-      "frames_tracked": 193,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -37119,28 +35164,6 @@
   ],
   "194": [
     {
-      "track_id": 10,
-      "bbox": [
-        163,
-        621,
-        220,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        191,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        0
-      ],
-      "frames_tracked": 194,
-      "name": "public"
-    },
-    {
       "track_id": 7,
       "bbox": [
         694,
@@ -37274,28 +35297,6 @@
     }
   ],
   "195": [
-    {
-      "track_id": 10,
-      "bbox": [
-        163,
-        621,
-        221,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        192,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        1,
-        0
-      ],
-      "frames_tracked": 195,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -37431,28 +35432,6 @@
   ],
   "196": [
     {
-      "track_id": 10,
-      "bbox": [
-        164,
-        621,
-        222,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        193,
-        655
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        1,
-        0
-      ],
-      "frames_tracked": 196,
-      "name": "public"
-    },
-    {
       "track_id": 7,
       "bbox": [
         694,
@@ -37586,28 +35565,6 @@
     }
   ],
   "197": [
-    {
-      "track_id": 10,
-      "bbox": [
-        164,
-        621,
-        222,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        193,
-        655
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 197,
-      "name": "public"
-    },
     {
       "track_id": 7,
       "bbox": [
@@ -37743,28 +35700,6 @@
   ],
   "198": [
     {
-      "track_id": 10,
-      "bbox": [
-        163,
-        621,
-        222,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        192,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        0
-      ],
-      "frames_tracked": 198,
-      "name": "public"
-    },
-    {
       "track_id": 7,
       "bbox": [
         698,
@@ -37898,28 +35833,6 @@
     }
   ],
   "199": [
-    {
-      "track_id": 10,
-      "bbox": [
-        163,
-        621,
-        222,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        192,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 199,
-      "name": "public"
-    },
     {
       "track_id": 2,
       "bbox": [
@@ -38073,28 +35986,6 @@
     }
   ],
   "200": [
-    {
-      "track_id": 10,
-      "bbox": [
-        163,
-        621,
-        222,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        192,
-        655
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 200,
-      "name": "public"
-    },
     {
       "track_id": 2,
       "bbox": [
@@ -38251,28 +36142,6 @@
     }
   ],
   "201": [
-    {
-      "track_id": 10,
-      "bbox": [
-        163,
-        621,
-        222,
-        689
-      ],
-      "confidence": 0.9,
-      "center": [
-        192,
-        655
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        0,
-        0
-      ],
-      "frames_tracked": 201,
-      "name": "public"
-    },
     {
       "track_id": 2,
       "bbox": [
@@ -43671,28 +41540,6 @@
       ],
       "frames_tracked": 197,
       "name": "RED 5"
-    },
-    {
-      "track_id": 28,
-      "bbox": [
-        558,
-        579,
-        597,
-        669
-      ],
-      "confidence": 0.9,
-      "center": [
-        577,
-        624
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        -2
-      ],
-      "frames_tracked": 33,
-      "name": "public"
     },
     {
       "track_id": 12,
@@ -52992,28 +50839,6 @@
       "name": "public"
     },
     {
-      "track_id": 7,
-      "bbox": [
-        627,
-        546,
-        679,
-        665
-      ],
-      "confidence": 0.9,
-      "center": [
-        653,
-        605
-      ],
-      "team": "Team_1",
-      "keypoints": null,
-      "velocity": [
-        -5,
-        -1
-      ],
-      "frames_tracked": 9,
-      "name": "YEL 4"
-    },
-    {
       "track_id": 32,
       "bbox": [
         497,
@@ -56634,28 +54459,6 @@
         -1
       ],
       "frames_tracked": 45,
-      "name": "public"
-    },
-    {
-      "track_id": 43,
-      "bbox": [
-        702,
-        504,
-        757,
-        660
-      ],
-      "confidence": 0.9,
-      "center": [
-        729,
-        582
-      ],
-      "team": "Team_0",
-      "keypoints": null,
-      "velocity": [
-        -1,
-        -3
-      ],
-      "frames_tracked": 2,
       "name": "public"
     }
   ],

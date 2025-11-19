@@ -1,18 +1,34 @@
 {
   "team1": {
     "name": "FCBB",
-    "color": [255, 0, 0]
+    "color": [
+      0,
+      0,
+      255
+    ]
   },
   "team2": {
-    "name": "Yellow",
-    "color": [0, 255, 255]
+    "name": "JAHN",
+    "color": [
+      0,
+      255,
+      255
+    ]
   },
   "referee": {
     "name": "Referee",
-    "color": [128, 128, 128]
+    "color": [
+      128,
+      128,
+      128
+    ]
   },
   "public": {
     "name": "Public",
-    "color": [64, 64, 64]
+    "color": [
+      64,
+      64,
+      64
+    ]
   }
 }

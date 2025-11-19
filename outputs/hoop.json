@@ -3,8 +3,7 @@
     1356,
     309
   ],
-  "radius": 40,
-  "confidence": 1.0,
-  "frame_number": 0,
-  "method": "manual"
+  "radius": 25,
+  "type": "basketball_hoop",
+  "note": "Manually annotated hoop position (static camera)"
 }
