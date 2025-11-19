@@ -11,6 +11,8 @@ import json
 import os
 import logging
 from typing import Dict, List, Tuple
+from scipy.signal import savgol_filter
+from scipy.interpolate import UnivariateSpline
 
 from ..config import setup_logging
 from ..utils.ball_detection import auto_detect_ball
@@ -21,6 +23,217 @@ logger = setup_logging(__name__)
 # Physics constants (in pixels, assuming 30 fps)
 GRAVITY = 0.98  # pixels per frame² (approximation for basketball)
 MAX_BOUNCE_FRAMES = 5  # Max frames for ball to be at ground during bounce
+
+
+class KalmanFilter:
+    """Simple Kalman filter for 2D position tracking."""
+
+    def __init__(self, process_variance=1.0, measurement_variance=5.0):
+        # State: [x, y, vx, vy]
+        self.state = np.zeros(4)
+        self.covariance = np.eye(4) * 100
+
+        # Process noise
+        self.process_variance = process_variance
+        self.Q = np.eye(4) * process_variance
+
+        # Measurement noise
+        self.measurement_variance = measurement_variance
+        self.R = np.eye(2) * measurement_variance
+
+        # State transition matrix (constant velocity model)
+        self.F = np.array([
+            [1, 0, 1, 0],  # x = x + vx
+            [0, 1, 0, 1],  # y = y + vy
+            [0, 0, 1, 0],  # vx = vx
+            [0, 0, 0, 1]   # vy = vy
+        ])
+
+        # Measurement matrix (we only observe position)
+        self.H = np.array([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0]
+        ])
+
+    def predict(self):
+        """Predict next state."""
+        self.state = self.F @ self.state
+        self.covariance = self.F @ self.covariance @ self.F.T + self.Q
+        return self.state[:2]  # Return predicted position
+
+    def update(self, measurement):
+        """Update state with measurement."""
+        measurement = np.array(measurement)
+
+        # Innovation
+        y = measurement - self.H @ self.state
+        S = self.H @ self.covariance @ self.H.T + self.R
+
+        # Kalman gain
+        K = self.covariance @ self.H.T @ np.linalg.inv(S)
+
+        # Update state and covariance
+        self.state = self.state + K @ y
+        self.covariance = (np.eye(4) - K @ self.H) @ self.covariance
+
+        return self.state[:2]  # Return filtered position
+
+
+def apply_kalman_smoothing(detections: Dict, process_var=1.0, measurement_var=5.0) -> Dict:
+    """
+    Apply Kalman filter smoothing to trajectory.
+
+    Args:
+        detections: Dict mapping frame_number -> {'center': [x, y], ...}
+        process_var: Process noise variance (lower = smoother but less responsive)
+        measurement_var: Measurement noise variance (higher = more smoothing)
+
+    Returns:
+        Smoothed detections dict
+    """
+    if len(detections) < 2:
+        return detections
+
+    frames = sorted(detections.keys())
+    kf = KalmanFilter(process_variance=process_var, measurement_variance=measurement_var)
+
+    # Initialize with first position
+    first_frame = frames[0]
+    kf.state[:2] = detections[first_frame]['center']
+
+    smoothed = {}
+    for frame in frames:
+        # Predict
+        predicted = kf.predict()
+
+        # Update with measurement
+        measurement = detections[frame]['center']
+        filtered = kf.update(measurement)
+
+        # Store smoothed position
+        smoothed[frame] = detections[frame].copy()
+        smoothed[frame]['center'] = [int(filtered[0]), int(filtered[1])]
+        smoothed[frame]['method'] = smoothed[frame].get('method', 'unknown') + '-kalman-smoothed'
+
+    return smoothed
+
+
+def apply_moving_average(detections: Dict, window_size: int = 5) -> Dict:
+    """
+    Apply moving average smoothing to trajectory.
+
+    Args:
+        detections: Dict mapping frame_number -> {'center': [x, y], ...}
+        window_size: Size of moving average window (must be odd)
+
+    Returns:
+        Smoothed detections dict
+    """
+    if len(detections) < window_size:
+        return detections
+
+    frames = sorted(detections.keys())
+    positions = np.array([detections[f]['center'] for f in frames])
+
+    # Ensure window size is odd
+    if window_size % 2 == 0:
+        window_size += 1
+
+    half_window = window_size // 2
+
+    smoothed = {}
+    for i, frame in enumerate(frames):
+        # Calculate window boundaries
+        start = max(0, i - half_window)
+        end = min(len(frames), i + half_window + 1)
+
+        # Average positions in window
+        avg_pos = np.mean(positions[start:end], axis=0)
+
+        smoothed[frame] = detections[frame].copy()
+        smoothed[frame]['center'] = [int(avg_pos[0]), int(avg_pos[1])]
+        smoothed[frame]['method'] = smoothed[frame].get('method', 'unknown') + '-mavg-smoothed'
+
+    return smoothed
+
+
+def apply_savgol_smoothing(detections: Dict, window_length: int = 11, polyorder: int = 3) -> Dict:
+    """
+    Apply Savitzky-Golay filter smoothing to trajectory.
+    This preserves features better than simple moving average.
+
+    Args:
+        detections: Dict mapping frame_number -> {'center': [x, y], ...}
+        window_length: Length of filter window (must be odd, >= polyorder+1)
+        polyorder: Order of polynomial used to fit samples
+
+    Returns:
+        Smoothed detections dict
+    """
+    if len(detections) < window_length:
+        return detections
+
+    frames = sorted(detections.keys())
+    positions = np.array([detections[f]['center'] for f in frames])
+
+    # Ensure window_length is odd and valid
+    if window_length % 2 == 0:
+        window_length += 1
+    if window_length < polyorder + 1:
+        window_length = polyorder + 2
+        if window_length % 2 == 0:
+            window_length += 1
+
+    try:
+        # Apply Savitzky-Golay filter separately to x and y
+        smoothed_x = savgol_filter(positions[:, 0], window_length, polyorder)
+        smoothed_y = savgol_filter(positions[:, 1], window_length, polyorder)
+
+        smoothed = {}
+        for i, frame in enumerate(frames):
+            smoothed[frame] = detections[frame].copy()
+            smoothed[frame]['center'] = [int(smoothed_x[i]), int(smoothed_y[i])]
+            smoothed[frame]['method'] = smoothed[frame].get('method', 'unknown') + '-savgol-smoothed'
+
+        return smoothed
+    except Exception as e:
+        logger.warning(f"Savitzky-Golay smoothing failed: {e}, returning original")
+        return detections
+
+
+def apply_spline_smoothing(detections: Dict, smoothing_factor: float = 0.5) -> Dict:
+    """
+    Apply spline interpolation for ultra-smooth trajectory.
+
+    Args:
+        detections: Dict mapping frame_number -> {'center': [x, y], ...}
+        smoothing_factor: Smoothness parameter (0=interpolate exactly, higher=smoother)
+
+    Returns:
+        Smoothed detections dict
+    """
+    if len(detections) < 4:
+        return detections
+
+    frames = sorted(detections.keys())
+    positions = np.array([detections[f]['center'] for f in frames])
+
+    try:
+        # Fit splines to x and y coordinates
+        k = min(3, len(frames) - 1)  # Degree of spline (max 3, cubic)
+        spline_x = UnivariateSpline(frames, positions[:, 0], k=k, s=smoothing_factor * len(frames))
+        spline_y = UnivariateSpline(frames, positions[:, 1], k=k, s=smoothing_factor * len(frames))
+
+        smoothed = {}
+        for frame in frames:
+            smoothed[frame] = detections[frame].copy()
+            smoothed[frame]['center'] = [int(spline_x(frame)), int(spline_y(frame))]
+            smoothed[frame]['method'] = smoothed[frame].get('method', 'unknown') + '-spline-smoothed'
+
+        return smoothed
+    except Exception as e:
+        logger.warning(f"Spline smoothing failed: {e}, returning original")
+        return detections
 
 
 def interpolate_parabolic(keyframes: Dict, total_frames: int, max_gap: int = 50, min_parabolic_gap: int = 40) -> Dict:
@@ -346,6 +559,14 @@ def process_trajectory_video(video_path: str, annotations_path: str, output_path
     # Don't extend beyond last annotation (avoids static ball problem)
     last_frame = max(keyframes.keys())
     detection_points = {f: det for f, det in detection_points.items() if f <= last_frame}
+
+    # Apply smoothing to make trajectory more fluid
+    logger.info("Applying Kalman filter for smooth trajectory...")
+    detection_points = apply_kalman_smoothing(detection_points, process_var=0.5, measurement_var=3.0)
+
+    # Optional: Apply additional Savitzky-Golay smoothing for extra smoothness
+    logger.info("Applying Savitzky-Golay filter for additional smoothing...")
+    detection_points = apply_savgol_smoothing(detection_points, window_length=9, polyorder=3)
 
     cap.release()
 
