@@ -1,6 +1,7 @@
 # Core dependencies
 opencv-python>=4.10.0
 numpy>=1.26.0
+scipy>=1.11.0
 pyyaml>=6.0.1
 
 # Deep Learning
